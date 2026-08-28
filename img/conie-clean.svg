@@ -1,0 +1,27 @@
+<svg width="200" height="259" viewBox="0 0 200 259" fill="none" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<filter id="n" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
+<feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch" result="t"/>
+<feColorMatrix in="t" type="saturate" values="0.8" result="g"/>
+<feComponentTransfer in="g" result="thresh">
+<feFuncR type="discrete" tableValues="0 0.5 1"/>
+<feFuncG type="discrete" tableValues="0 0.5 1"/>
+<feFuncB type="discrete" tableValues="0 0.5 1"/>
+</feComponentTransfer>
+<feBlend in="SourceGraphic" in2="thresh" mode="hard-light" result="b"/>
+<feComposite in="b" in2="SourceGraphic" operator="in"/>
+</filter>
+<linearGradient id="paint0_linear_76_276" x1="111.268" y1="-58.334" x2="-76.8829" y2="221.646" gradientUnits="userSpaceOnUse">
+<stop stop-color="#5EFF24"/>
+<stop offset="1" stop-color="#FFFF08" stop-opacity="0.82"/>
+</linearGradient>
+</defs>
+<g filter="url(#n)">
+<path d="M75.8402 18.2524C83.2901 -5.36352 116.71 -5.36361 124.16 18.2523L197.811 251.728C198.896 255.165 196.329 258.666 192.725 258.666H7.27484C3.67075 258.666 1.10432 255.165 2.18859 251.728L75.8402 18.2524Z" fill="url(#paint0_linear_76_276)"/>
+<circle cx="75.0599" cy="65.7494" r="3.83333" fill="black"/>
+<rect x="69.7266" y="60.416" width="10.6667" height="10.6667" rx="5.33333" stroke="black"/>
+<circle cx="124.724" cy="65.7494" r="3.83333" fill="black"/>
+<rect x="119.391" y="60.416" width="10.6667" height="10.6667" rx="5.33333" stroke="black"/>
+<path d="M110.891 62.9164C107.811 74.3167 91.6372 74.3167 88.5573 62.9164" stroke="black" stroke-width="4.33333"/>
+</g>
+</svg>

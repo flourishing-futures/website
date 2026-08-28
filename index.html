@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flourishing Futures: AI for Human Possibility</title>
+  <meta name="description" content="Flourishing Futures — designing AI that expands human agency, judgement and possibility in public service.">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero__noise"></div>
+
+    <div class="hero__logo">
+      <img src="img/logo.svg" alt="Flourishing Futures" class="hero__logo-mark">
+      <div class="hero__logo-text">
+        <span class="hero__logo-tagline">AI for Human<br>Possibilities</span>
+      </div>
+    </div>
+
+    <div class="hero__headline">
+      <h1 class="hero__title">can ai make our <u>meetings</u> more <u>meaningful</u>?</h1>
+    </div>
+
+      <svg class="hero__char-left" width="200" height="180" viewBox="0 0 200 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="wormie-n" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
+            <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch" result="t"/>
+            <feColorMatrix in="t" type="saturate" values="0.8" result="g"/>
+            <feComponentTransfer in="g" result="thresh">
+              <feFuncR type="discrete" tableValues="0 0.5 1"/>
+              <feFuncG type="discrete" tableValues="0 0.5 1"/>
+              <feFuncB type="discrete" tableValues="0 0.5 1"/>
+            </feComponentTransfer>
+            <feBlend in="SourceGraphic" in2="thresh" mode="hard-light" result="b"/>
+            <feComposite in="b" in2="SourceGraphic" operator="in"/>
+          </filter>
+          <linearGradient id="wormie-grad" x1="194.633" y1="24.6697" x2="5.91579" y2="187.09" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#FC57FF"/>
+            <stop offset="0.392199" stop-color="#0066FF"/>
+            <stop offset="1" stop-color="white" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <g filter="url(#wormie-n)">
+          <path d="M170.75 29.8415L170.75 114.558C170.75 133.977 155.008 149.719 135.589 149.719C116.169 149.719 100.427 133.977 100.427 114.558L100.427 65.6253C100.427 45.9208 84.3486 30.0027 64.6451 30.2003C45.219 30.3952 29.5735 46.1983 29.5735 65.6253L29.5735 150.43" stroke="url(#wormie-grad)" stroke-width="57.598" stroke-linecap="round"/>
+          <circle cx="16.5898" cy="16.5898" r="15.8545" transform="matrix(-0.965926 -0.258819 -0.258819 0.965926 191.047 15.6328)" stroke="black" stroke-width="1.47059"/>
+          <circle id="wormie-eyeball" cx="10.3521" cy="10.3521" r="10.3521" transform="matrix(-0.965926 -0.258819 -0.258819 0.965926 182.434 26.2402)" fill="black"/>
+        </g>
+        <script><![CDATA[
+        (function() {
+          var eyeball = document.getElementById('wormie-eyeball');
+          var svg = eyeball.closest('svg');
+          var eyeCX = 170.730, eyeCY = 27.364;
+          var maxTravel = 5.5;
+          var a = -0.965926, b = -0.258819, c = -0.258819, d = 0.965926;
+          var pcx = 10.3521, pcy = 10.3521;
+          var ox = a * pcx + c * pcy;
+          var oy = b * pcx + d * pcy;
+
+          function moveEye(svgX, svgY) {
+            var dx = svgX - eyeCX, dy = svgY - eyeCY;
+            var dist = Math.sqrt(dx * dx + dy * dy);
+            var tx, ty;
+            if (dist === 0) { tx = eyeCX; ty = eyeCY; }
+            else {
+              var cl = Math.min(dist, maxTravel);
+              tx = eyeCX + (dx / dist) * cl;
+              ty = eyeCY + (dy / dist) * cl;
+            }
+            eyeball.setAttribute('transform',
+              'matrix(' + a + ' ' + b + ' ' + c + ' ' + d + ' ' + (tx - ox) + ' ' + (ty - oy) + ')');
+          }
+
+          document.addEventListener('mousemove', function(e) {
+            var pt = svg.createSVGPoint();
+            pt.x = e.clientX; pt.y = e.clientY;
+            var p = pt.matrixTransform(svg.getScreenCTM().inverse());
+            moveEye(p.x, p.y);
+          });
+        })();
+        ]]></script>
+      </svg>
+      <img src="img/conie-clean.svg" alt="" class="hero__char-right">
+  </section>
+
+  <!-- Navigation -->
+  <nav class="site-nav">
+    <div class="container--wide">
+      <div class="site-nav__inner">
+        <a href="index.html" class="site-nav__brand">
+          <span class="site-nav__title">Flourishing Futures</span>
+        </a>
+        <ul class="site-nav__links">
+          <li><a href="index.html" class="active">home</a></li>
+          <li><a href="about.html">about</a></li>
+          <li><a href="the-lab.html">lab</a></li>
+          <li><a href="resource-centre.html">resource hub</a></li>
+          <li><a href="community.html">community</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Vision -->
+  <section class="vision">
+    <div class="container">
+      <p class="vision__label">We work to drive...</p>
+      <p class="vision__text">
+        A future in which AI makes us more capable and more humane: expanding (not diminishing) the agency, judgement and possibilities of those who build with and depend on it.
+      </p>
+      <p class="vision__body">
+        AI is rapidly reshaping how we live, create and work. While most conversation today is focused on adoption, efficiency and cost, this program designs for the 'hidden' factors: where AI can genuinely enlarge human possibility, and where speed, scale or convenience may come at the cost of judgement, care, agency or trust.
+      </p>
+      <p class="vision__body">
+        Through research, intentional design, institutional collaboration and community - this program aims to shape those choices and positive human-outcomes before these technologies harden into defaults.
+      </p>
+      <div class="vision__cta">
+        <a href="about.html" class="btn btn--pink">Learn more</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Partners -->
+  <section class="partners-section">
+    <p class="partners-section__title">A joint effort by</p>
+    <div class="partners">
+      <div class="partner-logo"><img src="img/partner-govtech.png" alt="GovTech Singapore"></div>
+      <div class="partner-logo"><img src="img/partner-mit.png" alt="Massachusetts Institute of Technology"></div>
+      <div class="partner-logo"><img src="img/partner-ntu.png" alt="Nanyang Technological University"></div>
+      <div class="partner-logo"><img src="img/partner-mom.png" alt="Ministry of Manpower"></div>
+      <div class="partner-logo"><img src="img/partner-dxd.png" alt="dxd"></div>
+    </div>
+    <div class="partners-section__cta">
+      <a href="about.html" class="btn btn--orange">Collaborate with us</a>
+    </div>
+  </section>
+
+  <!-- Lately -->
+  <section class="lately">
+    <div class="lately__shapes">
+      <img src="img/star-blue.svg" alt="" class="lately__shape lately__shape--1">
+      <img src="img/star-blue-2.svg" alt="" class="lately__shape lately__shape--2">
+    </div>
+
+    <p class="lately__title">Lately...</p>
+
+    <div class="lately__cards">
+      <div class="lately-card">
+        <div class="lately-card__content">
+          <h2 class="lately-card__heading">Conscious Builder Community:<br>Gathering #2</h2>
+          <p class="lately-card__body">
+            The Conscious Builders Community is a program developed to bring AI developers, designers, researchers and ethicists together to build better products. Here, we share, debate, workshop and design.
+          </p>
+          <p class="lately-card__body">
+            Through inspiration sessions and hands-on product garages: we help builders to engage in critical conversations, identify potential risks, imagine better possibilities, and stay inspired and connected to the human impact of working with AI.
+          </p>
+          <div>
+            <a href="community.html" class="btn btn--green">Find more events</a>
+          </div>
+        </div>
+        <div class="lately-card__image">
+          <img src="img/community-photo.png" alt="Conscious Builder Community gathering">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Nav -->
+  <nav class="site-footer-nav">
+    <div class="container--wide">
+      <div class="site-footer-nav__inner">
+        <ul class="site-footer-nav__links">
+          <li><a href="index.html" class="active">home</a></li>
+          <li><a href="about.html">about</a></li>
+          <li><a href="the-lab.html">lab</a></li>
+          <li><a href="resource-centre.html">resource hub</a></li>
+          <li><a href="community.html">community</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+</body>
+</html>
