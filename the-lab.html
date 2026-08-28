@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Lab — Flourishing Futures</title>
-  <meta name="description" content="Design & Experimentation from the Flourishing Futures programme — experiments testing how AI can expand human possibility in public service.">
+  <meta name="description" content="Curious about a different type of AI? Explore experiments from the Flourishing Futures AI Lab.">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -13,188 +13,153 @@
   <nav class="site-nav">
     <div class="container--wide">
       <div class="site-nav__inner">
-        <a href="index.html" class="site-nav__brand">
-          <span class="site-nav__title">Flourishing Futures</span>
-          <span class="site-nav__sub">AI for Human Possibility</span>
-        </a>
+        <div class="site-nav__brand-area">
+          <a href="index.html" class="site-nav__logo-link">
+            <img src="img/logo.svg" alt="" class="site-nav__logo-mark">
+            <div class="site-nav__logo-text">
+              <span class="site-nav__logo-title">Flourishing<br>Futures</span>
+            </div>
+          </a>
+          <span class="site-nav__tagline">AI for Human<br>Possibilities</span>
+        </div>
         <ul class="site-nav__links">
-          <li><a href="about.html">About</a></li>
-          <li><a href="the-lab.html" class="active">Lab</a></li>
-          <li><a href="community.html">Community</a></li>
-          <li><a href="resource-centre.html">Resource Hub</a></li>
+          <li><a href="index.html">home</a></li>
+          <li><a href="about.html">about</a></li>
+          <li><a href="the-lab.html" class="active">lab</a></li>
+          <li><a href="resource-centre.html">resource hub</a></li>
+          <li><a href="community.html">community</a></li>
         </ul>
       </div>
     </div>
   </nav>
 
-  <!-- Page Header -->
-  <header class="page-header">
-    <div class="container">
-      <p class="page-header__eyebrow">Lab</p>
-      <h1 class="page-header__title">Design & Experimentation</h1>
-      <p class="page-header__intro">
-        Each experiment begins with a clear human-outcome hypothesis and tests it in the realities of public-service work. Across the portfolio, we hope to establish possibility, evidence, and translation.
-      </p>
+  <!-- Hero -->
+  <section class="lab-hero">
+    <div class="lab-hero__noise"></div>
+    <div class="lab-hero__critters">
+      <img src="img/wormie-clean.svg" alt="" class="lab-hero__critter lab-hero__critter--left">
+      <img src="img/conie-clean.svg" alt="" class="lab-hero__critter lab-hero__critter--right">
     </div>
-  </header>
+    <h1 class="lab-hero__title">Curious about a different type of AI?<br>Try these!</h1>
+  </section>
 
-  <!-- Goals -->
-  <section class="section">
-    <div class="container">
-      <div class="workstreams">
-        <div class="workstream-item">
-          <p class="workstream-item__num">Goal</p>
-          <h3 class="workstream-item__title">Possibility</h3>
-          <p class="workstream-item__body">
-            Provide forward-looking, alternative shapes of AI usage for officers, leaders and publics to experience, reference, critique and build-on.
-          </p>
+  <!-- Featured Experiment -->
+  <section class="lab-featured">
+    <div class="lab-featured__card">
+      <div class="lab-featured__content">
+        <h2 class="lab-featured__title">Mindful<br>Minutes</h2>
+        <div class="lab-featured__body">
+          <p>You've used AI to transcribe and summarise your meetings. That's good for speed and memory... but what if AI could make those meetings more meaningful, too?</p>
+          <p>Mindful Minutes takes a glance at all the conversations we're a part of each week, and then surfaces a different kind of insight: not just who said what, or what needs to be done next, but also how we got there, what might have been missed or flattened, and what we might consider about how we work.</p>
         </div>
-        <div class="workstream-item">
-          <p class="workstream-item__num">Goal</p>
-          <h3 class="workstream-item__title">Evidence</h3>
-          <p class="workstream-item__body">
-            Through rigorous and intentional 'launching to learn', determine what factors and patterns genuinely help protect human capability and strengthen public value.
-          </p>
-        </div>
-        <div class="workstream-item">
-          <p class="workstream-item__num">Goal</p>
-          <h3 class="workstream-item__title">Translation</h3>
-          <p class="workstream-item__body">
-            Identify the real design, data, trust, governance and conditions required to turn human-AI insights into usable design patterns, product principles and requirements that can shape AI development across government.
-          </p>
+        <div>
+          <a href="#" class="btn btn--green">Try Now</a>
         </div>
       </div>
+      <div class="lab-featured__image lab-featured__image--red"></div>
     </div>
   </section>
 
-  <!-- Experiments -->
-  <section class="section">
-    <div class="container">
-      <p class="section__label">Current Experiments</p>
-      <div class="cards">
+  <!-- Browse Section -->
+  <section class="lab-browse">
+    <div class="lab-browse__noise"></div>
+    <div class="lab-browse__header">
+      <span class="lab-browse__label">or browse by:</span>
+      <div class="lab-browse__filters">
+        <a href="#" class="lab-browse__pill lab-browse__pill--active">All</a>
+        <a href="#" class="lab-browse__pill">Education+</a>
+        <a href="#" class="lab-browse__pill">Productivity+</a>
+        <a href="#" class="lab-browse__pill">Measurement+</a>
+      </div>
+    </div>
 
-        <div class="card">
-          <span class="card__label">Measurement · In-Flight</span>
-          <h2 class="card__title">SG ImpactBench</h2>
-          <p class="card__body">
-            Building on MIT Media Labs' ImpactBench, the goal of this project is to develop a framework that measures, assesses and presents human-impact metrics around AI usage — nuanced to individual models, with parameters informed by Singapore-specific context and public-sector work. This benchmarking framework can be made accessible via a frontend that helps product owners and builders make informed decisions, policy-makers to define metrics of success, practices to develop playbooks, researchers to track impact over time.
-          </p>
-          <div style="display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center;">
-            <span class="badge">In-Flight</span>
+    <div class="lab-browse__cards">
+      <!-- Card 1 -->
+      <div class="lab-card">
+        <div class="lab-card__image lab-card__image--blue"></div>
+        <div class="lab-card__content">
+          <h3 class="lab-card__title">Mindful<br>Minutes</h3>
+          <p class="lab-card__body">You've used AI to transcribe and summarise your meetings. That's good for speed and memory... but what if AI could make those meetings more meaningful, too? Mindful Minutes takes a glance at all the conversations we're a part of each week, and then surfaces a different kind of insight: not just who said what, or what needs to be done next, but also how we got there, what might have been missed or flattened, and what we might consider about how we work.</p>
+          <div class="lab-card__love">
+            <h4>Why we love this</h4>
+            <p>AI can be used as...something something something description of why this matches the Flourishing Futures agenda in a unique way and gets our stamp of approval!</p>
           </div>
-          <p class="card__meta">In collaboration with MIT Cyborg Psychology Lab · Horizon: Sep 2026 – Feb 2027 (Phase 1)</p>
-          <a href="the-lab/sg-impactbench.html" class="card__link">View experiment →</a>
-        </div>
-
-        <div class="card">
-          <span class="card__label">Design · In-Planning</span>
-          <h2 class="card__title">AI & You</h2>
-          <p class="card__body">
-            Public-service AI adoption is currently understood through operational measures such as token consumption, cost and conversation volume — visible only to administrators. These measures show how much AI is being used, but reveal little about how well, thoughtfully or critically officers are using it. If officers are given a private, intelligible view of their own AI-use patterns, they may become more deliberate users of AI, rather than simply more frequent ones. A personal AI Usage Rewind that periodically turns an officer's activity into a reflective portrait of how they work with AI: surfacing habits, strengths and questions that encourage more intentional use, not merely greater adoption.
-          </p>
-          <div style="display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center;">
-            <span class="badge badge--muted">In-Planning</span>
+          <div>
+            <a href="#" class="btn btn--green">Try Now</a>
           </div>
-          <a href="the-lab/ai-and-you.html" class="card__link">View experiment →</a>
         </div>
+      </div>
 
-        <div class="card">
-          <span class="card__label">Design · In-Planning</span>
-          <h2 class="card__title">Mindful Minutes</h2>
-          <p class="card__body">
-            AI meeting tools today are focused on solving the "what happened?" problem — efficient capture, transcription and summarising of decisions and action-items. But meetings are also where our most meaningful interpersonal, creative, learning and growth moments happen. If AI playbacks weren't just "What was decided?" but also "How did I contribute, what did I miss, and what can I learn?", it can turn routine meeting recaps into opportunities for reflection and professional growth. An AI reflection tool that invites public officers to intentionally pause, review and reflect on their human interactions — ensuring efficiency doesn't come at the cost of empathy, nuance and judgement.
-          </p>
-          <div style="display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center;">
-            <span class="badge badge--muted">In-Planning</span>
+      <!-- Card 2 -->
+      <div class="lab-card">
+        <div class="lab-card__image lab-card__image--green"></div>
+        <div class="lab-card__content">
+          <h3 class="lab-card__title">MOE<br>LangBuddy</h3>
+          <p class="lab-card__body">You've used AI to transcribe and summarise your meetings. That's good for speed and memory... but what if AI could make those meetings more meaningful, too? Mindful Minutes takes a glance at all the conversations we're a part of each week, and then surfaces a different kind of insight: not just who said what, or what needs to be done next, but also how we got there, what might have been missed or flattened, and what we might consider about how we work.</p>
+          <div class="lab-card__love">
+            <h4>Why we love this</h4>
+            <p>AI can be used as...something something something description of why this matches the Flourishing Futures agenda in a unique way and gets our stamp of approval!</p>
           </div>
-          <a href="the-lab/mindful-minutes.html" class="card__link">View experiment →</a>
+          <div>
+            <a href="#" class="btn btn--green">Try Now</a>
+          </div>
         </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- Pipeline -->
-  <section class="section">
-    <div class="container">
-      <div class="section__header">
-        <p class="section__label">Pipeline</p>
-        <h2>What's next</h2>
-        <p>Additional experiments are in early discussion or draft stages across all three modes of engagement. These will be announced as they reach the planning stage.</p>
       </div>
 
-      <div class="resource-list">
-        <div class="resource-item">
-          <span class="resource-item__title">Impact analytics — review of public-service AI usage data</span>
-          <span class="resource-item__meta">Measurement · In-Planning</span>
-        </div>
-        <div class="resource-item">
-          <span class="resource-item__title">Survey + qualitative study of public officers on their AI experience</span>
-          <span class="resource-item__meta">Measurement · Draft</span>
-        </div>
-        <div class="resource-item">
-          <span class="resource-item__title">Longitudinal study on effects of public-officer use of AI (with NTU)</span>
-          <span class="resource-item__meta">Measurement · In-Discussion</span>
-        </div>
-        <div class="resource-item">
-          <span class="resource-item__title">AI-assisted reflection tool for productivity tools (e.g. Confer)</span>
-          <span class="resource-item__meta">Design · In-Planning</span>
-        </div>
-        <div class="resource-item">
-          <span class="resource-item__title">Cognitive forcing mechanism to detect and prevent cognitive surrender</span>
-          <span class="resource-item__meta">Design · Draft</span>
-        </div>
-        <div class="resource-item">
-          <span class="resource-item__title">Mood elevator — detecting user sentiment to bring curiosity to frustration</span>
-          <span class="resource-item__meta">Design · Draft</span>
-        </div>
-        <div class="resource-item">
-          <span class="resource-item__title">Human-centred AI playbook for practitioners and users</span>
-          <span class="resource-item__meta">Governance · Draft</span>
+      <!-- Card 3 -->
+      <div class="lab-card">
+        <div class="lab-card__image lab-card__image--purple"></div>
+        <div class="lab-card__content">
+          <h3 class="lab-card__title">SG<br>ImpactBench</h3>
+          <p class="lab-card__body">You've used AI to transcribe and summarise your meetings. That's good for speed and memory... but what if AI could make those meetings more meaningful, too? Mindful Minutes takes a glance at all the conversations we're a part of each week, and then surfaces a different kind of insight: not just who said what, or what needs to be done next, but also how we got there, what might have been missed or flattened, and what we might consider about how we work.</p>
+          <div class="lab-card__love">
+            <h4>Why we love this</h4>
+            <p>AI can be used as...something something something description of why this matches the Flourishing Futures agenda in a unique way and gets our stamp of approval!</p>
+          </div>
+          <div>
+            <a href="#" class="btn btn--green">Try Now</a>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- How We Work -->
-  <section class="section">
-    <div class="container">
-      <div class="section__header">
-        <p class="section__label">Our Method</p>
-        <h2>How we work</h2>
+  <!-- About the Lab -->
+  <section class="lab-about">
+    <div class="lab-about__noise"></div>
+    <div class="lab-about__content">
+      <p class="lab-about__label">About the Flourishing Futures AI Lab</p>
+      <h2 class="lab-about__title">We hold space for the discovery, design and propagation of ideas that demonstrate a better relationship between human and machine.</h2>
+      <div class="lab-about__body">
+        <p>AI is rapidly reshaping how we live, create and work. While most conversation today is focused on adoption, efficiency and cost, this program designs for the 'hidden' factors: where AI can genuinely enlarge human possibility, and where speed, scale or convenience may come at the cost of judgement, care, agency or trust.</p>
+        <p>Through research, intentional design, institutional collaboration and community - this program aims to shape those choices and positive human-outcomes before these technologies harden into defaults.</p>
       </div>
-      <div class="prose">
-        <p>
-          A key aspect of the programme is live experimentation — working with GovTech product development teams to apply human impact practices and rapidly test, learn, and iterate. Only by building and evaluating with real user behaviour can robust practices, capabilities, and design patterns emerge.
-        </p>
-        <p>
-          Each experiment assesses both operating outcomes (speed, throughput, quality) and human outcomes (agency, capability, judgement, dependency). We do not assume efficiency and human development are in conflict — we are testing whether the right design can achieve both.
-        </p>
-        <p>
-          Findings feed directly into the programme's three modes: updating the measurement frameworks, contributing evidence to the design pattern library, and informing governance and procurement standards.
-        </p>
+      <div class="lab-about__ctas">
+        <a href="#" class="btn btn--pink">Submit your product</a>
+        <a href="#" class="btn btn--pink">Sign up as a tester</a>
+        <a href="#" class="btn btn--pink">Join a build event</a>
       </div>
+    </div>
+
+    <div class="lab-about__critter">
+      <img src="img/smiley-critter.svg" alt="" class="lab-about__smiley">
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="site-footer">
+  <!-- Footer Nav -->
+  <nav class="site-footer-nav">
     <div class="container--wide">
-      <div class="site-footer__inner">
-        <div class="site-footer__brand">
-          <strong>Flourishing Futures</strong>
-          <p>AI for Human Possibility</p>
-        </div>
-        <ul class="site-footer__links">
-          <li><a href="about.html">About</a></li>
-          <li><a href="the-lab.html">Lab</a></li>
-          <li><a href="community.html">Community</a></li>
-          <li><a href="resource-centre.html">Resource Hub</a></li>
+      <div class="site-footer-nav__inner">
+        <ul class="site-footer-nav__links">
+          <li><a href="index.html">home</a></li>
+          <li><a href="about.html">about</a></li>
+          <li><a href="the-lab.html" class="active">lab</a></li>
+          <li><a href="resource-centre.html">resource hub</a></li>
+          <li><a href="community.html">community</a></li>
         </ul>
       </div>
-      <p class="site-footer__copy">© 2026 Flourishing Futures</p>
     </div>
-  </footer>
+  </nav>
 
 </body>
 </html>
