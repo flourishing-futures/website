@@ -5,92 +5,264 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Flourishing Futures: AI for Human Possibility</title>
   <meta name="description" content="Flourishing Futures — designing AI that expands human agency, judgement and possibility in public service.">
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/home.css?v=20260829">
 </head>
 <body>
 
+  <!-- Shared SVG defs (grain filter reused by every hero character) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id="grain" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch" result="t"/>
+        <feColorMatrix in="t" type="saturate" values="0.8" result="g"/>
+        <feComponentTransfer in="g" result="thresh">
+          <feFuncR type="discrete" tableValues="0 0.5 1"/>
+          <feFuncG type="discrete" tableValues="0 0.5 1"/>
+          <feFuncB type="discrete" tableValues="0 0.5 1"/>
+        </feComponentTransfer>
+        <feBlend in="SourceGraphic" in2="thresh" mode="hard-light" result="b"/>
+        <feComposite in="b" in2="SourceGraphic" operator="in"/>
+      </filter>
+    </defs>
+  </svg>
+
   <!-- Hero -->
-  <section class="hero">
+  <section class="hero" id="hero">
     <div class="hero__noise"></div>
 
     <div class="hero__logo">
-      <img src="img/logo.svg" alt="Flourishing Futures" class="hero__logo-mark">
-      <div class="hero__logo-text">
-        <span class="hero__logo-tagline">AI for Human<br>Possibilities</span>
-      </div>
+      <a href="index.html" aria-label="Flourishing Futures — AI for Human Possibilities">
+        <img src="img/logo-home.png" alt="Flourishing Futures — AI for Human Possibilities" class="hero__logo-mark">
+      </a>
     </div>
 
     <div class="hero__headline">
-      <h1 class="hero__title">can ai make our <u>meetings</u> more <u>meaningful</u>?</h1>
+      <h1 class="hero__title" id="heroTitle">can ai make our meetings more meaningful?</h1>
     </div>
 
-      <svg class="hero__char-left" width="200" height="180" viewBox="0 0 200 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <filter id="wormie-n" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
-            <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch" result="t"/>
-            <feColorMatrix in="t" type="saturate" values="0.8" result="g"/>
-            <feComponentTransfer in="g" result="thresh">
-              <feFuncR type="discrete" tableValues="0 0.5 1"/>
-              <feFuncG type="discrete" tableValues="0 0.5 1"/>
-              <feFuncB type="discrete" tableValues="0 0.5 1"/>
-            </feComponentTransfer>
-            <feBlend in="SourceGraphic" in2="thresh" mode="hard-light" result="b"/>
-            <feComposite in="b" in2="SourceGraphic" operator="in"/>
-          </filter>
-          <linearGradient id="wormie-grad" x1="194.633" y1="24.6697" x2="5.91579" y2="187.09" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#FC57FF"/>
-            <stop offset="0.392199" stop-color="#0066FF"/>
-            <stop offset="1" stop-color="white" stop-opacity="0"/>
-          </linearGradient>
-        </defs>
-        <g filter="url(#wormie-n)">
-          <path d="M170.75 29.8415L170.75 114.558C170.75 133.977 155.008 149.719 135.589 149.719C116.169 149.719 100.427 133.977 100.427 114.558L100.427 65.6253C100.427 45.9208 84.3486 30.0027 64.6451 30.2003C45.219 30.3952 29.5735 46.1983 29.5735 65.6253L29.5735 150.43" stroke="url(#wormie-grad)" stroke-width="57.598" stroke-linecap="round"/>
-          <circle cx="16.5898" cy="16.5898" r="15.8545" transform="matrix(-0.965926 -0.258819 -0.258819 0.965926 191.047 15.6328)" stroke="black" stroke-width="1.47059"/>
-          <circle id="wormie-eyeball" cx="10.3521" cy="10.3521" r="10.3521" transform="matrix(-0.965926 -0.258819 -0.258819 0.965926 182.434 26.2402)" fill="black"/>
-        </g>
-        <script><![CDATA[
-        (function() {
-          var eyeball = document.getElementById('wormie-eyeball');
-          var svg = eyeball.closest('svg');
-          var eyeCX = 170.730, eyeCY = 27.364;
-          var maxTravel = 5.5;
-          var a = -0.965926, b = -0.258819, c = -0.258819, d = 0.965926;
-          var pcx = 10.3521, pcy = 10.3521;
-          var ox = a * pcx + c * pcy;
-          var oy = b * pcx + d * pcy;
+    <div class="hero__stage" id="heroStage">
 
-          function moveEye(svgX, svgY) {
-            var dx = svgX - eyeCX, dy = svgY - eyeCY;
-            var dist = Math.sqrt(dx * dx + dy * dy);
-            var tx, ty;
-            if (dist === 0) { tx = eyeCX; ty = eyeCY; }
-            else {
-              var cl = Math.min(dist, maxTravel);
-              tx = eyeCX + (dx / dist) * cl;
-              ty = eyeCY + (dy / dist) * cl;
-            }
-            eyeball.setAttribute('transform',
-              'matrix(' + a + ' ' + b + ' ' + c + ' ' + d + ' ' + (tx - ox) + ' ' + (ty - oy) + ')');
-          }
+      <div class="hero__scene is-active" data-scene="0">
+        <div class="scene-stage">
+          <svg class="char char--wormie" viewBox="0 0 1424 1286" preserveAspectRatio="xMidYMax meet" fill="none" aria-hidden="true">
+<path d="M1215.66 218.555L1215.66 821.687C1215.66 959.941 1103.59 1072.02 965.334 1072.02C827.081 1072.02 715.004 959.941 715.004 821.687L715.004 473.316C715.004 333.031 600.534 219.703 460.256 221.11C321.953 222.497 210.566 335.006 210.566 473.316L210.566 1077.08" stroke="url(#paint0_linear_69_244_w0)" stroke-width="410.066" stroke-linecap="round"/>
+<circle cx="118.11" cy="118.11" r="112.875" transform="matrix(-0.965926 -0.258819 -0.258819 0.965926 1360.14 117.41)" stroke="black" stroke-width="10.4698"/>
+<g class="pupil" data-cx="1215.5" data-cy="200.9" data-travel="30"><circle cx="1215.5" cy="200.9" r="73.7009" fill="black"/></g>
+<mask id="mask0_69_244_w0" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="6" y="0" width="1416" height="1269">
+<path d="M1216.24 205.034L1216.24 808.166C1216.24 946.419 1104.16 1058.5 965.908 1058.5C827.655 1058.5 715.579 946.419 715.579 808.166L715.579 459.795C715.579 319.509 601.109 206.182 460.83 207.588C322.527 208.975 211.14 321.485 211.14 459.795L211.14 1063.55" stroke="url(#paint1_linear_69_244_w0)" stroke-width="410.066" stroke-linecap="round"/>
+</mask>
+<g mask="url(#mask0_69_244_w0)">
+<rect x="-57.5859" y="-49.7305" width="1786.84" height="1786.84" fill="url(#pattern0_69_244_w0)"/>
+</g>
+<defs>
+<pattern id="pattern0_69_244_w0" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_69_244_w0" transform="scale(0.000976563)"/>
+</pattern>
+<linearGradient id="paint0_linear_69_244_w0" x1="1385.7" y1="181.735" x2="42.1361" y2="1338.07" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FC57FF"/>
+<stop offset="0.392199" stop-color="#0066FF"/>
+<stop offset="1" stop-color="white" stop-opacity="0"/>
+</linearGradient>
+<linearGradient id="paint1_linear_69_244_w0" x1="1386.27" y1="168.213" x2="42.7103" y2="1324.55" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FC57FF"/>
+<stop offset="0.392199" stop-color="#0066FF"/>
+<stop offset="1" stop-color="white" stop-opacity="0"/>
+</linearGradient>
+<image id="image0_69_244_w0" width="1024" height="1024" preserveAspectRatio="none" xlink:href="img/grain.png"/>
+</defs>
+</svg>
 
-          document.addEventListener('mousemove', function(e) {
-            var pt = svg.createSVGPoint();
-            pt.x = e.clientX; pt.y = e.clientY;
-            var p = pt.matrixTransform(svg.getScreenCTM().inverse());
-            moveEye(p.x, p.y);
-          });
-        })();
-        ]]></script>
-      </svg>
-      <img src="img/conie-clean.svg" alt="" class="hero__char-right">
+          <svg class="char char--conie" viewBox="0 0 962 1259" preserveAspectRatio="xMidYMax meet" fill="none" aria-hidden="true">
+<path d="M364.665 87.7663C400.487 -25.7871 561.18 -25.787 597.001 87.7664L951.143 1210.4C956.357 1226.92 944.016 1243.76 926.687 1243.76H34.9799C17.6502 1243.76 5.30995 1226.92 10.5235 1210.4L364.665 87.7663Z" fill="url(#paint0_linear_71_253_c0)"/>
+<g class="pupil" data-cx="419.248" data-cy="292.301" data-travel="7"><circle cx="419.248" cy="292.301" r="31.7405" fill="black"/></g>
+<rect x="374.518" y="247.573" width="89.4556" height="89.4556" rx="44.7278" stroke="black" stroke-width="7.14604"/>
+<g class="pupil" data-cx="542.741" data-cy="292.301" data-travel="7"><circle cx="542.741" cy="292.301" r="31.7405" fill="black"/></g>
+<rect x="498.011" y="247.573" width="89.4556" height="89.4556" rx="44.7278" stroke="black" stroke-width="7.14604"/>
+<mask id="mask0_71_253_c0" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="9" y="17" width="944" height="1242">
+<path d="M364.665 102.19C400.487 -11.3633 561.18 -11.3632 597.001 102.19L951.143 1224.82C956.357 1241.35 944.016 1258.18 926.687 1258.18H34.9799C17.6502 1258.18 5.30995 1241.35 10.5235 1224.82L364.665 102.19Z" fill="url(#paint1_linear_71_253_c0)"/>
+</mask>
+<g mask="url(#mask0_71_253_c0)">
+<rect x="-38.4688" width="1641.24" height="1336.72" fill="url(#pattern0_71_253_c0)"/>
+</g>
+<defs>
+<pattern id="pattern0_71_253_c0" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_71_253_c0" transform="matrix(0.000976562 0 0 0.00119904 0 -0.227818)"/>
+</pattern>
+<linearGradient id="paint0_linear_71_253_c0" x1="535.015" y1="-280.486" x2="-369.679" y2="1065.75" gradientUnits="userSpaceOnUse">
+<stop stop-color="#5EFF24"/>
+<stop offset="1" stop-color="#FFFF08" stop-opacity="0.82"/>
+</linearGradient>
+<linearGradient id="paint1_linear_71_253_c0" x1="535.015" y1="-266.063" x2="-369.679" y2="1080.17" gradientUnits="userSpaceOnUse">
+<stop stop-color="#5EFF24"/>
+<stop offset="1" stop-color="#FFFF08" stop-opacity="0.82"/>
+</linearGradient>
+<image id="image0_71_253_c0" width="1024" height="1024" preserveAspectRatio="none" xlink:href="img/grain.png"/>
+</defs>
+</svg>
+
+        </div>
+      </div>
+
+      <div class="hero__scene" data-scene="1">
+        <div class="scene-stage">
+          <svg class="char char--eelie" viewBox="0 0 1144 1296" preserveAspectRatio="xMidYMax meet" fill="none" aria-hidden="true">
+<path d="M215.836 1085.41V946.278C215.836 552.224 535.28 232.779 929.335 232.779" stroke="url(#paint0_linear_85_4_e0)" stroke-width="419.181" stroke-linecap="round"/>
+<g class="pupil" data-cx="955.753" data-cy="230.519" data-travel="28"><circle cx="955.753" cy="230.519" r="72.6887" fill="black"/></g>
+<rect x="1063.7" y="122.582" width="215.875" height="215.875" rx="107.938" transform="rotate(90 1063.7 122.582)" stroke="black" stroke-width="5.35124"/>
+<g class="pupil" data-cx="708.554" data-cy="268.558" data-travel="28"><circle cx="708.554" cy="268.558" r="72.6887" fill="black"/></g>
+<rect x="816.496" y="160.621" width="215.875" height="215.875" rx="107.938" transform="rotate(90 816.496 160.621)" stroke="black" stroke-width="5.35124"/>
+<mask id="mask0_85_4_e0" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="6" y="0" width="1133" height="1272">
+<path d="M215.836 1062.22V923.089C215.836 529.034 535.28 209.59 929.335 209.59" stroke="url(#paint1_linear_85_4_e0)" stroke-width="419.181" stroke-linecap="round"/>
+</mask>
+<g mask="url(#mask0_85_4_e0)">
+<rect x="-58.8594" y="-40.1348" width="1826.56" height="1826.56" fill="url(#pattern0_85_4_e0)"/>
+</g>
+<defs>
+<pattern id="pattern0_85_4_e0" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_85_4_e0" transform="scale(0.000976562)"/>
+</pattern>
+<linearGradient id="paint0_linear_85_4_e0" x1="712.61" y1="279.157" x2="76.8778" y2="1339.71" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FBFF00"/>
+<stop offset="0.868222" stop-color="#FF0000" stop-opacity="0.74"/>
+</linearGradient>
+<linearGradient id="paint1_linear_85_4_e0" x1="712.61" y1="255.967" x2="76.8778" y2="1316.52" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FBFF00"/>
+<stop offset="0.868222" stop-color="#FF0000" stop-opacity="0.74"/>
+</linearGradient>
+<image id="image0_85_4_e0" width="1024" height="1024" preserveAspectRatio="none" xlink:href="img/grain.png"/>
+</defs>
+</svg>
+
+        </div>
+      </div>
+
+      <div class="hero__scene" data-scene="2">
+        <div class="scene-stage">
+          <svg class="char char--rodie-left" viewBox="0 0 417 1245" preserveAspectRatio="xMidYMax meet" fill="none" aria-hidden="true">
+<rect x="13.793" width="402.471" height="1244" rx="201.235" fill="url(#paint0_linear_85_15_r2)"/>
+<path d="M177.906 109.767C168.437 144.817 118.711 144.817 109.242 109.767" stroke="black" stroke-width="17.4987"/>
+<path d="M322.41 109.767C312.941 144.817 263.215 144.817 253.746 109.767" stroke="black" stroke-width="17.4987"/>
+<mask id="mask0_85_15_r2" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="403" height="1245">
+<rect y="0.398438" width="402.471" height="1244" rx="201.235" fill="url(#paint1_linear_85_15_r2)"/>
+</mask>
+<g mask="url(#mask0_85_15_r2)">
+<rect x="-37.6562" y="-37.3848" width="1628.97" height="1628.97" fill="url(#pattern0_85_15_r2)"/>
+</g>
+<defs>
+<pattern id="pattern0_85_15_r2" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_85_15_r2" transform="scale(0.000976563)"/>
+</pattern>
+<linearGradient id="paint0_linear_85_15_r2" x1="215.028" y1="0" x2="375.698" y2="1361.72" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FF0000"/>
+<stop offset="1" stop-color="#FD92FF"/>
+</linearGradient>
+<linearGradient id="paint1_linear_85_15_r2" x1="201.235" y1="0.398438" x2="361.905" y2="1362.12" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FF0000"/>
+<stop offset="1" stop-color="#FD92FF"/>
+</linearGradient>
+<image id="image0_85_15_r2" width="1024" height="1024" preserveAspectRatio="none" xlink:href="img/grain.png"/>
+</defs>
+</svg>
+
+          <svg class="char char--conie2" viewBox="0 0 962 1259" preserveAspectRatio="xMidYMax meet" fill="none" aria-hidden="true">
+<path d="M364.665 87.7663C400.487 -25.7871 561.18 -25.787 597.001 87.7664L951.143 1210.4C956.357 1226.92 944.016 1243.76 926.687 1243.76H34.9799C17.6502 1243.76 5.30995 1226.92 10.5235 1210.4L364.665 87.7663Z" fill="url(#paint0_linear_71_253_c2)"/>
+<g class="pupil" data-cx="419.248" data-cy="292.301" data-travel="7"><circle cx="419.248" cy="292.301" r="31.7405" fill="black"/></g>
+<rect x="374.518" y="247.573" width="89.4556" height="89.4556" rx="44.7278" stroke="black" stroke-width="7.14604"/>
+<g class="pupil" data-cx="542.741" data-cy="292.301" data-travel="7"><circle cx="542.741" cy="292.301" r="31.7405" fill="black"/></g>
+<rect x="498.011" y="247.573" width="89.4556" height="89.4556" rx="44.7278" stroke="black" stroke-width="7.14604"/>
+<mask id="mask0_71_253_c2" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="9" y="17" width="944" height="1242">
+<path d="M364.665 102.19C400.487 -11.3633 561.18 -11.3632 597.001 102.19L951.143 1224.82C956.357 1241.35 944.016 1258.18 926.687 1258.18H34.9799C17.6502 1258.18 5.30995 1241.35 10.5235 1224.82L364.665 102.19Z" fill="url(#paint1_linear_71_253_c2)"/>
+</mask>
+<g mask="url(#mask0_71_253_c2)">
+<rect x="-38.4688" width="1641.24" height="1336.72" fill="url(#pattern0_71_253_c2)"/>
+</g>
+<defs>
+<pattern id="pattern0_71_253_c2" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_71_253_c2" transform="matrix(0.000976562 0 0 0.00119904 0 -0.227818)"/>
+</pattern>
+<linearGradient id="paint0_linear_71_253_c2" x1="535.015" y1="-280.486" x2="-369.679" y2="1065.75" gradientUnits="userSpaceOnUse">
+<stop stop-color="#5EFF24"/>
+<stop offset="1" stop-color="#FFFF08" stop-opacity="0.82"/>
+</linearGradient>
+<linearGradient id="paint1_linear_71_253_c2" x1="535.015" y1="-266.063" x2="-369.679" y2="1080.17" gradientUnits="userSpaceOnUse">
+<stop stop-color="#5EFF24"/>
+<stop offset="1" stop-color="#FFFF08" stop-opacity="0.82"/>
+</linearGradient>
+<image id="image0_71_253_c2" width="1024" height="1024" preserveAspectRatio="none" xlink:href="img/grain.png"/>
+</defs>
+</svg>
+
+          <svg class="char char--puffie" viewBox="0 0 1278 1278" preserveAspectRatio="xMidYMax meet" fill="none" aria-hidden="true">
+<path d="M616.708 38.8752C626.582 21.6563 651.418 21.6563 661.292 38.8752L718.707 139.001C726.459 152.521 744.366 156.082 756.702 146.558L848.063 76.0262C863.774 63.8965 886.72 73.4011 889.253 93.0878L903.981 207.563C905.969 223.021 921.15 233.164 936.192 229.086L1047.59 198.885C1066.75 193.691 1084.31 211.253 1079.12 230.411L1048.91 341.808C1044.84 356.85 1054.98 372.031 1070.44 374.019L1184.91 388.747C1204.6 391.28 1214.1 414.226 1201.97 429.937L1131.44 521.298C1121.92 533.634 1125.48 551.541 1139 559.293L1239.12 616.708C1256.34 626.582 1256.34 651.418 1239.12 661.292L1139 718.707C1125.48 726.459 1121.92 744.366 1131.44 756.702L1201.97 848.063C1214.1 863.774 1204.6 886.72 1184.91 889.253L1070.44 903.981C1054.98 905.969 1044.84 921.15 1048.91 936.192L1079.12 1047.59C1084.31 1066.75 1066.75 1084.31 1047.59 1079.12L936.192 1048.91C921.15 1044.84 905.969 1054.98 903.981 1070.44L889.253 1184.91C886.72 1204.6 863.774 1214.1 848.063 1201.97L756.702 1131.44C744.366 1121.92 726.459 1125.48 718.707 1139L661.292 1239.12C651.418 1256.34 626.582 1256.34 616.708 1239.12L559.293 1139C551.541 1125.48 533.634 1121.92 521.298 1131.44L429.937 1201.97C414.226 1214.1 391.28 1204.6 388.747 1184.91L374.019 1070.44C372.031 1054.98 356.85 1044.84 341.808 1048.91L230.411 1079.12C211.253 1084.31 193.691 1066.75 198.885 1047.59L229.086 936.192C233.164 921.15 223.021 905.969 207.563 903.981L93.0878 889.253C73.4011 886.72 63.8965 863.774 76.0262 848.063L146.558 756.702C156.083 744.366 152.521 726.459 139.001 718.707L38.8752 661.292C21.6563 651.418 21.6563 626.582 38.8752 616.708L139.001 559.293C152.521 551.541 156.082 533.634 146.558 521.298L76.0262 429.937C63.8965 414.226 73.4011 391.28 93.0878 388.747L207.563 374.019C223.021 372.031 233.164 356.85 229.086 341.808L198.885 230.411C193.691 211.253 211.253 193.691 230.411 198.885L341.808 229.086C356.85 233.164 372.031 223.021 374.019 207.563L388.747 93.0878C391.28 73.4011 414.226 63.8965 429.937 76.0262L521.298 146.558C533.634 156.083 551.541 152.521 559.293 139.001L616.708 38.8752Z" fill="url(#paint0_linear_85_24_p2)"/>
+<g class="pupil" data-cx="381.884" data-cy="656.268" data-travel="27"><circle cx="381.884" cy="656.268" r="72.3567" fill="black"/></g>
+<circle cx="381.884" cy="656.268" r="107.204" transform="rotate(-90 381.884 656.268)" stroke="black" stroke-width="11.992"/>
+<g class="pupil" data-cx="900.337" data-cy="656.27" data-travel="27"><circle cx="900.337" cy="656.27" r="72.3567" fill="black"/></g>
+<circle cx="900.337" cy="656.27" r="107.204" transform="rotate(-90 900.337 656.27)" stroke="black" stroke-width="11.992"/>
+<mask id="mask0_85_24_p2" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="40" y="24" width="1234" height="1234">
+<path d="M639.693 34.2978C647.388 20.8781 666.745 20.8781 674.44 34.2978L739.723 148.145C745.765 158.682 759.72 161.458 769.335 154.035L873.215 73.8367C885.46 64.3834 903.344 71.7908 905.318 87.1339L922.064 217.297C923.614 229.344 935.444 237.249 947.168 234.071L1073.83 199.731C1088.76 195.683 1102.45 209.371 1098.4 224.301L1064.06 350.965C1060.88 362.688 1068.79 374.519 1080.84 376.069L1211 392.815C1226.34 394.789 1233.75 412.672 1224.3 424.917L1144.1 528.798C1136.68 538.412 1139.45 552.368 1149.99 558.41L1263.83 623.693C1277.25 631.388 1277.25 650.745 1263.83 658.44L1149.99 723.723C1139.45 729.765 1136.68 743.72 1144.1 753.335L1224.3 857.215C1233.75 869.46 1226.34 887.344 1211 889.318L1080.84 906.064C1068.79 907.614 1060.88 919.444 1064.06 931.168L1098.4 1057.83C1102.45 1072.76 1088.76 1086.45 1073.83 1082.4L947.168 1048.06C935.444 1044.88 923.614 1052.79 922.064 1064.84L905.318 1195C903.344 1210.34 885.46 1217.75 873.215 1208.3L769.335 1128.1C759.72 1120.68 745.765 1123.45 739.723 1133.99L674.44 1247.83C666.745 1261.25 647.388 1261.25 639.693 1247.83L574.41 1133.99C568.368 1123.45 554.412 1120.68 544.798 1128.1L440.917 1208.3C428.672 1217.75 410.789 1210.34 408.815 1195L392.069 1064.84C390.519 1052.79 378.688 1044.88 366.965 1048.06L240.301 1082.4C225.371 1086.45 211.683 1072.76 215.731 1057.83L250.071 931.168C253.249 919.444 245.344 907.614 233.297 906.064L103.134 889.318C87.7909 887.344 80.3834 869.46 89.8368 857.215L170.035 753.335C177.458 743.72 174.682 729.765 164.145 723.723L50.2978 658.44C36.8781 650.745 36.8781 631.388 50.2978 623.693L164.145 558.41C174.682 552.368 177.458 538.412 170.035 528.798L89.8367 424.917C80.3834 412.672 87.7908 394.789 103.134 392.815L233.297 376.069C245.344 374.519 253.249 362.688 250.071 350.965L215.731 224.301C211.683 209.371 225.371 195.683 240.301 199.731L366.965 234.071C378.688 237.249 390.519 229.344 392.069 217.297L408.815 87.1339C410.789 71.7908 428.672 64.3834 440.917 73.8368L544.798 154.035C554.412 161.458 568.368 158.682 574.41 148.145L639.693 34.2978Z" fill="url(#paint1_linear_85_24_p2)"/>
+</mask>
+<g mask="url(#mask0_85_24_p2)">
+<rect x="-266.102" y="-27.8223" width="1748.94" height="1748.94" fill="url(#pattern0_85_24_p2)"/>
+</g>
+<defs>
+<pattern id="pattern0_85_24_p2" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_85_24_p2" transform="translate(0.088197) scale(0.000976562)"/>
+</pattern>
+<linearGradient id="paint0_linear_85_24_p2" x1="639" y1="0" x2="639" y2="1278" gradientUnits="userSpaceOnUse">
+<stop stop-color="#0066FF"/>
+<stop offset="1" stop-color="#D2FFC2"/>
+</linearGradient>
+<linearGradient id="paint1_linear_85_24_p2" x1="657.066" y1="4" x2="657.066" y2="1278.13" gradientUnits="userSpaceOnUse">
+<stop stop-color="#00FFEA"/>
+<stop offset="1" stop-color="#FF5900"/>
+</linearGradient>
+<image id="image0_85_24_p2" width="1024" height="1024" preserveAspectRatio="none" xlink:href="img/grain.png"/>
+</defs>
+</svg>
+
+        </div>
+      </div>
+
+      <div class="hero__scene" data-scene="3">
+        <div class="scene-stage">
+          <svg class="char char--rodie-centre" viewBox="0 0 417 1245" preserveAspectRatio="xMidYMax meet" fill="none" aria-hidden="true">
+<rect x="13.793" width="402.471" height="1244" rx="201.235" fill="url(#paint0_linear_85_15_r3)"/>
+<path d="M177.906 109.767C168.437 144.817 118.711 144.817 109.242 109.767" stroke="black" stroke-width="17.4987"/>
+<path d="M322.41 109.767C312.941 144.817 263.215 144.817 253.746 109.767" stroke="black" stroke-width="17.4987"/>
+<mask id="mask0_85_15_r3" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="403" height="1245">
+<rect y="0.398438" width="402.471" height="1244" rx="201.235" fill="url(#paint1_linear_85_15_r3)"/>
+</mask>
+<g mask="url(#mask0_85_15_r3)">
+<rect x="-37.6562" y="-37.3848" width="1628.97" height="1628.97" fill="url(#pattern0_85_15_r3)"/>
+</g>
+<defs>
+<pattern id="pattern0_85_15_r3" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_85_15_r3" transform="scale(0.000976563)"/>
+</pattern>
+<linearGradient id="paint0_linear_85_15_r3" x1="215.028" y1="0" x2="375.698" y2="1361.72" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FF0000"/>
+<stop offset="1" stop-color="#FD92FF"/>
+</linearGradient>
+<linearGradient id="paint1_linear_85_15_r3" x1="201.235" y1="0.398438" x2="361.905" y2="1362.12" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FF0000"/>
+<stop offset="1" stop-color="#FD92FF"/>
+</linearGradient>
+<image id="image0_85_15_r3" width="1024" height="1024" preserveAspectRatio="none" xlink:href="img/grain.png"/>
+</defs>
+</svg>
+
+        </div>
+      </div>
+
+    </div><!-- /hero__stage -->
   </section>
 
   <!-- Navigation -->
-  <nav class="site-nav">
+  <nav class="site-nav" id="siteNav">
     <div class="container--wide">
       <div class="site-nav__inner">
-        <a href="index.html" class="site-nav__brand">
-          <span class="site-nav__title">Flourishing Futures</span>
+        <a href="index.html" class="site-nav__brand" aria-label="Flourishing Futures — AI for Human Possibilities">
+          <img src="img/logo-navbar.png" alt="Flourishing Futures" class="site-nav__brand-img">
         </a>
         <ul class="site-nav__links">
           <li><a href="index.html" class="active">home</a></li>
@@ -130,7 +302,7 @@
       <div class="partner-logo"><img src="img/partner-mit.png" alt="Massachusetts Institute of Technology"></div>
       <div class="partner-logo"><img src="img/partner-ntu.png" alt="Nanyang Technological University"></div>
       <div class="partner-logo"><img src="img/partner-mom.png" alt="Ministry of Manpower"></div>
-      <div class="partner-logo"><img src="img/partner-dxd.png" alt="dxd"></div>
+      <div class="partner-logo partner-logo--dxd"><img src="img/partner-dxd.png" alt="dxd"></div>
     </div>
     <div class="partners-section__cta">
       <a href="about.html" class="btn btn--orange">Collaborate with us</a>
@@ -139,30 +311,70 @@
 
   <!-- Lately -->
   <section class="lately">
-    <div class="lately__shapes">
-      <img src="img/star-blue.svg" alt="" class="lately__shape lately__shape--1">
-      <img src="img/star-blue-2.svg" alt="" class="lately__shape lately__shape--2">
-    </div>
-
     <p class="lately__title">Lately...</p>
 
-    <div class="lately__cards">
-      <div class="lately-card">
-        <div class="lately-card__content">
-          <h2 class="lately-card__heading">Conscious Builder Community:<br>Gathering #2</h2>
-          <p class="lately-card__body">
-            The Conscious Builders Community is a program developed to bring AI developers, designers, researchers and ethicists together to build better products. Here, we share, debate, workshop and design.
-          </p>
-          <p class="lately-card__body">
-            Through inspiration sessions and hands-on product garages: we help builders to engage in critical conversations, identify potential risks, imagine better possibilities, and stay inspired and connected to the human impact of working with AI.
-          </p>
-          <div>
-            <a href="community.html" class="btn btn--green">Find more events</a>
+    <div class="lately__deck" id="latelyDeck">
+      <svg class="lately__puffie" viewBox="0 0 1278 1278" preserveAspectRatio="xMidYMax meet" fill="none" aria-hidden="true">
+<path d="M616.708 38.8752C626.582 21.6563 651.418 21.6563 661.292 38.8752L718.707 139.001C726.459 152.521 744.366 156.082 756.702 146.558L848.063 76.0262C863.774 63.8965 886.72 73.4011 889.253 93.0878L903.981 207.563C905.969 223.021 921.15 233.164 936.192 229.086L1047.59 198.885C1066.75 193.691 1084.31 211.253 1079.12 230.411L1048.91 341.808C1044.84 356.85 1054.98 372.031 1070.44 374.019L1184.91 388.747C1204.6 391.28 1214.1 414.226 1201.97 429.937L1131.44 521.298C1121.92 533.634 1125.48 551.541 1139 559.293L1239.12 616.708C1256.34 626.582 1256.34 651.418 1239.12 661.292L1139 718.707C1125.48 726.459 1121.92 744.366 1131.44 756.702L1201.97 848.063C1214.1 863.774 1204.6 886.72 1184.91 889.253L1070.44 903.981C1054.98 905.969 1044.84 921.15 1048.91 936.192L1079.12 1047.59C1084.31 1066.75 1066.75 1084.31 1047.59 1079.12L936.192 1048.91C921.15 1044.84 905.969 1054.98 903.981 1070.44L889.253 1184.91C886.72 1204.6 863.774 1214.1 848.063 1201.97L756.702 1131.44C744.366 1121.92 726.459 1125.48 718.707 1139L661.292 1239.12C651.418 1256.34 626.582 1256.34 616.708 1239.12L559.293 1139C551.541 1125.48 533.634 1121.92 521.298 1131.44L429.937 1201.97C414.226 1214.1 391.28 1204.6 388.747 1184.91L374.019 1070.44C372.031 1054.98 356.85 1044.84 341.808 1048.91L230.411 1079.12C211.253 1084.31 193.691 1066.75 198.885 1047.59L229.086 936.192C233.164 921.15 223.021 905.969 207.563 903.981L93.0878 889.253C73.4011 886.72 63.8965 863.774 76.0262 848.063L146.558 756.702C156.083 744.366 152.521 726.459 139.001 718.707L38.8752 661.292C21.6563 651.418 21.6563 626.582 38.8752 616.708L139.001 559.293C152.521 551.541 156.082 533.634 146.558 521.298L76.0262 429.937C63.8965 414.226 73.4011 391.28 93.0878 388.747L207.563 374.019C223.021 372.031 233.164 356.85 229.086 341.808L198.885 230.411C193.691 211.253 211.253 193.691 230.411 198.885L341.808 229.086C356.85 233.164 372.031 223.021 374.019 207.563L388.747 93.0878C391.28 73.4011 414.226 63.8965 429.937 76.0262L521.298 146.558C533.634 156.083 551.541 152.521 559.293 139.001L616.708 38.8752Z" fill="url(#paint0_linear_85_24_lp)"/>
+<g class="pupil" data-cx="381.884" data-cy="656.268" data-travel="27"><circle cx="381.884" cy="656.268" r="72.3567" fill="black"/></g>
+<circle cx="381.884" cy="656.268" r="107.204" transform="rotate(-90 381.884 656.268)" stroke="black" stroke-width="11.992"/>
+<g class="pupil" data-cx="900.337" data-cy="656.27" data-travel="27"><circle cx="900.337" cy="656.27" r="72.3567" fill="black"/></g>
+<circle cx="900.337" cy="656.27" r="107.204" transform="rotate(-90 900.337 656.27)" stroke="black" stroke-width="11.992"/>
+<mask id="mask0_85_24_lp" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="40" y="24" width="1234" height="1234">
+<path d="M639.693 34.2978C647.388 20.8781 666.745 20.8781 674.44 34.2978L739.723 148.145C745.765 158.682 759.72 161.458 769.335 154.035L873.215 73.8367C885.46 64.3834 903.344 71.7908 905.318 87.1339L922.064 217.297C923.614 229.344 935.444 237.249 947.168 234.071L1073.83 199.731C1088.76 195.683 1102.45 209.371 1098.4 224.301L1064.06 350.965C1060.88 362.688 1068.79 374.519 1080.84 376.069L1211 392.815C1226.34 394.789 1233.75 412.672 1224.3 424.917L1144.1 528.798C1136.68 538.412 1139.45 552.368 1149.99 558.41L1263.83 623.693C1277.25 631.388 1277.25 650.745 1263.83 658.44L1149.99 723.723C1139.45 729.765 1136.68 743.72 1144.1 753.335L1224.3 857.215C1233.75 869.46 1226.34 887.344 1211 889.318L1080.84 906.064C1068.79 907.614 1060.88 919.444 1064.06 931.168L1098.4 1057.83C1102.45 1072.76 1088.76 1086.45 1073.83 1082.4L947.168 1048.06C935.444 1044.88 923.614 1052.79 922.064 1064.84L905.318 1195C903.344 1210.34 885.46 1217.75 873.215 1208.3L769.335 1128.1C759.72 1120.68 745.765 1123.45 739.723 1133.99L674.44 1247.83C666.745 1261.25 647.388 1261.25 639.693 1247.83L574.41 1133.99C568.368 1123.45 554.412 1120.68 544.798 1128.1L440.917 1208.3C428.672 1217.75 410.789 1210.34 408.815 1195L392.069 1064.84C390.519 1052.79 378.688 1044.88 366.965 1048.06L240.301 1082.4C225.371 1086.45 211.683 1072.76 215.731 1057.83L250.071 931.168C253.249 919.444 245.344 907.614 233.297 906.064L103.134 889.318C87.7909 887.344 80.3834 869.46 89.8368 857.215L170.035 753.335C177.458 743.72 174.682 729.765 164.145 723.723L50.2978 658.44C36.8781 650.745 36.8781 631.388 50.2978 623.693L164.145 558.41C174.682 552.368 177.458 538.412 170.035 528.798L89.8367 424.917C80.3834 412.672 87.7908 394.789 103.134 392.815L233.297 376.069C245.344 374.519 253.249 362.688 250.071 350.965L215.731 224.301C211.683 209.371 225.371 195.683 240.301 199.731L366.965 234.071C378.688 237.249 390.519 229.344 392.069 217.297L408.815 87.1339C410.789 71.7908 428.672 64.3834 440.917 73.8368L544.798 154.035C554.412 161.458 568.368 158.682 574.41 148.145L639.693 34.2978Z" fill="url(#paint1_linear_85_24_lp)"/>
+</mask>
+<g mask="url(#mask0_85_24_lp)">
+<rect x="-266.102" y="-27.8223" width="1748.94" height="1748.94" fill="url(#pattern0_85_24_lp)"/>
+</g>
+<defs>
+<pattern id="pattern0_85_24_lp" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_85_24_lp" transform="translate(0.088197) scale(0.000976562)"/>
+</pattern>
+<linearGradient id="paint0_linear_85_24_lp" x1="639" y1="0" x2="639" y2="1278" gradientUnits="userSpaceOnUse">
+<stop stop-color="#0066FF"/>
+<stop offset="1" stop-color="#D2FFC2"/>
+</linearGradient>
+<linearGradient id="paint1_linear_85_24_lp" x1="657.066" y1="4" x2="657.066" y2="1278.13" gradientUnits="userSpaceOnUse">
+<stop stop-color="#00FFEA"/>
+<stop offset="1" stop-color="#FF5900"/>
+</linearGradient>
+<image id="image0_85_24_lp" width="1024" height="1024" preserveAspectRatio="none" xlink:href="img/grain.png"/>
+</defs>
+</svg>
+      <div class="lately__stack">
+        <article class="lately-card" data-pos="0">
+          <div class="lately-card__content">
+            <h2 class="lately-card__heading">Conscious Builder Community:<br>Gathering #2</h2>
+            <p class="lately-card__body">The Conscious Builders Community is a program developed to bring AI developers, designers, researchers and ethicists together to build better products. Here, we share, debate, workshop and design.</p>
+            <p class="lately-card__body">Through inspiration sessions and hands-on product garages: we help builders to engage in critical conversations, identify potential risks, imagine better possibilities, and stay inspired and connected to the human impact of working with AI.</p>
+            <div><a href="community.html" class="btn btn--green">Find more events</a></div>
           </div>
-        </div>
-        <div class="lately-card__image">
-          <img src="img/community-photo.png" alt="Conscious Builder Community gathering">
-        </div>
+          <div class="lately-card__image">
+            <img src="img/community-photo.png" alt="Conscious Builder Community gathering">
+          </div>
+        </article>
+        <article class="lately-card" data-pos="1">
+          <div class="lately-card__content">
+            <h2 class="lately-card__heading">Conscious Builder Community:<br>Gathering #2</h2>
+            <p class="lately-card__body">The Conscious Builders Community is a program developed to bring AI developers, designers, researchers and ethicists together to build better products. Here, we share, debate, workshop and design.</p>
+            <p class="lately-card__body">Through inspiration sessions and hands-on product garages: we help builders to engage in critical conversations, identify potential risks, imagine better possibilities, and stay inspired and connected to the human impact of working with AI.</p>
+            <div><a href="community.html" class="btn btn--green">Find more events</a></div>
+          </div>
+          <div class="lately-card__image">
+            <img src="img/community-photo.png" alt="Conscious Builder Community gathering">
+          </div>
+        </article>
+        <article class="lately-card" data-pos="2">
+          <div class="lately-card__content">
+            <h2 class="lately-card__heading">Conscious Builder Community:<br>Gathering #2</h2>
+            <p class="lately-card__body">The Conscious Builders Community is a program developed to bring AI developers, designers, researchers and ethicists together to build better products. Here, we share, debate, workshop and design.</p>
+            <p class="lately-card__body">Through inspiration sessions and hands-on product garages: we help builders to engage in critical conversations, identify potential risks, imagine better possibilities, and stay inspired and connected to the human impact of working with AI.</p>
+            <div><a href="community.html" class="btn btn--green">Find more events</a></div>
+          </div>
+          <div class="lately-card__image">
+            <img src="img/community-photo.png" alt="Conscious Builder Community gathering">
+          </div>
+        </article>
       </div>
     </div>
   </section>
@@ -181,6 +393,146 @@
       </div>
     </div>
   </nav>
+
+  <script>
+  (function () {
+    var hero   = document.getElementById('hero');
+    var stage  = document.getElementById('heroStage');
+    var titleEl = document.getElementById('heroTitle');
+    var nav    = document.getElementById('siteNav');
+    var scenes = Array.prototype.slice.call(stage.querySelectorAll('.hero__scene'));
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Scene definitions — background, question text + colour, logo colour.
+    var SCENES = [
+      { bg: '#FF0000', color: '#FFFFFF', logoDark: false, q: 'can ai make our meetings more meaningful?' },
+      { bg: '#0066FF', color: '#FFFFFF', logoDark: false, q: 'can ai help us learn in our own way?' },
+      { bg: '#FFE500', color: '#FF1A1A', logoDark: true,  q: 'can ai help different shapes work together?' },
+      { bg: '#2FB233', color: '#E4FF3B', logoDark: true,  q: 'can ai help us find calm in a chaotic city?' }
+    ];
+
+    var current = 0;
+
+    function paint(i) {
+      var s = SCENES[i];
+      hero.style.background = s.bg;
+      hero.style.setProperty('--title-color', s.color);
+      hero.classList.toggle('logo-dark', !!s.logoDark);
+    }
+
+    function show(i) {
+      if (i === current) return;
+      // Text crossfades; shapes drop out / spring in via the scene class swap.
+      titleEl.classList.add('is-fading');
+      window.setTimeout(function () {
+        titleEl.textContent = SCENES[i].q;
+        titleEl.classList.remove('is-fading');
+      }, 260);
+
+      scenes[current].classList.remove('is-active');
+      scenes[i].classList.add('is-active');
+      resetPupils(scenes[current]);
+      paint(i);
+      current = i;
+    }
+
+    // Initial paint (scene 0 already .is-active in markup).
+    paint(0);
+    titleEl.textContent = SCENES[0].q;
+
+    // --- Auto-rotate ---------------------------------------------------
+    if (!reduce) {
+      window.setInterval(function () {
+        show((current + 1) % SCENES.length);
+      }, 5200);
+    }
+
+    // --- Cursor-following pupils ---------------------------------------
+    function resetPupils(scene) {
+      var ps = scene.querySelectorAll('.pupil');
+      for (var i = 0; i < ps.length; i++) ps[i].removeAttribute('transform');
+    }
+
+    function moveEyes(clientX, clientY) {
+      var active = scenes[current];
+      var pupils = active.querySelectorAll('.pupil');
+      for (var i = 0; i < pupils.length; i++) {
+        var p = pupils[i];
+        var svg = p.ownerSVGElement;
+        if (!svg) continue;
+        var ctm = svg.getScreenCTM();
+        if (!ctm) continue;
+        var cx = parseFloat(p.getAttribute('data-cx'));
+        var cy = parseFloat(p.getAttribute('data-cy'));
+        var travel = parseFloat(p.getAttribute('data-travel')) || 0;
+        // Socket centre in screen space.
+        var sx = ctm.a * cx + ctm.c * cy + ctm.e;
+        var sy = ctm.b * cx + ctm.d * cy + ctm.f;
+        var dx = clientX - sx, dy = clientY - sy;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        var scale = Math.sqrt(ctm.a * ctm.a + ctm.b * ctm.b) || 1;
+        var tx, ty;
+        if (dist < 0.001) { tx = 0; ty = 0; }
+        else {
+          // `travel` is smaller than the pupil/socket radius difference for
+          // every eye, so the pupil cannot cross the socket outline.
+          var cl = Math.min(dist, travel * scale) / scale;
+          tx = (dx / dist) * cl;
+          ty = (dy / dist) * cl;
+        }
+        p.setAttribute('transform', 'translate(' + tx.toFixed(2) + ' ' + ty.toFixed(2) + ')');
+      }
+    }
+
+    var raf = null, lastX = 0, lastY = 0;
+    document.addEventListener('mousemove', function (e) {
+      lastX = e.clientX; lastY = e.clientY;
+      if (raf) return;
+      raf = window.requestAnimationFrame(function () {
+        raf = null;
+        moveEyes(lastX, lastY);
+      });
+    });
+
+    // --- Nav: reveal wordmark once the hero scrolls away ---------------
+    function onScroll() {
+      var past = window.scrollY > (hero.offsetHeight - nav.offsetHeight - 40);
+      nav.classList.toggle('is-scrolled', past);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
+
+  // --- Lately: flipping card deck (auto every 3s, or on click/tap) --------
+  (function () {
+    var deck = document.getElementById('latelyDeck');
+    if (!deck) return;
+    var cards = Array.prototype.slice.call(deck.querySelectorAll('.lately-card'));
+    if (cards.length < 2) return;
+    var animating = false;
+
+    function advance() {
+      if (animating) return;
+      animating = true;
+      var front = cards.filter(function (c) { return c.dataset.pos === '0'; })[0];
+      front.classList.add('is-flipping');
+      window.setTimeout(function () {
+        cards.forEach(function (c) {
+          c.dataset.pos = String((parseInt(c.dataset.pos, 10) + cards.length - 1) % cards.length);
+        });
+        front.classList.remove('is-flipping');
+        animating = false;
+      }, 360);
+    }
+
+    var timer = window.setInterval(advance, 3000);
+    deck.addEventListener('click', function () {
+      advance();
+      window.clearInterval(timer);
+      timer = window.setInterval(advance, 3000);
+    });
+  })();
+  </script>
 
 </body>
 </html>
