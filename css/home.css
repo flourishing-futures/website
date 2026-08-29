@@ -330,12 +330,31 @@ a {
    VISION / MISSION SECTION
    ============================================================ */
 .vision {
-  background: var(--yellow);
-  background-image: url('../img/yellow-bg.png');
-  background-size: 512px 512px;
-  background-repeat: repeat;
+  position: relative;
+  isolation: isolate;
+  background-color: var(--yellow);
   padding: 5rem 1.5rem 5rem;
   text-align: center;
+}
+
+.vision::before,
+.lately::before,
+.site-footer-nav::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('../img/noise.svg') repeat;
+  background-size: 512px 512px;
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.vision > *,
+.lately > *,
+.site-footer-nav > * {
+  position: relative;
+  z-index: 1;
 }
 
 .vision__label {
@@ -469,6 +488,7 @@ a {
   padding: 4rem 1.5rem 5rem;
   overflow: hidden;
   position: relative;
+  isolation: isolate;
 }
 
 .lately__title {
@@ -590,6 +610,8 @@ a {
   background: var(--green);
   border-top: 1.5px solid var(--black);
   padding: 0;
+  position: relative;
+  isolation: isolate;
 }
 
 .site-footer-nav__inner {
