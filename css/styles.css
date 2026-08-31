@@ -1386,6 +1386,108 @@ a {
 }
 
 /* ============================================================
+   RESOURCE PAGE — TABLE
+   ============================================================ */
+.res-table {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.res-table table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--white);
+  border: 5px solid var(--black);
+  border-radius: 1.5rem;
+  overflow: hidden;
+}
+
+.res-table thead th {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--black);
+  padding: 1.25rem 1.5rem 0.75rem;
+  text-align: left;
+  border-bottom: 2px solid var(--black);
+}
+
+.res-table tbody tr {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.res-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.res-table tbody td {
+  padding: 1.25rem 1.5rem;
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 0.85rem;
+  color: var(--black);
+  vertical-align: top;
+}
+
+.res-table__link {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: 1.1rem;
+  line-height: 1.2;
+  color: var(--black);
+  text-decoration: none;
+  display: block;
+}
+
+.res-table__link:hover {
+  color: var(--blue);
+}
+
+.res-table__desc {
+  display: block;
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: #666;
+  margin-top: 0.35rem;
+}
+
+.res-table__type {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.6rem;
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: 2rem;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .res-table thead { display: none; }
+
+  .res-table tbody tr {
+    display: block;
+    padding: 1.25rem 1.5rem;
+  }
+
+  .res-table tbody td {
+    display: block;
+    padding: 0;
+  }
+
+  .res-table tbody td + td {
+    margin-top: 0.35rem;
+  }
+}
+
+/* ============================================================
    RESOURCE PAGE — COMMUNITY / JOIN SECTION
    ============================================================ */
 .res-community {
