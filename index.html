@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Flourishing Futures: AI for Human Possibility</title>
   <meta name="description" content="Flourishing Futures — designing AI that expands human agency, judgement and possibility in public service.">
-  <link rel="stylesheet" href="css/home.css?v=20260831j">
+  <link rel="stylesheet" href="css/home.css?v=20260831l">
 </head>
 <body>
 
@@ -262,7 +262,7 @@
        pupil logic); the speech bubble is hidden until the character is tapped.
        Placed before the inline script below so getElementById finds it. -->
   <div class="site-assistant" id="siteAssistant" aria-hidden="true">
-    <div class="site-assistant__bubble" id="assistantBubble" role="status">Greetings, human!</div>
+    <div class="site-assistant__bubble" id="assistantBubble" role="status" aria-live="polite"></div>
     <button class="site-assistant__char" id="assistantChar" type="button"
             aria-label="Flourishing Futures assistant" aria-expanded="false">
       <svg class="assistant-svg" viewBox="0 125 524 445" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -324,6 +324,7 @@
     // Floating assistant ("Finch") — revealed on scroll; its eye tracks the cursor.
     var assistant = document.getElementById('siteAssistant');
     var assistantChar = document.getElementById('assistantChar');
+    var assistantBubble = document.getElementById('assistantBubble');
 
     // Scene definitions — background, question text + colour, logo colour.
     var SCENES = [
@@ -513,35 +514,67 @@
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 
-    // Speech bubble: the FIRST hover after page-load pops it once (so people
-    // notice Finch is there); after that it only opens on click. Either way it
-    // auto-tucks away again after 2s so it's never persistent.
+    // Speech bubble: a random quote each time it appears. The FIRST hover after
+    // page-load pops it once (so people notice Finch is there); after that it
+    // opens on click. Every appearance also bobs both eels once for a bit of
+    // responsiveness. It auto-tucks away again after 2s so it's never persistent.
     if (assistantChar) {
+      var QUOTES = [
+        'Human detected. Excellent.',
+        'Please retain your judgement.',
+        'Autocomplete responsibly.',
+        'Possibility looks good.',
+        'Computer says...maybe?',
+        'Prediction is not permission.',
+        'Measure what matters.',
+        'Human possibility unlocked.',
+        'Thanks for thinking.',
+        'Automate with care.'
+      ];
+      var lastQuote = -1;
+      function randomQuote() {
+        var i;
+        do { i = Math.floor(Math.random() * QUOTES.length); }
+        while (QUOTES.length > 1 && i === lastQuote);
+        lastQuote = i;
+        return QUOTES[i];
+      }
+      // Restart the hero "duck" bob on both eels at once (respects reduced motion).
+      function bobBoth() {
+        if (reduce) return;
+        Array.prototype.forEach.call(assistant.querySelectorAll('.char-part'), function (p) {
+          p.classList.remove('is-bobbing');
+          void p.offsetWidth;   // force reflow so the animation replays
+          p.classList.add('is-bobbing');
+        });
+      }
       var bubbleTimer = null;
-      var introShown = false;   // once true, hovering just bobs — no bubble
+      var introShown = false;   // once true, hovering just bobs — no auto-bubble
       function closeBubble() {
         assistant.classList.remove('is-open');
         assistantChar.setAttribute('aria-expanded', 'false');
         bubbleTimer = null;
       }
-      function openBubble() {
+      function popBubble() {
         window.clearTimeout(bubbleTimer);
+        assistantBubble.textContent = randomQuote();
         assistant.classList.add('is-open');
         assistantChar.setAttribute('aria-expanded', 'true');
+        // Replay the entrance pop even if the bubble was already open.
+        assistantBubble.style.animation = 'none';
+        void assistantBubble.offsetWidth;   // force reflow
+        assistantBubble.style.animation = '';
         bubbleTimer = window.setTimeout(closeBubble, 2000);
+        bobBoth();
       }
       assistantChar.addEventListener('mouseenter', function () {
-        if (introShown) return;      // subsequent hovers: bob only
+        if (introShown) return;      // subsequent hovers: normal per-eel bob only
         introShown = true;
-        openBubble();
+        popBubble();
       });
       assistantChar.addEventListener('click', function () {
         introShown = true;           // a click counts as "discovered"
-        window.clearTimeout(bubbleTimer);
-        var open = assistant.classList.toggle('is-open');
-        assistantChar.setAttribute('aria-expanded', open ? 'true' : 'false');
-        if (open) bubbleTimer = window.setTimeout(closeBubble, 2000);
-        else bubbleTimer = null;
+        popBubble();                 // re-roll the quote, bounce, reset the timer
       });
     }
   })();

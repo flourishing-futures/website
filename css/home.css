@@ -1392,8 +1392,8 @@ a {
 .site-assistant__bubble {
   pointer-events: none;
   margin: 0 0.5rem 0.5rem 0;
-  padding: 0.6rem 1.1rem;
-  max-width: 15rem;
+  padding: 0.55rem 1.1rem;
+  max-width: 80vw;              /* safety cap only — quips stay on one line */
   background: var(--black);
   color: var(--white);
   font-family: var(--font-serif);
@@ -1401,12 +1401,12 @@ a {
   font-size: 1.05rem;
   line-height: 1.25;
   border-radius: 999px;
-  white-space: nowrap;
+  white-space: nowrap;          /* single line so the pill hugs the text, no side gaps */
   position: relative;
   opacity: 0;
   transform: translateY(6px) scale(0.96);
   transform-origin: bottom right;
-  transition: opacity 0.22s ease, transform 0.22s cubic-bezier(0.34, 1.35, 0.5, 1);
+  transition: opacity 0.18s ease, transform 0.18s ease;   /* used for the EXIT */
 }
 /* Little tail pointing down toward the character. */
 .site-assistant__bubble::after {
@@ -1424,6 +1424,13 @@ a {
   pointer-events: auto;
   opacity: 1;
   transform: translateY(0) scale(1);
+  /* iMessage-style pop on entrance; replayed on every click via JS. */
+  animation: bubble-pop 0.3s cubic-bezier(0.34, 1.5, 0.5, 1);
+}
+@keyframes bubble-pop {
+  0%   { opacity: 0; transform: translateY(6px) scale(0.4); }
+  55%  { opacity: 1; transform: translateY(0) scale(1.05); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 @media (max-width: 600px) {
@@ -1442,6 +1449,6 @@ a {
     transition: opacity 0.2s ease;
     transform: none;
   }
-  .site-assistant.is-open .site-assistant__bubble { transform: none; }
+  .site-assistant.is-open .site-assistant__bubble { transform: none; animation: none; }
   .site-assistant .pupil { transition: none; }
 }
