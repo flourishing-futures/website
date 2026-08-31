@@ -637,9 +637,23 @@
   (function () {
     var deck = document.getElementById('latelyDeck');
     if (!deck) return;
+    var stack = deck.querySelector('.lately__stack');
     var cards = Array.prototype.slice.call(deck.querySelectorAll('.lately-card'));
     if (cards.length < 2) return;
     var animating = false;
+
+    // Pin the stack to the tallest card so cycling never changes the section
+    // height (which would otherwise jostle the footer). Reset to the CSS floor
+    // first so this recomputes correctly (e.g. on resize / orientation change).
+    function fitStack() {
+      stack.style.height = '';
+      var max = 0;
+      cards.forEach(function (c) { if (c.scrollHeight > max) max = c.scrollHeight; });
+      if (max) stack.style.height = max + 'px';
+    }
+    fitStack();
+    window.addEventListener('load', fitStack);
+    window.addEventListener('resize', fitStack);
 
     function advance() {
       if (animating) return;
