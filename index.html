@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Flourishing Futures: AI for Human Possibility</title>
   <meta name="description" content="Flourishing Futures — designing AI that expands human agency, judgement and possibility in public service.">
-  <link rel="stylesheet" href="css/home.css?v=20260831g">
+  <link rel="stylesheet" href="css/home.css?v=20260831j">
 </head>
 <body>
 
@@ -256,6 +256,59 @@
     </div>
   </nav>
 
+  <!-- Floating "Finch" assistant: an FF-Eelie character that slides up from the
+       bottom-right once the user scrolls past the landing hero, and stays fixed
+       on top of the content. Its one eye tracks the cursor (reusing the hero
+       pupil logic); the speech bubble is hidden until the character is tapped.
+       Placed before the inline script below so getElementById finds it. -->
+  <div class="site-assistant" id="siteAssistant" aria-hidden="true">
+    <div class="site-assistant__bubble" id="assistantBubble" role="status">Greetings, human!</div>
+    <button class="site-assistant__char" id="assistantChar" type="button"
+            aria-label="Flourishing Futures assistant" aria-expanded="false">
+      <svg class="assistant-svg" viewBox="0 125 524 445" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <g clip-path="url(#clip0_asst)">
+          <!-- Eel B: right, blue→yellow, taller, the one with the eye + dot.
+               Drawn first so Eel A overlaps it in front. -->
+          <g class="char-part">
+            <path d="M291.047 567.755L291.047 311.43C291.047 243.175 346.378 187.844 414.633 187.844" stroke="url(#paint0_asst)" stroke-width="111.775" stroke-linecap="round"/>
+            <circle cx="34.3588" cy="34.3588" r="32.0642" transform="matrix(0.960246 -0.279156 -0.279156 -0.960246 394.473 230.379)" stroke="black" stroke-width="4.58926"/>
+            <g class="pupil" data-cx="417.88" data-cy="187.79" data-px="412.95" data-py="175.78" data-max="13.0">
+              <circle cx="21.4399" cy="21.4399" r="21.4399" transform="matrix(0.960246 -0.279156 -0.279156 -0.960246 398.348 202.348)" fill="black"/>
+            </g>
+            <circle cx="413.052" cy="338.935" r="44.8075" transform="rotate(-180 413.052 338.935)" fill="url(#paint1_asst)"/>
+          </g>
+          <!-- Eel A: left, white→blue, shorter, the smiler + grey pill. On top. -->
+          <g class="char-part">
+            <path d="M92 635.825V435.165C92 329.522 177.641 243.881 283.284 243.881" stroke="url(#paint2_asst)" stroke-width="111.775" stroke-linecap="round"/>
+            <path d="M291.125 230C282.377 262.381 236.438 262.381 227.691 230" stroke="black" stroke-width="9.887"/>
+            <rect x="163.938" y="373.531" width="127.167" height="76.0276" rx="38.0138" fill="url(#paint3_asst)"/>
+          </g>
+        </g>
+        <defs>
+          <linearGradient id="paint0_asst" x1="359.803" y1="187.844" x2="124.568" y2="368.327" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#0066FF"/>
+            <stop offset="1" stop-color="#FFFF08" stop-opacity="0.82"/>
+          </linearGradient>
+          <linearGradient id="paint1_asst" x1="387.12" y1="419.578" x2="414.632" y2="294.454" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#FD92FF"/>
+            <stop offset="1" stop-color="#0066FF"/>
+          </linearGradient>
+          <linearGradient id="paint2_asst" x1="225.182" y1="265.2" x2="-106.044" y2="587.46" gradientUnits="userSpaceOnUse">
+            <stop stop-color="white"/>
+            <stop offset="1" stop-color="#0066FF"/>
+          </linearGradient>
+          <linearGradient id="paint3_asst" x1="150.507" y1="417.002" x2="289.998" y2="391.78" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#D9D9D9"/>
+            <stop offset="1" stop-color="#737373"/>
+          </linearGradient>
+          <clipPath id="clip0_asst">
+            <rect width="524" height="570" fill="white"/>
+          </clipPath>
+        </defs>
+      </svg>
+    </button>
+  </div>
+
   <script src="content/lately.js"></script>
   <script src="js/render-content.js"></script>
 
@@ -267,6 +320,10 @@
     var nav    = document.getElementById('siteNav');
     var scenes = Array.prototype.slice.call(stage.querySelectorAll('.hero__scene'));
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Floating assistant ("Finch") — revealed on scroll; its eye tracks the cursor.
+    var assistant = document.getElementById('siteAssistant');
+    var assistantChar = document.getElementById('assistantChar');
 
     // Scene definitions — background, question text + colour, logo colour.
     var SCENES = [
@@ -404,24 +461,30 @@
       raf = window.requestAnimationFrame(function () {
         raf = null;
         moveEyes(lastX, lastY);
+        if (assistant) placeScene(assistant, lastX, lastY);   // Finch's eye tracks the cursor too
       });
     });
+    if (assistant) resetPupils(assistant);   // settle at rest until the mouse moves
 
     // --- Character "duck": each shape bobs when moused over ------------
     // The bob translate lives in SVG user units, so set --duck per lockup to a
     // value that reads ~14px on screen (recompute on resize).
     var DUCK_PX = 15;
+    function setDuckFor(svg) {
+      if (!svg) return;
+      var vbw = svg.viewBox.baseVal.width || 1;
+      var scale = svg.getBoundingClientRect().width / vbw;   // screen px per user unit
+      if (scale > 0) svg.style.setProperty('--duck', (DUCK_PX / scale).toFixed(1) + 'px');
+    }
     function setDuck() {
-      scenes.forEach(function (sc) {
-        var svg = sc.querySelector('.char');
-        if (!svg) return;
-        var vbw = svg.viewBox.baseVal.width || 1;
-        var scale = svg.getBoundingClientRect().width / vbw;   // screen px per user unit
-        if (scale > 0) svg.style.setProperty('--duck', (DUCK_PX / scale).toFixed(1) + 'px');
-      });
+      scenes.forEach(function (sc) { setDuckFor(sc.querySelector('.char')); });
+      if (assistant) setDuckFor(assistant.querySelector('.assistant-svg'));
     }
     setDuck();
-    window.addEventListener('resize', setDuck, { passive: true });
+    window.addEventListener('resize', function () {
+      setDuck();
+      if (assistant) placeScene(assistant, hasMouse ? lastX : null, hasMouse ? lastY : null);
+    }, { passive: true });
 
     if (!reduce) {
       Array.prototype.forEach.call(document.querySelectorAll('.char-part'), function (part) {
@@ -440,9 +503,47 @@
       nav.classList.toggle('is-white', window.scrollY > 8);
       var past = window.scrollY > (hero.offsetHeight - nav.offsetHeight - 40);
       nav.classList.toggle('is-scrolled', past);
+      // Finch appears once the user scrolls off the landing hero, and stays.
+      if (assistant) {
+        var show = window.scrollY > window.innerHeight * 0.6;
+        assistant.classList.toggle('is-visible', show);
+        assistant.setAttribute('aria-hidden', show ? 'false' : 'true');
+      }
     }
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
+
+    // Speech bubble: the FIRST hover after page-load pops it once (so people
+    // notice Finch is there); after that it only opens on click. Either way it
+    // auto-tucks away again after 2s so it's never persistent.
+    if (assistantChar) {
+      var bubbleTimer = null;
+      var introShown = false;   // once true, hovering just bobs — no bubble
+      function closeBubble() {
+        assistant.classList.remove('is-open');
+        assistantChar.setAttribute('aria-expanded', 'false');
+        bubbleTimer = null;
+      }
+      function openBubble() {
+        window.clearTimeout(bubbleTimer);
+        assistant.classList.add('is-open');
+        assistantChar.setAttribute('aria-expanded', 'true');
+        bubbleTimer = window.setTimeout(closeBubble, 2000);
+      }
+      assistantChar.addEventListener('mouseenter', function () {
+        if (introShown) return;      // subsequent hovers: bob only
+        introShown = true;
+        openBubble();
+      });
+      assistantChar.addEventListener('click', function () {
+        introShown = true;           // a click counts as "discovered"
+        window.clearTimeout(bubbleTimer);
+        var open = assistant.classList.toggle('is-open');
+        assistantChar.setAttribute('aria-expanded', open ? 'true' : 'false');
+        if (open) bubbleTimer = window.setTimeout(closeBubble, 2000);
+        else bubbleTimer = null;
+      });
+    }
   })();
 
   // --- Lately: flipping card deck (auto every 3s, or on click/tap) --------
