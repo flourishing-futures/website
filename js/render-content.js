@@ -49,43 +49,115 @@
     document.head.appendChild(style);
   }
 
-  /* --- Resources table (resource-centre.html) ----------------------- */
+  /* --- Resources browse (resource-centre.html) ---------------------- */
   function renderResources(items) {
     var featured = document.querySelector('.res-featured');
     var press = document.querySelector('.res-press');
     if (!featured && !press) return;
 
-    var tableHtml =
-      '<div class="res-table">' +
-        '<table>' +
-          '<thead><tr>' +
-            '<th>Title</th>' +
-            '<th>Source</th>' +
-            '<th>Type</th>' +
-          '</tr></thead>' +
-          '<tbody>';
+    var types = [];
+    for (var i = 0; i < items.length; i++) {
+      if (types.indexOf(items[i].type) === -1) types.push(items[i].type);
+    }
 
+    var html = '<div class="res-browse">';
+
+    html +=
+      '<div class="res-browse__search">' +
+        '<svg class="res-browse__search-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+          '<circle cx="13" cy="13" r="10" stroke="currentColor" stroke-width="2.5"/>' +
+          '<line x1="20.5" y1="20.5" x2="29" y2="29" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>' +
+        '</svg>' +
+        '<input type="text" placeholder="Search" class="res-browse__search-input" id="res-search">' +
+      '</div>';
+
+    html += '<div class="res-browse__tags">';
+    for (var i = 0; i < types.length; i++) {
+      html += '<button class="res-browse__tag" data-type="' + types[i] + '">' + types[i] + '</button>';
+    }
+    html += '<button class="res-browse__tag res-browse__tag--clear" style="display:none">× Clear all</button>';
+    html += '</div>';
+
+    html += '<div class="res-browse__list" id="res-list">';
     for (var i = 0; i < items.length; i++) {
       var r = items[i];
-      tableHtml +=
-        '<tr>' +
-          '<td>' +
-            '<a href="' + r.url + '" class="res-table__link"' +
-              (r.url.indexOf('http') === 0 ? ' target="_blank" rel="noopener"' : '') +
-            '>' + r.title + '</a>' +
-            '<span class="res-table__desc">' + r.description + '</span>' +
-          '</td>' +
-          '<td>' + r.source + '</td>' +
-          '<td><span class="res-table__type">' + r.type + '</span></td>' +
-        '</tr>';
+      var target = r.url.indexOf('http') === 0 ? ' target="_blank" rel="noopener"' : '';
+      html +=
+        '<div class="res-browse__item" data-type="' + r.type + '">' +
+          '<p class="res-browse__source">' + r.source + '</p>' +
+          '<h3 class="res-browse__title"><a href="' + r.url + '"' + target + '>' + r.title + '</a></h3>' +
+          '<p class="res-browse__desc">' + r.description + '</p>' +
+        '</div>';
     }
-
-    tableHtml += '</tbody></table></div>';
+    html += '</div></div>';
 
     if (featured) {
-      featured.innerHTML = '<div class="res-featured__bg"></div>' + tableHtml;
+      featured.classList.add('res-featured--browse');
+      featured.innerHTML = html;
     }
     if (press) press.remove();
+
+    var activeTypes = [];
+    var searchInput = document.getElementById('res-search');
+    var tagButtons = featured.querySelectorAll('.res-browse__tag:not(.res-browse__tag--clear)');
+    var clearBtn = featured.querySelector('.res-browse__tag--clear');
+    var listItems = featured.querySelectorAll('.res-browse__item');
+    var list = document.getElementById('res-list');
+
+    function filterItems() {
+      var query = searchInput.value.toLowerCase();
+      var visible = 0;
+
+      for (var i = 0; i < listItems.length; i++) {
+        var item = listItems[i];
+        var type = item.getAttribute('data-type');
+        var text = item.textContent.toLowerCase();
+        var matchesType = activeTypes.length === 0 || activeTypes.indexOf(type) !== -1;
+        var matchesSearch = !query || text.indexOf(query) !== -1;
+        var show = matchesType && matchesSearch;
+        item.style.display = show ? '' : 'none';
+        if (show) visible++;
+      }
+
+      clearBtn.style.display = activeTypes.length > 0 ? '' : 'none';
+
+      var empty = list.querySelector('.res-browse__empty');
+      if (visible === 0) {
+        if (!empty) {
+          empty = document.createElement('p');
+          empty.className = 'res-browse__empty';
+          empty.textContent = 'No resources match your search.';
+          list.appendChild(empty);
+        }
+      } else if (empty) {
+        empty.remove();
+      }
+    }
+
+    searchInput.addEventListener('input', filterItems);
+
+    for (var i = 0; i < tagButtons.length; i++) {
+      tagButtons[i].addEventListener('click', function () {
+        var type = this.getAttribute('data-type');
+        var idx = activeTypes.indexOf(type);
+        if (idx === -1) {
+          activeTypes.push(type);
+          this.classList.add('res-browse__tag--active');
+        } else {
+          activeTypes.splice(idx, 1);
+          this.classList.remove('res-browse__tag--active');
+        }
+        filterItems();
+      });
+    }
+
+    clearBtn.addEventListener('click', function () {
+      activeTypes.length = 0;
+      for (var j = 0; j < tagButtons.length; j++) {
+        tagButtons[j].classList.remove('res-browse__tag--active');
+      }
+      filterItems();
+    });
   }
 
   /* --- Events (community.html) -------------------------------------- */
