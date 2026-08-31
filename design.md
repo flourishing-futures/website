@@ -2,7 +2,7 @@
 
 ## Typography
 
-- **Primary font**: `JejuMyeongjo` — Korean serif typeface used for headings, hero text, vision statements, and the logo
+- **Primary font**: `Newsreader` — Korean serif typeface used for headings, hero text, vision statements, and the logo
 - **Body font**: System sans-serif stack (`-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif`) for body copy, labels, navigation, and UI elements
 - **Heading style**: Large, elegant serif with generous line-height. No bold weight — the typeface carries its own presence
 - **Navigation**: Uppercase, spaced lettering, sans-serif
