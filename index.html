@@ -5,33 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Flourishing Futures: AI for Human Possibility</title>
   <meta name="description" content="Flourishing Futures — designing AI that expands human agency, judgement and possibility in public service.">
-  <link rel="stylesheet" href="css/home.css?v=20260829">
+  <link rel="stylesheet" href="css/home.css?v=20260831g">
 </head>
 <body>
 
-  <!-- Shared SVG defs (grain filter reused by every homepage character) -->
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-    <defs>
-      <filter id="grain" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
-        <feTurbulence type="fractalNoise" baseFrequency="1" numOctaves="1" stitchTiles="stitch" result="t"/>
-        <feColorMatrix in="t" type="saturate" values="0" result="g"/>
-        <feColorMatrix in="g" type="matrix"
-          values="0 0 0 0 1
-                  0 0 0 0 1
-                  0 0 0 0 1
-                  1 0 0 0 0" result="w"/>
-        <feComponentTransfer in="w" result="grain-alpha">
-          <feFuncA type="discrete" tableValues="0 0.2 0.4"/>
-        </feComponentTransfer>
-        <feComposite in="grain-alpha" in2="SourceAlpha" operator="in" result="grain-clip"/>
-        <feBlend in="SourceGraphic" in2="grain-clip" mode="screen"/>
-      </filter>
-    </defs>
-  </svg>
-
   <!-- Hero -->
   <section class="hero" id="hero">
-    <div class="hero__noise"></div>
 
     <div class="hero__logo">
       <a href="index.html" aria-label="Flourishing Futures — AI for Human Possibilities">
@@ -40,128 +19,113 @@
     </div>
 
     <div class="hero__headline">
-      <h1 class="hero__title" id="heroTitle">can ai make our meetings more meaningful?</h1>
+      <h1 class="hero__title" id="heroTitle">can ai help us imagine more?</h1>
     </div>
 
     <div class="hero__stage" id="heroStage">
 
       <div class="hero__scene is-active" data-scene="0">
         <div class="scene-stage">
-          <svg class="char char--wormie" viewBox="0 0 1424 1286" preserveAspectRatio="xMidYMax meet" fill="none" aria-hidden="true">
-<g filter="url(#grain)"><path d="M1215.66 218.555L1215.66 821.687C1215.66 959.941 1103.59 1072.02 965.334 1072.02C827.081 1072.02 715.004 959.941 715.004 821.687L715.004 473.316C715.004 333.031 600.534 219.703 460.256 221.11C321.953 222.497 210.566 335.006 210.566 473.316L210.566 1077.08" stroke="url(#paint0_linear_69_244_w0)" stroke-width="410.066" stroke-linecap="round"/>
-<circle cx="118.11" cy="118.11" r="112.875" transform="matrix(-0.965926 -0.258819 -0.258819 0.965926 1360.14 117.41)" stroke="black" stroke-width="10.4698"/>
-<g class="pupil" data-cx="1215.5" data-cy="200.9" data-travel="30"><circle cx="1215.5" cy="200.9" r="73.7009" fill="black"/></g>
+          <svg class="char char--red-lock" viewBox="0 0 2769 1080" preserveAspectRatio="xMidYMax meet" fill="none" aria-hidden="true">
+<g class="char-part">
+<path d="M2057.52 104.577C2100.2 -30.7276 2291.68 -30.7273 2334.36 104.578L2756.34 1442.25C2762.55 1461.94 2747.85 1482 2727.2 1482H1664.68C1644.03 1482 1629.33 1461.94 1635.54 1442.25L2057.52 104.577Z" fill="url(#paint0_linear_114_668_rc)"/>
+<g class="pupil" data-cx="2053.56" data-cy="457.05" data-px="2053.57" data-py="457.05" data-max="16.0"><circle cx="2053.57" cy="457.048" r="44.1241" fill="black"/></g>
+<rect x="1989.91" y="393.394" width="127.307" height="127.307" rx="63.6534" stroke="black" stroke-width="6.98399"/>
+<g class="pupil" data-cx="2338.79" data-cy="453.78" data-px="2338.79" data-py="453.78" data-max="12.8"><ellipse cx="2338.79" cy="453.783" rx="44.1241" ry="41.9786" fill="black"/></g>
+<rect x="2275.14" y="393.394" width="127.307" height="120.777" rx="60.3885" stroke="black" stroke-width="6.98399"/>
+</g>
+<g class="char-part">
+<path d="M1461.77 255.46L1461.77 980.695C1461.77 1146.94 1327.01 1281.7 1160.76 1281.7C994.522 1281.7 859.756 1146.94 859.756 980.695L859.756 561.797C859.756 393.111 722.112 256.84 553.434 258.532C387.132 260.2 253.195 395.487 253.195 561.797L253.195 1287.79" stroke="url(#paint2_linear_114_668_rc)" stroke-width="493.083" stroke-linecap="round"/>
+<circle cx="142.022" cy="142.022" r="135.727" transform="matrix(-0.965926 -0.258819 -0.258819 0.965926 1635.5 133.84)" stroke="black" stroke-width="12.5894"/>
+<g class="pupil" data-cx="1461.56" data-cy="234.26" data-px="1453.23" data-py="287.31" data-max="40.8"><circle cx="88.6215" cy="88.6215" r="88.6215" transform="matrix(-0.965926 -0.258819 -0.258819 0.965926 1561.77 224.65)" fill="black"/></g>
 </g>
 <defs>
-<linearGradient id="paint0_linear_69_244_w0" x1="1385.7" y1="181.735" x2="42.1361" y2="1338.07" gradientUnits="userSpaceOnUse">
-<stop stop-color="#FC57FF"/>
-<stop offset="0.392199" stop-color="#0066FF"/>
-<stop offset="1" stop-color="white" stop-opacity="0"/>
+<linearGradient id="paint0_linear_114_668_rc" x1="1877.53" y1="424.655" x2="1394.99" y2="1517.24" gradientUnits="userSpaceOnUse">
+<stop stop-color="#71E02C"/>
+<stop offset="1" stop-color="#0066FF"/>
 </linearGradient>
-</defs>
-</svg>
-
-          <svg class="char char--conie" viewBox="0 0 962 1259" preserveAspectRatio="xMidYMax meet" fill="none" aria-hidden="true">
-<g filter="url(#grain)"><path d="M364.665 87.7663C400.487 -25.7871 561.18 -25.787 597.001 87.7664L951.143 1210.4C956.357 1226.92 944.016 1243.76 926.687 1243.76H34.9799C17.6502 1243.76 5.30995 1226.92 10.5235 1210.4L364.665 87.7663Z" fill="url(#paint0_linear_71_253_c0)"/>
-<g class="pupil" data-cx="419.248" data-cy="292.301" data-travel="7"><circle cx="419.248" cy="292.301" r="31.7405" fill="black"/></g>
-<rect x="374.518" y="247.573" width="89.4556" height="89.4556" rx="44.7278" stroke="black" stroke-width="7.14604"/>
-<g class="pupil" data-cx="542.741" data-cy="292.301" data-travel="7"><circle cx="542.741" cy="292.301" r="31.7405" fill="black"/></g>
-<rect x="498.011" y="247.573" width="89.4556" height="89.4556" rx="44.7278" stroke="black" stroke-width="7.14604"/>
-</g>
-<defs>
-<linearGradient id="paint0_linear_71_253_c0" x1="535.015" y1="-280.486" x2="-369.679" y2="1065.75" gradientUnits="userSpaceOnUse">
-<stop stop-color="#5EFF24"/>
+<linearGradient id="paint2_linear_114_668_rc" x1="1461.77" y1="713.46" x2="218.581" y2="1330.55" gradientUnits="userSpaceOnUse">
+<stop stop-color="#0066FF"/>
 <stop offset="1" stop-color="#FFFF08" stop-opacity="0.82"/>
 </linearGradient>
 </defs>
 </svg>
-
         </div>
       </div>
 
       <div class="hero__scene" data-scene="1">
         <div class="scene-stage">
-          <svg class="char char--eelie" viewBox="0 0 1144 1296" preserveAspectRatio="xMidYMax meet" fill="none" aria-hidden="true">
-<g filter="url(#grain)"><path d="M215.836 1085.41V946.278C215.836 552.224 535.28 232.779 929.335 232.779" stroke="url(#paint0_linear_85_4_e0)" stroke-width="419.181" stroke-linecap="round"/>
-<g class="pupil" data-cx="955.753" data-cy="230.519" data-travel="28"><circle cx="955.753" cy="230.519" r="72.6887" fill="black"/></g>
-<rect x="1063.7" y="122.582" width="215.875" height="215.875" rx="107.938" transform="rotate(90 1063.7 122.582)" stroke="black" stroke-width="5.35124"/>
-<g class="pupil" data-cx="708.554" data-cy="268.558" data-travel="28"><circle cx="708.554" cy="268.558" r="72.6887" fill="black"/></g>
-<rect x="816.496" y="160.621" width="215.875" height="215.875" rx="107.938" transform="rotate(90 816.496 160.621)" stroke="black" stroke-width="5.35124"/>
+          <svg class="char char--blue-lock" viewBox="0 0 1314 1846" preserveAspectRatio="xMidYMax meet" fill="none" aria-hidden="true">
+<g class="char-part">
+<path d="M248.066 1846L248.066 1068.12C248.066 615.217 615.217 248.066 1068.12 248.066" stroke="url(#paint0_linear_114_538_bc)" stroke-width="481.782" stroke-linecap="round"/>
+<g class="pupil" data-cx="1082.91" data-cy="255.92" data-px="1030.58" data-py="255.17" data-max="40.0"><circle cx="1030.58" cy="255.171" r="90.7624" transform="rotate(-105 1030.58 255.171)" fill="black"/></g>
+<circle cx="1082.91" cy="255.922" r="136.372" transform="rotate(-90 1082.91 255.922)" stroke="black" stroke-width="11.2487"/>
 </g>
 <defs>
-<linearGradient id="paint0_linear_85_4_e0" x1="712.61" y1="279.157" x2="76.8778" y2="1339.71" gradientUnits="userSpaceOnUse">
-<stop stop-color="#FBFF00"/>
-<stop offset="0.868222" stop-color="#FF0000" stop-opacity="0.74"/>
+<linearGradient id="paint0_linear_114_538_bc" x1="658.093" y1="248.066" x2="789.287" y2="2011.8" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FF0000"/>
+<stop offset="1" stop-color="#FD92FF"/>
 </linearGradient>
 </defs>
 </svg>
-
         </div>
       </div>
 
       <div class="hero__scene" data-scene="2">
         <div class="scene-stage">
-          <svg class="char char--rodie-left" viewBox="0 0 417 1245" preserveAspectRatio="xMidYMax meet" fill="none" aria-hidden="true">
-<g filter="url(#grain)"><rect x="13.793" width="402.471" height="1244" rx="201.235" fill="url(#paint0_linear_85_15_r2)"/>
-<path d="M177.906 109.767C168.437 144.817 118.711 144.817 109.242 109.767" stroke="black" stroke-width="17.4987"/>
-<path d="M322.41 109.767C312.941 144.817 263.215 144.817 253.746 109.767" stroke="black" stroke-width="17.4987"/>
+          <svg class="char char--yellow-lock" viewBox="0 0 2861 1233" preserveAspectRatio="xMidYMax meet" fill="none" aria-hidden="true">
+<g class="char-part">
+<path d="M911.518 122.577C954.201 -12.7276 1145.68 -12.7273 1188.36 122.578L1610.34 1460.25C1616.55 1479.94 1601.85 1500 1581.2 1500H518.68C498.031 1500 483.327 1479.94 489.539 1460.25L911.518 122.577Z" fill="url(#paint0_linear_114_667_yc)"/>
+<g class="pupil" data-cx="907.57" data-cy="475.05" data-px="907.57" data-py="475.05" data-max="16.0"><circle cx="907.569" cy="475.048" r="44.1241" fill="black"/></g>
+<rect x="843.914" y="411.394" width="127.307" height="127.307" rx="63.6534" stroke="black" stroke-width="6.98399"/>
+<g class="pupil" data-cx="1192.79" data-cy="471.78" data-px="1192.79" data-py="471.78" data-max="12.8"><ellipse cx="1192.79" cy="471.783" rx="44.1241" ry="41.9786" fill="black"/></g>
+<rect x="1129.14" y="411.394" width="127.307" height="120.777" rx="60.3885" stroke="black" stroke-width="6.98399"/>
+</g>
+<g class="char-part">
+<path d="M2075.52 46.1757C2087.25 25.7232 2116.75 25.7232 2128.48 46.1757L2196.68 165.104C2205.88 181.163 2227.15 185.394 2241.81 174.081L2350.32 90.3034C2368.99 75.8959 2396.24 87.1853 2399.25 110.569L2416.74 246.542C2419.1 264.903 2437.14 276.951 2455 272.107L2587.32 236.234C2610.07 230.065 2630.94 250.925 2624.77 273.68L2588.89 405.998C2584.05 423.864 2596.1 441.895 2614.46 444.258L2750.43 461.751C2773.81 464.76 2785.1 492.015 2770.7 510.677L2686.92 619.194C2675.61 633.847 2679.84 655.116 2695.9 664.325L2814.82 732.522C2835.28 744.25 2835.28 773.75 2814.82 785.478L2695.9 853.675C2679.84 862.884 2675.61 884.153 2686.92 898.806L2770.7 1007.32C2785.1 1025.99 2773.81 1053.24 2750.43 1056.25L2614.46 1073.74C2596.1 1076.1 2584.05 1094.14 2588.89 1112L2624.77 1244.32C2630.94 1267.07 2610.07 1287.94 2587.32 1281.77L2455 1245.89C2437.14 1241.05 2419.1 1253.1 2416.74 1271.46L2399.25 1407.43C2396.24 1430.81 2368.99 1442.1 2350.32 1427.7L2241.81 1343.92C2227.15 1332.61 2205.88 1336.84 2196.67 1352.9L2128.48 1471.82C2116.75 1492.28 2087.25 1492.28 2075.52 1471.82L2007.33 1352.9C1998.12 1336.84 1976.85 1332.61 1962.19 1343.92L1853.68 1427.7C1835.01 1442.1 1807.76 1430.81 1804.75 1407.43L1787.26 1271.46C1784.9 1253.1 1766.86 1241.05 1749 1245.89L1616.68 1281.77C1593.93 1287.94 1573.06 1267.07 1579.23 1244.32L1615.11 1112C1619.95 1094.14 1607.9 1076.1 1589.54 1073.74L1453.57 1056.25C1430.19 1053.24 1418.9 1025.99 1433.3 1007.32L1517.08 898.806C1528.39 884.153 1524.16 862.884 1508.1 853.675L1389.18 785.478C1368.72 773.75 1368.72 744.25 1389.18 732.522L1508.1 664.325C1524.16 655.116 1528.39 633.847 1517.08 619.194L1433.3 510.677C1418.9 492.015 1430.19 464.76 1453.57 461.751L1589.54 444.258C1607.9 441.895 1619.95 423.864 1615.11 405.998L1579.23 273.68C1573.06 250.925 1593.93 230.065 1616.68 236.234L1749 272.107C1766.86 276.951 1784.9 264.903 1787.26 246.542L1804.75 110.569C1807.76 87.1853 1835.01 75.8959 1853.68 90.3034L1962.19 174.081C1976.85 185.394 1998.12 181.163 2007.33 165.104L2075.52 46.1757Z" fill="url(#paint2_linear_114_667_yc)"/>
+<g class="pupil" data-cx="1784.73" data-cy="779.51" data-px="1735.18" data-py="778.80" data-max="34.3"><circle cx="1735.18" cy="778.796" r="85.9448" transform="rotate(-105 1735.18 778.796)" fill="black"/></g>
+<circle cx="1784.73" cy="779.508" r="127.337" transform="rotate(-90 1784.73 779.508)" stroke="black" stroke-width="14.244"/>
+<g class="pupil" data-cx="2421.88" data-cy="779.51" data-px="2372.33" data-py="778.79" data-max="34.3"><circle cx="2372.33" cy="778.794" r="85.9448" transform="rotate(-105 2372.33 778.794)" fill="black"/></g>
+<circle cx="2421.88" cy="779.506" r="127.337" transform="rotate(-90 2421.88 779.506)" stroke="black" stroke-width="14.244"/>
+</g>
+<g class="char-part">
+<rect width="606.248" height="1873.86" rx="303.124" fill="url(#paint4_linear_114_667_yc)"/>
+<path d="M247.215 165.348C232.951 218.145 158.048 218.145 143.785 165.348" stroke="black" stroke-width="26.3586"/>
+<path d="M464.879 165.348C450.615 218.145 375.713 218.145 361.449 165.348" stroke="black" stroke-width="26.3586"/>
 </g>
 <defs>
-<linearGradient id="paint0_linear_85_15_r2" x1="215.028" y1="0" x2="375.698" y2="1361.72" gradientUnits="userSpaceOnUse">
+<linearGradient id="paint0_linear_114_667_yc" x1="1114.5" y1="-316.215" x2="36.5086" y2="1287.9" gradientUnits="userSpaceOnUse">
+<stop stop-color="#0066FF"/>
+<stop offset="1" stop-color="#FFFF08" stop-opacity="0.82"/>
+</linearGradient>
+<linearGradient id="paint2_linear_114_667_yc" x1="1680.19" y1="634.267" x2="1398.01" y2="1646.95" gradientUnits="userSpaceOnUse">
+<stop stop-color="#71E02C"/>
+<stop offset="1" stop-color="#0066FF"/>
+</linearGradient>
+<linearGradient id="paint4_linear_114_667_yc" x1="303.124" y1="0" x2="545.144" y2="2051.18" gradientUnits="userSpaceOnUse">
 <stop stop-color="#FF0000"/>
 <stop offset="1" stop-color="#FD92FF"/>
 </linearGradient>
 </defs>
 </svg>
-
-          <svg class="char char--conie2" viewBox="0 0 962 1259" preserveAspectRatio="xMidYMax meet" fill="none" aria-hidden="true">
-<g filter="url(#grain)"><path d="M364.665 87.7663C400.487 -25.7871 561.18 -25.787 597.001 87.7664L951.143 1210.4C956.357 1226.92 944.016 1243.76 926.687 1243.76H34.9799C17.6502 1243.76 5.30995 1226.92 10.5235 1210.4L364.665 87.7663Z" fill="url(#paint0_linear_71_253_c2)"/>
-<g class="pupil" data-cx="419.248" data-cy="292.301" data-travel="7"><circle cx="419.248" cy="292.301" r="31.7405" fill="black"/></g>
-<rect x="374.518" y="247.573" width="89.4556" height="89.4556" rx="44.7278" stroke="black" stroke-width="7.14604"/>
-<g class="pupil" data-cx="542.741" data-cy="292.301" data-travel="7"><circle cx="542.741" cy="292.301" r="31.7405" fill="black"/></g>
-<rect x="498.011" y="247.573" width="89.4556" height="89.4556" rx="44.7278" stroke="black" stroke-width="7.14604"/>
-</g>
-<defs>
-<linearGradient id="paint0_linear_71_253_c2" x1="535.015" y1="-280.486" x2="-369.679" y2="1065.75" gradientUnits="userSpaceOnUse">
-<stop stop-color="#5EFF24"/>
-<stop offset="1" stop-color="#FFFF08" stop-opacity="0.82"/>
-</linearGradient>
-</defs>
-</svg>
-
-          <svg class="char char--puffie" viewBox="0 0 1278 1278" preserveAspectRatio="xMidYMax meet" fill="none" aria-hidden="true">
-<g filter="url(#grain)"><path d="M616.708 38.8752C626.582 21.6563 651.418 21.6563 661.292 38.8752L718.707 139.001C726.459 152.521 744.366 156.082 756.702 146.558L848.063 76.0262C863.774 63.8965 886.72 73.4011 889.253 93.0878L903.981 207.563C905.969 223.021 921.15 233.164 936.192 229.086L1047.59 198.885C1066.75 193.691 1084.31 211.253 1079.12 230.411L1048.91 341.808C1044.84 356.85 1054.98 372.031 1070.44 374.019L1184.91 388.747C1204.6 391.28 1214.1 414.226 1201.97 429.937L1131.44 521.298C1121.92 533.634 1125.48 551.541 1139 559.293L1239.12 616.708C1256.34 626.582 1256.34 651.418 1239.12 661.292L1139 718.707C1125.48 726.459 1121.92 744.366 1131.44 756.702L1201.97 848.063C1214.1 863.774 1204.6 886.72 1184.91 889.253L1070.44 903.981C1054.98 905.969 1044.84 921.15 1048.91 936.192L1079.12 1047.59C1084.31 1066.75 1066.75 1084.31 1047.59 1079.12L936.192 1048.91C921.15 1044.84 905.969 1054.98 903.981 1070.44L889.253 1184.91C886.72 1204.6 863.774 1214.1 848.063 1201.97L756.702 1131.44C744.366 1121.92 726.459 1125.48 718.707 1139L661.292 1239.12C651.418 1256.34 626.582 1256.34 616.708 1239.12L559.293 1139C551.541 1125.48 533.634 1121.92 521.298 1131.44L429.937 1201.97C414.226 1214.1 391.28 1204.6 388.747 1184.91L374.019 1070.44C372.031 1054.98 356.85 1044.84 341.808 1048.91L230.411 1079.12C211.253 1084.31 193.691 1066.75 198.885 1047.59L229.086 936.192C233.164 921.15 223.021 905.969 207.563 903.981L93.0878 889.253C73.4011 886.72 63.8965 863.774 76.0262 848.063L146.558 756.702C156.083 744.366 152.521 726.459 139.001 718.707L38.8752 661.292C21.6563 651.418 21.6563 626.582 38.8752 616.708L139.001 559.293C152.521 551.541 156.082 533.634 146.558 521.298L76.0262 429.937C63.8965 414.226 73.4011 391.28 93.0878 388.747L207.563 374.019C223.021 372.031 233.164 356.85 229.086 341.808L198.885 230.411C193.691 211.253 211.253 193.691 230.411 198.885L341.808 229.086C356.85 233.164 372.031 223.021 374.019 207.563L388.747 93.0878C391.28 73.4011 414.226 63.8965 429.937 76.0262L521.298 146.558C533.634 156.083 551.541 152.521 559.293 139.001L616.708 38.8752Z" fill="url(#paint0_linear_85_24_p2)"/>
-<g class="pupil" data-cx="381.884" data-cy="656.268" data-travel="27"><circle cx="381.884" cy="656.268" r="72.3567" fill="black"/></g>
-<circle cx="381.884" cy="656.268" r="107.204" transform="rotate(-90 381.884 656.268)" stroke="black" stroke-width="11.992"/>
-<g class="pupil" data-cx="900.337" data-cy="656.27" data-travel="27"><circle cx="900.337" cy="656.27" r="72.3567" fill="black"/></g>
-<circle cx="900.337" cy="656.27" r="107.204" transform="rotate(-90 900.337 656.27)" stroke="black" stroke-width="11.992"/>
-</g>
-<defs>
-<linearGradient id="paint0_linear_85_24_p2" x1="639" y1="0" x2="639" y2="1278" gradientUnits="userSpaceOnUse">
-<stop stop-color="#0066FF"/>
-<stop offset="1" stop-color="#D2FFC2"/>
-</linearGradient>
-</defs>
-</svg>
-
         </div>
       </div>
 
       <div class="hero__scene" data-scene="3">
         <div class="scene-stage">
-          <svg class="char char--rodie-centre" viewBox="0 0 417 1245" preserveAspectRatio="xMidYMax meet" fill="none" aria-hidden="true">
-<g filter="url(#grain)"><rect x="13.793" width="402.471" height="1244" rx="201.235" fill="url(#paint0_linear_85_15_r3)"/>
-<path d="M177.906 109.767C168.437 144.817 118.711 144.817 109.242 109.767" stroke="black" stroke-width="17.4987"/>
-<path d="M322.41 109.767C312.941 144.817 263.215 144.817 253.746 109.767" stroke="black" stroke-width="17.4987"/>
+          <svg class="char char--green-lock" viewBox="0 0 904 2702" preserveAspectRatio="xMidYMax meet" fill="none" aria-hidden="true">
+<g class="char-part">
+<rect x="29.9453" width="873.586" height="2700.18" rx="436.793" fill="url(#paint0_linear_104_164_gr)"/>
+<path d="M350.074 296C320.958 403.773 168.062 403.773 138.946 296" stroke="black" stroke-width="37.982"/>
+<path d="M794.203 296C765.087 403.773 612.191 403.773 583.075 296" stroke="black" stroke-width="37.982"/>
 </g>
 <defs>
-<linearGradient id="paint0_linear_85_15_r3" x1="215.028" y1="0" x2="375.698" y2="1361.72" gradientUnits="userSpaceOnUse">
+<linearGradient id="paint0_linear_104_164_gr" x1="466.738" y1="0" x2="815.482" y2="2955.69" gradientUnits="userSpaceOnUse">
 <stop stop-color="#FF0000"/>
 <stop offset="1" stop-color="#FD92FF"/>
 </linearGradient>
 </defs>
 </svg>
-
         </div>
       </div>
 
@@ -176,11 +140,11 @@
           <img src="img/logo-navbar.png" alt="Flourishing Futures" class="site-nav__brand-img">
         </a>
         <ul class="site-nav__links">
-          <li><a href="index.html" class="active">home</a></li>
-          <li><a href="about.html">about</a></li>
-          <li><a href="the-lab.html">lab</a></li>
-          <li><a href="resource-centre.html">resource hub</a></li>
-          <li><a href="community.html">community</a></li>
+          <li><a href="index.html" class="active">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="the-lab.html">Lab</a></li>
+          <li><a href="resource-centre.html">Resources</a></li>
+          <li><a href="community.html">Community</a></li>
         </ul>
       </div>
     </div>
@@ -189,17 +153,17 @@
   <!-- Vision -->
   <section class="vision">
     <div class="container">
-      <p class="vision__label">We work to drive...</p>
-      <p class="vision__text">
+      <p class="vision__label" data-reveal>We work to drive...</p>
+      <p class="vision__text reveal-lines" data-reveal-lines>
         A future in which AI makes us more capable and more humane: expanding (not diminishing) the agency, judgement and possibilities of those who build with and depend on it.
       </p>
-      <p class="vision__body">
+      <p class="vision__body reveal-lines" data-reveal-lines>
         AI is rapidly reshaping how we live, create and work. While most conversation today is focused on adoption, efficiency and cost, this program designs for the 'hidden' factors: where AI can genuinely enlarge human possibility, and where speed, scale or convenience may come at the cost of judgement, care, agency or trust.
       </p>
-      <p class="vision__body">
+      <p class="vision__body reveal-lines" data-reveal-lines>
         Through research, intentional design, institutional collaboration and community - this program aims to shape those choices and positive human-outcomes before these technologies harden into defaults.
       </p>
-      <div class="vision__cta">
+      <div class="vision__cta" data-reveal>
         <a href="about.html" class="btn btn--pink">Learn more</a>
       </div>
     </div>
@@ -207,26 +171,26 @@
 
   <!-- Partners -->
   <section class="partners-section">
-    <p class="partners-section__title">A joint effort by</p>
-    <div class="partners">
+    <p class="partners-section__title" data-reveal>A joint effort by</p>
+    <div class="partners" data-reveal-partners>
       <div class="partner-logo"><img src="img/partner-govtech.png" alt="GovTech Singapore"></div>
       <div class="partner-logo"><img src="img/partner-mit.png" alt="Massachusetts Institute of Technology"></div>
       <div class="partner-logo"><img src="img/partner-ntu.png" alt="Nanyang Technological University"></div>
       <div class="partner-logo"><img src="img/partner-mom.png" alt="Ministry of Manpower"></div>
       <div class="partner-logo partner-logo--dxd"><img src="img/partner-dxd.png" alt="dxd"></div>
     </div>
-    <div class="partners-section__cta">
+    <div class="partners-section__cta" data-reveal>
       <a href="about.html" class="btn btn--orange">Collaborate with us</a>
     </div>
   </section>
 
   <!-- Lately -->
   <section class="lately">
-    <p class="lately__title">Lately...</p>
+    <p class="lately__title" data-reveal>Lately...</p>
 
-    <div class="lately__deck" id="latelyDeck">
+    <div class="lately__deck" id="latelyDeck" data-reveal>
       <svg class="lately__puffie" viewBox="0 0 1278 1278" preserveAspectRatio="xMidYMax meet" fill="none" aria-hidden="true">
-<g filter="url(#grain)"><path d="M616.708 38.8752C626.582 21.6563 651.418 21.6563 661.292 38.8752L718.707 139.001C726.459 152.521 744.366 156.082 756.702 146.558L848.063 76.0262C863.774 63.8965 886.72 73.4011 889.253 93.0878L903.981 207.563C905.969 223.021 921.15 233.164 936.192 229.086L1047.59 198.885C1066.75 193.691 1084.31 211.253 1079.12 230.411L1048.91 341.808C1044.84 356.85 1054.98 372.031 1070.44 374.019L1184.91 388.747C1204.6 391.28 1214.1 414.226 1201.97 429.937L1131.44 521.298C1121.92 533.634 1125.48 551.541 1139 559.293L1239.12 616.708C1256.34 626.582 1256.34 651.418 1239.12 661.292L1139 718.707C1125.48 726.459 1121.92 744.366 1131.44 756.702L1201.97 848.063C1214.1 863.774 1204.6 886.72 1184.91 889.253L1070.44 903.981C1054.98 905.969 1044.84 921.15 1048.91 936.192L1079.12 1047.59C1084.31 1066.75 1066.75 1084.31 1047.59 1079.12L936.192 1048.91C921.15 1044.84 905.969 1054.98 903.981 1070.44L889.253 1184.91C886.72 1204.6 863.774 1214.1 848.063 1201.97L756.702 1131.44C744.366 1121.92 726.459 1125.48 718.707 1139L661.292 1239.12C651.418 1256.34 626.582 1256.34 616.708 1239.12L559.293 1139C551.541 1125.48 533.634 1121.92 521.298 1131.44L429.937 1201.97C414.226 1214.1 391.28 1204.6 388.747 1184.91L374.019 1070.44C372.031 1054.98 356.85 1044.84 341.808 1048.91L230.411 1079.12C211.253 1084.31 193.691 1066.75 198.885 1047.59L229.086 936.192C233.164 921.15 223.021 905.969 207.563 903.981L93.0878 889.253C73.4011 886.72 63.8965 863.774 76.0262 848.063L146.558 756.702C156.083 744.366 152.521 726.459 139.001 718.707L38.8752 661.292C21.6563 651.418 21.6563 626.582 38.8752 616.708L139.001 559.293C152.521 551.541 156.082 533.634 146.558 521.298L76.0262 429.937C63.8965 414.226 73.4011 391.28 93.0878 388.747L207.563 374.019C223.021 372.031 233.164 356.85 229.086 341.808L198.885 230.411C193.691 211.253 211.253 193.691 230.411 198.885L341.808 229.086C356.85 233.164 372.031 223.021 374.019 207.563L388.747 93.0878C391.28 73.4011 414.226 63.8965 429.937 76.0262L521.298 146.558C533.634 156.083 551.541 152.521 559.293 139.001L616.708 38.8752Z" fill="url(#paint0_linear_85_24_lp)"/>
+<g><path d="M616.708 38.8752C626.582 21.6563 651.418 21.6563 661.292 38.8752L718.707 139.001C726.459 152.521 744.366 156.082 756.702 146.558L848.063 76.0262C863.774 63.8965 886.72 73.4011 889.253 93.0878L903.981 207.563C905.969 223.021 921.15 233.164 936.192 229.086L1047.59 198.885C1066.75 193.691 1084.31 211.253 1079.12 230.411L1048.91 341.808C1044.84 356.85 1054.98 372.031 1070.44 374.019L1184.91 388.747C1204.6 391.28 1214.1 414.226 1201.97 429.937L1131.44 521.298C1121.92 533.634 1125.48 551.541 1139 559.293L1239.12 616.708C1256.34 626.582 1256.34 651.418 1239.12 661.292L1139 718.707C1125.48 726.459 1121.92 744.366 1131.44 756.702L1201.97 848.063C1214.1 863.774 1204.6 886.72 1184.91 889.253L1070.44 903.981C1054.98 905.969 1044.84 921.15 1048.91 936.192L1079.12 1047.59C1084.31 1066.75 1066.75 1084.31 1047.59 1079.12L936.192 1048.91C921.15 1044.84 905.969 1054.98 903.981 1070.44L889.253 1184.91C886.72 1204.6 863.774 1214.1 848.063 1201.97L756.702 1131.44C744.366 1121.92 726.459 1125.48 718.707 1139L661.292 1239.12C651.418 1256.34 626.582 1256.34 616.708 1239.12L559.293 1139C551.541 1125.48 533.634 1121.92 521.298 1131.44L429.937 1201.97C414.226 1214.1 391.28 1204.6 388.747 1184.91L374.019 1070.44C372.031 1054.98 356.85 1044.84 341.808 1048.91L230.411 1079.12C211.253 1084.31 193.691 1066.75 198.885 1047.59L229.086 936.192C233.164 921.15 223.021 905.969 207.563 903.981L93.0878 889.253C73.4011 886.72 63.8965 863.774 76.0262 848.063L146.558 756.702C156.083 744.366 152.521 726.459 139.001 718.707L38.8752 661.292C21.6563 651.418 21.6563 626.582 38.8752 616.708L139.001 559.293C152.521 551.541 156.082 533.634 146.558 521.298L76.0262 429.937C63.8965 414.226 73.4011 391.28 93.0878 388.747L207.563 374.019C223.021 372.031 233.164 356.85 229.086 341.808L198.885 230.411C193.691 211.253 211.253 193.691 230.411 198.885L341.808 229.086C356.85 233.164 372.031 223.021 374.019 207.563L388.747 93.0878C391.28 73.4011 414.226 63.8965 429.937 76.0262L521.298 146.558C533.634 156.083 551.541 152.521 559.293 139.001L616.708 38.8752Z" fill="url(#paint0_linear_85_24_lp)"/>
 <g class="pupil" data-cx="381.884" data-cy="656.268" data-travel="27"><circle cx="381.884" cy="656.268" r="72.3567" fill="black"/></g>
 <circle cx="381.884" cy="656.268" r="107.204" transform="rotate(-90 381.884 656.268)" stroke="black" stroke-width="11.992"/>
 <g class="pupil" data-cx="900.337" data-cy="656.27" data-travel="27"><circle cx="900.337" cy="656.27" r="72.3567" fill="black"/></g>
@@ -248,7 +212,7 @@
             <div><a href="community.html" class="btn btn--green">Find more events</a></div>
           </div>
           <div class="lately-card__image">
-            <img src="photos/community-photo.png" alt="Conscious Builder Community gathering">
+            <img src="img/community-photo.png" alt="Conscious Builder Community gathering">
           </div>
         </article>
         <article class="lately-card" data-pos="1">
@@ -259,7 +223,7 @@
             <div><a href="community.html" class="btn btn--green">Find more events</a></div>
           </div>
           <div class="lately-card__image">
-            <img src="photos/community-photo.png" alt="Conscious Builder Community gathering">
+            <img src="img/community-photo.png" alt="Conscious Builder Community gathering">
           </div>
         </article>
         <article class="lately-card" data-pos="2">
@@ -270,7 +234,7 @@
             <div><a href="community.html" class="btn btn--green">Find more events</a></div>
           </div>
           <div class="lately-card__image">
-            <img src="photos/community-photo.png" alt="Conscious Builder Community gathering">
+            <img src="img/community-photo.png" alt="Conscious Builder Community gathering">
           </div>
         </article>
       </div>
@@ -306,10 +270,10 @@
 
     // Scene definitions — background, question text + colour, logo colour.
     var SCENES = [
-      { bg: '#FF0000', color: '#FFFFFF', logoDark: false, q: 'can ai make our meetings more meaningful?' },
+      { bg: '#FF2200', color: '#FFFFFF', logoDark: false, q: 'can ai help us imagine more?' },
       { bg: '#0066FF', color: '#FFFFFF', logoDark: false, q: 'can ai help us learn in our own way?' },
-      { bg: '#FFE500', color: '#FF1A1A', logoDark: true,  q: 'can ai help different shapes work together?' },
-      { bg: '#2FB233', color: '#E4FF3B', logoDark: true,  q: 'can ai help us find calm in a chaotic city?' }
+      { bg: '#E9CE00', color: '#FF2200', logoDark: true,  q: 'can ai help us work together?' },
+      { bg: '#2EAC00', color: '#E4FF3B', logoDark: true,  q: 'can ai make us more reflective?' }
     ];
 
     var current = 0;
@@ -319,27 +283,69 @@
       hero.style.background = s.bg;
       hero.style.setProperty('--title-color', s.color);
       hero.classList.toggle('logo-dark', !!s.logoDark);
+      // Nav wears the same key-visual colour; dark text on light scenes.
+      nav.style.setProperty('--nav-bg', s.bg);
+      nav.style.setProperty('--nav-fg', s.logoDark ? '#111111' : '#FFFFFF');
+    }
+
+    // --- Title: per-letter blur/fade in & out --------------------------
+    var LTR_STAGGER = 22;   // ms between letters on the way in
+    function buildTitle(text) {
+      titleEl.textContent = '';
+      var letters = [];
+      text.split(' ').forEach(function (w, wi, arr) {
+        var word = document.createElement('span');
+        word.className = 'word';
+        w.split('').forEach(function (ch) {
+          var l = document.createElement('span');
+          l.className = 'ltr';
+          l.textContent = ch;
+          word.appendChild(l);
+          letters.push(l);
+        });
+        titleEl.appendChild(word);
+        if (wi < arr.length - 1) titleEl.appendChild(document.createTextNode(' '));
+      });
+      return letters;
+    }
+    function titleIn(text) {
+      if (reduce) { titleEl.textContent = text; return; }
+      var letters = buildTitle(text);
+      letters.forEach(function (l, i) { l.style.transitionDelay = (i * LTR_STAGGER) + 'ms'; });
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          letters.forEach(function (l) { l.classList.add('is-in'); });
+        });
+      });
+    }
+    function titleOut(done) {
+      if (reduce) { done(); return; }
+      var letters = titleEl.querySelectorAll('.ltr');
+      if (!letters.length) { done(); return; }
+      letters.forEach(function (l, i) {
+        l.style.transitionDelay = (i * 8) + 'ms';   // quick ripple out
+        l.classList.remove('is-in');
+      });
+      window.setTimeout(done, letters.length * 8 + 260);
     }
 
     function show(i) {
       if (i === current) return;
-      // Text crossfades; shapes drop out / spring in via the scene class swap.
-      titleEl.classList.add('is-fading');
-      window.setTimeout(function () {
-        titleEl.textContent = SCENES[i].q;
-        titleEl.classList.remove('is-fading');
-      }, 260);
+      // Title ripples out (blur+fade), swaps, ripples back in.
+      titleOut(function () { titleIn(SCENES[i].q); });
 
       scenes[current].classList.remove('is-active');
-      scenes[i].classList.add('is-active');
       resetPupils(scenes[current]);
+      scenes[i].classList.add('is-active');
       paint(i);
       current = i;
+      if (hasMouse) moveEyes(lastX, lastY); else resetPupils(scenes[i]);
     }
 
     // Initial paint (scene 0 already .is-active in markup).
     paint(0);
-    titleEl.textContent = SCENES[0].q;
+    titleIn(SCENES[0].q);
+    resetPupils(scenes[0]);
 
     // --- Auto-rotate ---------------------------------------------------
     if (!reduce) {
@@ -349,45 +355,51 @@
     }
 
     // --- Cursor-following pupils ---------------------------------------
-    function resetPupils(scene) {
-      var ps = scene.querySelectorAll('.pupil');
-      for (var i = 0; i < ps.length; i++) ps[i].removeAttribute('transform');
-    }
-
-    function moveEyes(clientX, clientY) {
-      var active = scenes[current];
-      var pupils = active.querySelectorAll('.pupil');
-      for (var i = 0; i < pupils.length; i++) {
-        var p = pupils[i];
-        var svg = p.ownerSVGElement;
-        if (!svg) continue;
-        var ctm = svg.getScreenCTM();
-        if (!ctm) continue;
-        var cx = parseFloat(p.getAttribute('data-cx'));
-        var cy = parseFloat(p.getAttribute('data-cy'));
-        var travel = parseFloat(p.getAttribute('data-travel')) || 0;
-        // Socket centre in screen space.
-        var sx = ctm.a * cx + ctm.c * cy + ctm.e;
-        var sy = ctm.b * cx + ctm.d * cy + ctm.f;
+    // Each pupil slides toward the cursor but its centre is CLAMPED to within
+    // data-max of the socket (ring) centre, so it can never leave the eye.
+    // data-cx/cy = socket centre; data-px/py = pupil's rest centre; both in the
+    // svg's own user units. Pass clientX/Y = null to settle at the rest pose.
+    function placePupil(p, clientX, clientY) {
+      var svg = p.ownerSVGElement; if (!svg) return;
+      var ctm = svg.getScreenCTM(); if (!ctm) return;
+      var rx = parseFloat(p.getAttribute('data-cx'));
+      var ry = parseFloat(p.getAttribute('data-cy'));
+      var px = parseFloat(p.getAttribute('data-px'));
+      var py = parseFloat(p.getAttribute('data-py'));
+      if (isNaN(px)) { px = rx; py = ry; }
+      var max = parseFloat(p.getAttribute('data-max')) || 0;
+      var restx = px - rx, resty = py - ry;      // rest offset from socket centre
+      var offx = restx, offy = resty;            // where the pupil centre should sit
+      if (clientX != null) {
+        var scale = Math.sqrt(ctm.a * ctm.a + ctm.b * ctm.b) || 1;
+        var sx = ctm.a * rx + ctm.c * ry + ctm.e;
+        var sy = ctm.b * rx + ctm.d * ry + ctm.f;
         var dx = clientX - sx, dy = clientY - sy;
         var dist = Math.sqrt(dx * dx + dy * dy);
-        var scale = Math.sqrt(ctm.a * ctm.a + ctm.b * ctm.b) || 1;
-        var tx, ty;
-        if (dist < 0.001) { tx = 0; ty = 0; }
-        else {
-          // `travel` is smaller than the pupil/socket radius difference for
-          // every eye, so the pupil cannot cross the socket outline.
-          var cl = Math.min(dist, travel * scale) / scale;
-          tx = (dx / dist) * cl;
-          ty = (dy / dist) * cl;
+        if (dist > 0.001) {
+          var reach = Math.min(dist / scale, max); // slide toward cursor, up to the rim
+          offx = (dx / dist) * reach;
+          offy = (dy / dist) * reach;
         }
-        p.setAttribute('transform', 'translate(' + tx.toFixed(2) + ' ' + ty.toFixed(2) + ')');
       }
+      // Hard clamp inside the socket.
+      var ol = Math.sqrt(offx * offx + offy * offy);
+      if (max > 0 && ol > max) { offx = offx / ol * max; offy = offy / ol * max; }
+      // Group sits (untransformed) at the pupil rest centre; move it to socket+offset.
+      p.setAttribute('transform',
+        'translate(' + (offx - restx).toFixed(2) + ' ' + (offy - resty).toFixed(2) + ')');
     }
 
-    var raf = null, lastX = 0, lastY = 0;
+    function placeScene(scene, clientX, clientY) {
+      var ps = scene.querySelectorAll('.pupil');
+      for (var i = 0; i < ps.length; i++) placePupil(ps[i], clientX, clientY);
+    }
+    function resetPupils(scene) { placeScene(scene, null, null); }
+    function moveEyes(clientX, clientY) { placeScene(scenes[current], clientX, clientY); }
+
+    var raf = null, lastX = 0, lastY = 0, hasMouse = false;
     document.addEventListener('mousemove', function (e) {
-      lastX = e.clientX; lastY = e.clientY;
+      lastX = e.clientX; lastY = e.clientY; hasMouse = true;
       if (raf) return;
       raf = window.requestAnimationFrame(function () {
         raf = null;
@@ -395,8 +407,37 @@
       });
     });
 
-    // --- Nav: reveal wordmark once the hero scrolls away ---------------
+    // --- Character "duck": each shape bobs when moused over ------------
+    // The bob translate lives in SVG user units, so set --duck per lockup to a
+    // value that reads ~14px on screen (recompute on resize).
+    var DUCK_PX = 15;
+    function setDuck() {
+      scenes.forEach(function (sc) {
+        var svg = sc.querySelector('.char');
+        if (!svg) return;
+        var vbw = svg.viewBox.baseVal.width || 1;
+        var scale = svg.getBoundingClientRect().width / vbw;   // screen px per user unit
+        if (scale > 0) svg.style.setProperty('--duck', (DUCK_PX / scale).toFixed(1) + 'px');
+      });
+    }
+    setDuck();
+    window.addEventListener('resize', setDuck, { passive: true });
+
+    if (!reduce) {
+      Array.prototype.forEach.call(document.querySelectorAll('.char-part'), function (part) {
+        part.addEventListener('mouseenter', function () {
+          if (!part.classList.contains('is-bobbing')) part.classList.add('is-bobbing');
+        });
+        part.addEventListener('animationend', function () {
+          part.classList.remove('is-bobbing');
+        });
+      });
+    }
+
+    // --- Nav: whiten as soon as the page scrolls; reveal wordmark once the
+    //     hero has scrolled away. ------------------------------------------
     function onScroll() {
+      nav.classList.toggle('is-white', window.scrollY > 8);
       var past = window.scrollY > (hero.offsetHeight - nav.offsetHeight - 40);
       nav.classList.toggle('is-scrolled', past);
     }
@@ -433,7 +474,88 @@
       timer = window.setInterval(advance, 3000);
     });
   })();
+
+  // --- On-scroll reveals: blocks fade/rise, text reveals line-by-line, ----
+  //     partner logos scale up one-by-one left-to-right. --------------------
+  (function () {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    // Split a text element into per-line blocks we can stagger.
+    function splitLines(el) {
+      if (!el._text) el._text = el.textContent.trim().replace(/\s+/g, ' ');
+      var words = el._text.split(' ');
+      el.textContent = '';
+      var spans = words.map(function (w, i) {
+        var s = document.createElement('span');
+        s.textContent = w;
+        s.style.display = 'inline-block';
+        el.appendChild(s);
+        if (i < words.length - 1) el.appendChild(document.createTextNode(' '));
+        return s;
+      });
+      var lines = [], cur = [], top = null;
+      spans.forEach(function (s) {
+        var t = s.offsetTop;
+        if (top === null) top = t;
+        if (t - top > 2 && cur.length) { lines.push(cur); cur = []; top = t; }
+        cur.push(s.textContent);
+      });
+      if (cur.length) lines.push(cur);
+      el.textContent = '';
+      lines.forEach(function (words) {
+        var line = document.createElement('span'); line.className = 'reveal-line';
+        var inner = document.createElement('span'); inner.textContent = words.join(' ');
+        line.appendChild(inner); el.appendChild(line);
+      });
+    }
+
+    var lineEls = Array.prototype.slice.call(document.querySelectorAll('[data-reveal-lines]'));
+    lineEls.forEach(splitLines);
+
+    // Toggle (don't unobserve) so things animate OUT when scrolled away and
+    // back IN when they return.
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        var el = e.target;
+        var vis = e.isIntersecting;
+        if (el.hasAttribute('data-reveal-partners')) {
+          var logos = el.querySelectorAll('.partner-logo');
+          Array.prototype.forEach.call(logos, function (l, i) {
+            l.style.transitionDelay = (vis ? i * 110 : 0) + 'ms';
+            l.classList.toggle('is-in', vis);
+          });
+        } else if (el.hasAttribute('data-reveal-lines')) {
+          var parts = el.querySelectorAll('.reveal-line > span');
+          Array.prototype.forEach.call(parts, function (s, i) {
+            s.style.transitionDelay = (vis ? i * 90 : 0) + 'ms';
+          });
+          el.classList.toggle('is-in', vis);
+        } else {
+          el.classList.toggle('is-in', vis);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+
+    Array.prototype.forEach.call(
+      document.querySelectorAll('[data-reveal], [data-reveal-lines], [data-reveal-partners]'),
+      function (el) { io.observe(el); }
+    );
+
+    // Re-split not-yet-revealed lines on resize so wrapping stays correct.
+    var rt;
+    window.addEventListener('resize', function () {
+      clearTimeout(rt);
+      rt = window.setTimeout(function () {
+        lineEls.forEach(function (el) { if (!el.classList.contains('is-in')) splitLines(el); });
+      }, 200);
+    }, { passive: true });
+  })();
   </script>
+
+  <!-- Global riso grain: one layer over the whole page so bg, characters,
+       text and logos all share the exact same grain scale (fixed = viewport-
+       locked, so it never scrolls or scales per element). -->
+  <div class="grain-overlay" aria-hidden="true"></div>
 
 </body>
 </html>

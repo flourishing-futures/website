@@ -44,10 +44,10 @@
 
 /* --- Custom Properties --- */
 :root {
-  --red: #FF0000;
-  --yellow: #FFFF00;
+  --red: #FF2200;
+  --yellow: #E9CE00; /* mustard */
   --yellow-soft: #FDFF81;
-  --green: #5EFF24;
+  --green: #2EAC00;
   --blue: #0066FF;
   --blue-dark: #003A91;
   --pink-grad-start: #FD92FF;
@@ -121,15 +121,19 @@ a {
   transition: background 0.6s ease;
 }
 
-.hero__noise {
-  position: absolute;
+/* Global riso grain — ONE fixed layer over the entire page so the background,
+   characters, text and logos all share the exact same grain scale (Ryan's
+   consistency requirement). soft-light + mid-grey noise textures without
+   washing the colours lighter, so the brand hexes stay true. */
+.grain-overlay {
+  position: fixed;
   inset: 0;
-  background-image: url('../img/noise.svg');
-  background-size: 512px 512px;
-  background-repeat: repeat;
-  opacity: 0.4;
+  z-index: 9999;
   pointer-events: none;
-  z-index: 1;
+  background: url('../img/grain-riso.svg') repeat;
+  background-size: 280px 280px;
+  mix-blend-mode: overlay;
+  opacity: 0.55;
 }
 
 .hero__logo {
@@ -154,7 +158,7 @@ a {
   position: relative;
   z-index: 10;
   text-align: center;
-  padding: 1.25rem 2rem 0;
+  padding: 3.5rem 2rem 0;   /* nudged down a little */
 }
 
 .hero__title {
@@ -166,12 +170,26 @@ a {
   max-width: 900px;
   margin: 0 auto;
   text-transform: lowercase;
-  transition: opacity 0.28s ease, transform 0.28s ease;
 }
 
-.hero__title.is-fading {
+/* Per-letter blur/fade transition on scene change. Words stay intact (they
+   don't break mid-word); letters animate individually with a JS stagger delay. */
+.hero__title .word {
+  display: inline-block;
+  white-space: nowrap;
+}
+.hero__title .ltr {
+  display: inline-block;
   opacity: 0;
-  transform: translateY(-8px);
+  filter: blur(12px);
+  transform: translateY(0.12em);
+  transition: opacity 0.5s ease, filter 0.5s ease, transform 0.5s ease;
+  will-change: opacity, filter, transform;
+}
+.hero__title .ltr.is-in {
+  opacity: 1;
+  filter: blur(0);
+  transform: none;
 }
 
 .hero__title u {
@@ -202,66 +220,80 @@ a {
   opacity: 1;
 }
 
-/* Every question is laid out on the original 3456 x 2234 Figma artboard.
-   The artboard scales as one unit instead of resizing each character from the
-   leftover space below the headline. Wide screens scale from viewport width;
-   tall/narrow screens scale from hero height and crop the sides. */
 .scene-stage {
   position: absolute;
-  left: 50%;
-  top: 0;
-  width: max(100%, 142.24vh);
-  aspect-ratio: 3456 / 2234;
-  transform: translateX(-50%);
+  inset: 0;
 }
 
-/* Character dimensions and positions are percentages of that locked artboard. */
+/* Each scene is ONE lockup graphic (Ryan's *_Crop.svg), centred horizontally and
+   anchored to the bottom so the group stays together and centred at any viewport
+   width (no spreading on wide screens). Sized by HEIGHT (% of the hero) so the
+   composition scales consistently regardless of aspect, and runs off the bottom. */
 .char {
   position: absolute;
+  left: 50%;
+  bottom: 0;
   width: auto;
-  height: auto;
-  transform: translateY(120%);
-  transition: transform 0.6s cubic-bezier(.34, 1.56, .64, 1);
+  height: 54%;
+  /* Pronounced ease-out, no overshoot: settles decisively, no spring. */
+  transform: translateX(-50%) translateY(115%);
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
+  pointer-events: auto;   /* re-enable over the pointer-events:none stage, for hover */
+}
+
+/* Only the visible scene's character should react to the cursor. */
+.hero__scene:not(.is-active) .char {
+  pointer-events: none;
 }
 
 .hero__scene.is-active .char {
-  transform: translateY(0);
+  transform: translateX(-50%) translateY(0);
 }
 
-/* Stagger the entrance so the shapes don't move as one block. */
-.hero__scene.is-active .char:nth-of-type(2) { transition-delay: 0.09s; }
-.hero__scene.is-active .char:nth-of-type(3) { transition-delay: 0.18s; }
+/* Playful "duck" — each character (a group INSIDE the lockup) bobs down and
+   springs back on mouse-over, so only the shape you point at reacts. --duck is
+   set per lockup in JS (in user units) so the drop reads ~consistent on screen. */
+@keyframes char-bob {
+  0%   { transform: translateY(0); }
+  24%  { transform: translateY(var(--duck, 40px)); }
+  56%  { transform: translateY(calc(var(--duck, 40px) * -0.22)); }
+  100% { transform: translateY(0); }
+}
+.char-part.is-bobbing {
+  animation: char-bob 0.6s cubic-bezier(0.34, 1.25, 0.5, 1);
+}
 
 .char .pupil {
   transition: transform 0.08s linear;
 }
 
-/* Scene 0 — red / meetings: Wormie (blue left hump + purple eye hump) off-left + Conie right */
-[data-scene="0"] .char--wormie { left: -8%; top: 27%; width: 64%; }
-[data-scene="0"] .char--conie  { left: 60%; top: 27%; width: 39%; }
-
-/* Scene 1 — blue / learn: Eelie, head centre-right, tail off the bottom-left */
-[data-scene="1"] .char--eelie  { left: 22.5%; top: 22%; width: 62.5%; }
-
-/* Scene 2 — yellow / different shapes: Rodie + Conie + Puffie, big across the frame */
-[data-scene="2"] .char--rodie-left { left: 1.25%; top: 23.8%; width: 25.3%; }
-[data-scene="2"] .char--conie2     { left: 22.9%; top: 26.5%; width: 41.5%; }
-[data-scene="2"] .char--puffie     { left: 58.1%; top: 25.6%; width: 48.4%; }
-
-/* Scene 3 — green / calm: Rodie, centred, large, cut off at the bottom */
-[data-scene="3"] .char--rodie-centre { left: 30.8%; top: 21.3%; width: 38.4%; }
+/* Per-scene size (height % of hero) + vertical anchor. Heights/offsets chosen so
+   each lockup matches its mockup: shapes low, calm, running off the bottom. */
+.char--red-lock    { height: 56%; bottom: 0; }
+.char--blue-lock   { height: 82%; bottom: -24%; }   /* taller so more of Eelie's stem shows */
+.char--yellow-lock { height: 54%; bottom: 0; }
+.char--green-lock  { height: 92%; bottom: -38%; }   /* tall pillar; only the domed top shows */
 
 /* ============================================================
    NAVIGATION
    ============================================================ */
 .site-nav {
-  background: var(--white);
+  /* Default: wears the current key-visual colour (set by paint() as --nav-bg).
+     Fills white on hover or once the page is scrolled. */
+  background: var(--nav-bg, var(--white));
+  border-top: 1px solid var(--black);      /* keeps the coloured bar from blending into the hero */
   border-bottom: 1.5px solid var(--black);
   position: sticky;
   top: 0;
   z-index: 100;
   padding: 0;
+  transition: background 0.35s ease;
+}
+
+.site-nav:hover,
+.site-nav.is-white {
+  background: var(--white);
 }
 
 .site-nav__inner {
@@ -310,19 +342,36 @@ a {
 }
 
 .site-nav__links a {
-  font-family: var(--font-display);
-  font-weight: 900;
-  font-size: 0.9rem;
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 1.05rem;
   text-decoration: none;
-  color: var(--black);
-  text-transform: lowercase;
+  color: var(--nav-fg, var(--black));   /* contrasts with the coloured bar */
+  text-transform: none;
   padding: 1.1rem 2rem;
   display: block;
-  transition: color 0.2s;
+  transition: color 0.2s, transform 0.2s ease;
 }
 
-.site-nav__links a:hover,
+/* Subtle scale-up on hover. */
+.site-nav__links a:hover {
+  transform: scale(1.09);
+}
+
+/* On the coloured bar the active link just stays in the contrast colour. */
 .site-nav__links a.active {
+  color: var(--nav-fg, var(--black));
+}
+
+/* Once white (hover or scrolled), links go dark with a blue hover/active. */
+.site-nav:hover .site-nav__links a,
+.site-nav.is-white .site-nav__links a {
+  color: var(--black);
+}
+.site-nav:hover .site-nav__links a:hover,
+.site-nav:hover .site-nav__links a.active,
+.site-nav.is-white .site-nav__links a:hover,
+.site-nav.is-white .site-nav__links a.active {
   color: var(--blue);
 }
 
@@ -337,19 +386,7 @@ a {
   text-align: center;
 }
 
-.vision::before,
-.lately::before,
-.site-footer-nav::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: url('../img/noise.svg') repeat;
-  background-size: 512px 512px;
-  opacity: 0.4;
-  pointer-events: none;
-  z-index: 0;
-}
-
+/* (Per-section grain removed — the global .grain-overlay now covers these.) */
 .vision > *,
 .lately > *,
 .site-footer-nav > * {
@@ -404,26 +441,72 @@ a {
   color: var(--blue-dark);
   cursor: pointer;
   border-radius: 100px;
-  transition: opacity 0.2s, transform 0.15s;
+  transition: transform 0.25s cubic-bezier(0.34, 1.4, 0.5, 1), box-shadow 0.25s ease;
 }
 
 .btn:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
+  transform: scale(1.08);
   text-decoration: none;
   color: var(--blue-dark);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
 }
 
-.btn--pink {
-  background: linear-gradient(90deg, var(--pink-grad-start), var(--pink-grad-end));
-}
-
-.btn--orange {
-  background: linear-gradient(90deg, var(--orange-grad-start), var(--orange-grad-end));
-}
-
+/* Gradient buttons: a wider, tri-stop gradient that "flows" while hovered. */
+.btn--pink,
+.btn--orange,
 .btn--green {
-  background: linear-gradient(90deg, var(--green-grad-start), var(--green-grad-end));
+  background-size: 200% 100%;   /* travel of exactly 200% = one image width -> seamless loop */
+  background-position: 0% 50%;
+}
+.btn--pink   { background-image: linear-gradient(90deg, var(--pink-grad-start),   var(--pink-grad-end),   var(--pink-grad-start)); }
+.btn--orange { background-image: linear-gradient(90deg, var(--orange-grad-start), var(--orange-grad-end), var(--orange-grad-start)); }
+.btn--green  { background-image: linear-gradient(90deg, var(--green-grad-start),  var(--green-grad-end),  var(--green-grad-start)); }
+
+.btn--pink:hover,
+.btn--orange:hover,
+.btn--green:hover {
+  animation: btn-flow 2s linear infinite;
+}
+@keyframes btn-flow {
+  to { background-position: -200% 50%; }
+}
+
+/* ============================================================
+   ON-SCROLL REVEALS
+   ============================================================ */
+/* Simple block reveal: rise + fade when scrolled into view. */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--reveal-delay, 0s);
+}
+[data-reveal].is-in { opacity: 1; transform: none; }
+
+/* Line-by-line text reveal (JS splits the text into .reveal-line blocks). */
+.reveal-line { display: block; overflow: hidden; padding-bottom: 0.04em; }
+.reveal-line > span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(1.1em);
+  transition: opacity 0.6s ease, transform 0.65s cubic-bezier(0.2, 0.75, 0.2, 1);
+}
+.reveal-lines.is-in .reveal-line > span { opacity: 1; transform: none; }
+
+/* Partner logos scale up one-by-one, left to right. */
+.partner-logo {
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.34, 1.35, 0.5, 1);
+}
+.partner-logo.is-in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal], .reveal-line > span, .partner-logo {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
 }
 
 .btn--outline {
@@ -544,8 +627,10 @@ a {
   will-change: transform;
 }
 
-/* Stacked positions (0 = front) */
-.lately-card[data-pos="0"] { transform: translate(0, 0) rotate(0deg);       z-index: 3; }
+/* Stacked positions (0 = front). The front card is in normal flow so the stack
+   (and therefore the image column) sizes to the real content height; the two
+   back cards are absolute and overlay it, peeking out via their offsets. */
+.lately-card[data-pos="0"] { position: relative; transform: translate(0, 0) rotate(0deg); z-index: 3; }
 .lately-card[data-pos="1"] { transform: translate(16px, 20px) rotate(1.6deg); z-index: 2; }
 .lately-card[data-pos="2"] { transform: translate(32px, 40px) rotate(3.2deg); z-index: 1; }
 
@@ -579,16 +664,19 @@ a {
 }
 
 .lately-card__image {
+  position: relative;               /* frame the photo fills exactly */
   overflow: hidden;
   border-radius: 0.75rem;
   margin: 1.25rem 1.25rem 1.25rem 0;
-  min-height: 300px;
+  min-height: 0;                    /* let it match the card, not the photo's intrinsic height */
 }
 
 .lately-card__image img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: cover;                /* crop-to-fill inside the frame, never overflow */
 }
 
 @media (max-width: 640px) {
