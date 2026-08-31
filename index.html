@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Flourishing Futures: AI for Human Possibility</title>
   <meta name="description" content="Flourishing Futures — designing AI that expands human agency, judgement and possibility in public service.">
-  <link rel="stylesheet" href="css/home.css?v=20260831l">
+  <link rel="stylesheet" href="css/home.css?v=20260831o">
 </head>
 <body>
 
@@ -154,7 +154,7 @@
   <section class="vision">
     <div class="container">
       <p class="vision__label" data-reveal>We work to drive...</p>
-      <p class="vision__text reveal-lines" data-reveal-lines>
+      <p class="vision__text reveal-lines" data-reveal-lines data-flofu-cues>
         A future in which AI makes us more capable and more humane: expanding (not diminishing) the agency, judgement and possibilities of those who build with and depend on it.
       </p>
       <p class="vision__body reveal-lines" data-reveal-lines>
@@ -241,20 +241,12 @@
     </div>
   </section>
 
-  <!-- Footer Nav -->
-  <nav class="site-footer-nav">
-    <div class="container--wide">
-      <div class="site-footer-nav__inner">
-        <ul class="site-footer-nav__links">
-          <li><a href="index.html" class="active">home</a></li>
-          <li><a href="about.html">about</a></li>
-          <li><a href="the-lab.html">lab</a></li>
-          <li><a href="resource-centre.html">resource hub</a></li>
-          <li><a href="community.html">community</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+  <!-- Footer -->
+  <footer class="site-footer" role="contentinfo">
+    <img class="site-footer__lockup"
+         src="img/footer.svg"
+         alt="Flourishing Futures — AI for Human Possibilities">
+  </footer>
 
   <!-- Floating "Finch" assistant: an FF-Eelie character that slides up from the
        bottom-right once the user scrolls past the landing hero, and stays fixed
@@ -325,6 +317,7 @@
     var assistant = document.getElementById('siteAssistant');
     var assistantChar = document.getElementById('assistantChar');
     var assistantBubble = document.getElementById('assistantBubble');
+    var siteFooter = document.querySelector('.site-footer');
 
     // Scene definitions — background, question text + colour, logo colour.
     var SCENES = [
@@ -509,6 +502,14 @@
         var show = window.scrollY > window.innerHeight * 0.6;
         assistant.classList.toggle('is-visible', show);
         assistant.setAttribute('aria-hidden', show ? 'false' : 'true');
+        // Pinned to the viewport bottom while scrolling, but once the footer bar
+        // scrolls into view Finch rides up to rest on it instead of covering it —
+        // grounded a few px into the bar, which paints in front (see CSS z-index).
+        // (overlap = how much of the footer is currently on screen.)
+        if (siteFooter) {
+          var overlap = window.innerHeight - siteFooter.getBoundingClientRect().top;
+          assistant.style.bottom = Math.max(0, overlap - 8) + 'px';
+        }
       }
     }
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -539,6 +540,23 @@
         lastQuote = i;
         return QUOTES[i];
       }
+      // Hovering any button anywhere on the page gets a random nudge.
+      var BUTTON_QUOTES = [
+        "I'd click it",
+        'Only one way to find out',
+        'Go on then',
+        'No pressure, mostly.',
+        'Your move',
+        'Free will detected'
+      ];
+      var lastBtn = -1;
+      function randomButtonQuote() {
+        var i;
+        do { i = Math.floor(Math.random() * BUTTON_QUOTES.length); }
+        while (BUTTON_QUOTES.length > 1 && i === lastBtn);
+        lastBtn = i;
+        return BUTTON_QUOTES[i];
+      }
       // Restart the hero "duck" bob on both eels at once (respects reduced motion).
       function bobBoth() {
         if (reduce) return;
@@ -549,24 +567,41 @@
         });
       }
       var bubbleTimer = null;
-      var introShown = false;   // once true, hovering just bobs — no auto-bubble
+      var introShown = false;    // once true, hovering just bobs — no auto-bubble
+      var hoverQuipOpen = false; // true while a HOVER-driven quip is showing
       function closeBubble() {
+        window.clearTimeout(bubbleTimer);
+        bubbleTimer = null;
+        hoverQuipOpen = false;
         assistant.classList.remove('is-open');
         assistantChar.setAttribute('aria-expanded', 'false');
-        bubbleTimer = null;
       }
-      function popBubble() {
+      // autoHide: click/intro quips tuck away after 2s; hover quips stay put and
+      // are dismissed the moment the pointer leaves their trigger (autoHide=false).
+      function showBubble(text, autoHide) {
         window.clearTimeout(bubbleTimer);
-        assistantBubble.textContent = randomQuote();
+        assistantBubble.textContent = text;
         assistant.classList.add('is-open');
         assistantChar.setAttribute('aria-expanded', 'true');
         // Replay the entrance pop even if the bubble was already open.
         assistantBubble.style.animation = 'none';
         void assistantBubble.offsetWidth;   // force reflow
         assistantBubble.style.animation = '';
-        bubbleTimer = window.setTimeout(closeBubble, 2000);
+        bubbleTimer = autoHide ? window.setTimeout(closeBubble, 2000) : null;
         bobBoth();
       }
+      function popBubble() { hoverQuipOpen = false; showBubble(randomQuote(), true); }
+      // React to page content: only while Finch is actually out on screen.
+      function sayQuip(text) {
+        if (!assistant.classList.contains('is-visible')) return;
+        introShown = true;      // a page-driven quip counts as "discovered"
+        hoverQuipOpen = true;
+        showBubble(text, false);
+      }
+      // Only dismiss on hover-off if what's showing is a hover quip (never cut a
+      // click/intro quip short just because the pointer wandered off a trigger).
+      function endHover() { if (hoverQuipOpen) closeBubble(); }
+
       assistantChar.addEventListener('mouseenter', function () {
         if (introShown) return;      // subsequent hovers: normal per-eel bob only
         introShown = true;
@@ -576,6 +611,25 @@
         introShown = true;           // a click counts as "discovered"
         popBubble();                 // re-roll the quote, bounce, reset the timer
       });
+
+      // Flofu reacts to what you point at: tagged manifesto words get a specific
+      // quip, any .btn gets a random nudge. Delegated so it survives the reveal's
+      // line-splitting (which rebuilds those word spans). Deduped so it fires once
+      // per element you enter — and the quip vanishes the instant you leave it.
+      var hoverActive = null;
+      document.addEventListener('mouseover', function (e) {
+        var t = e.target;
+        if (!t || !t.closest) return;
+        var cue = t.closest('.flofu-cue');
+        var el = cue || t.closest('.btn');
+        if (el === hoverActive) return;
+        hoverActive = el || null;
+        if (el) sayQuip(cue ? cue.getAttribute('data-quip') : randomButtonQuote());
+        else endHover();            // moved off a trigger onto plain content
+      }, { passive: true });
+      document.addEventListener('mouseout', function (e) {
+        if (hoverActive && !e.relatedTarget) { hoverActive = null; endHover(); }  // left the window
+      }, { passive: true });
     }
   })();
 
@@ -682,6 +736,56 @@
       rt = window.setTimeout(function () {
         lineEls.forEach(function (el) { if (!el.classList.contains('is-in')) splitLines(el); });
       }, 200);
+    }, { passive: true });
+  })();
+
+  // --- Flofu cue words: wrap specific words in [data-flofu-cues] blocks so the
+  //     assistant can quip about them on hover. Runs AFTER the reveal splitter
+  //     (so it walks the final line spans) and also under reduced motion (where
+  //     the splitter is skipped and the raw text is walked instead). Re-runs on
+  //     resize since the splitter rebuilds not-yet-revealed lines. -------------
+  (function () {
+    var WORD_QUIPS = {
+      'agency':        'Can I choose, question or say no?',
+      'judgement':     'Important context and consideration!',
+      'possibilities': "What couldn't I do before?"
+    };
+    var CUE_RE = /\b(agency|judgement|possibilities)\b/ig;
+
+    function tagCues(root) {
+      var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+      var targets = [], n;
+      while ((n = walker.nextNode())) {
+        var p = n.parentNode;
+        if (p && p.classList && p.classList.contains('flofu-cue')) continue;  // already tagged
+        CUE_RE.lastIndex = 0;
+        if (CUE_RE.test(n.nodeValue)) targets.push(n);
+      }
+      targets.forEach(function (node) {
+        var text = node.nodeValue, frag = document.createDocumentFragment(), last = 0, m;
+        CUE_RE.lastIndex = 0;
+        while ((m = CUE_RE.exec(text))) {
+          if (m.index > last) frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+          var span = document.createElement('span');
+          span.className = 'flofu-cue';
+          span.setAttribute('data-quip', WORD_QUIPS[m[1].toLowerCase()]);
+          span.textContent = m[1];
+          frag.appendChild(span);
+          last = m.index + m[1].length;
+        }
+        if (last < text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+        node.parentNode.replaceChild(frag, node);
+      });
+    }
+
+    function tagAll() {
+      Array.prototype.forEach.call(document.querySelectorAll('[data-flofu-cues]'), tagCues);
+    }
+    tagAll();
+    var rt;
+    window.addEventListener('resize', function () {
+      clearTimeout(rt);
+      rt = window.setTimeout(tagAll, 280);   // after the reveal splitter's 200ms re-split
     }, { passive: true });
   })();
   </script>

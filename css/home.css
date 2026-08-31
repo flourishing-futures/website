@@ -389,7 +389,7 @@ a {
 /* (Per-section grain removed — the global .grain-overlay now covers these.) */
 .vision > *,
 .lately > *,
-.site-footer-nav > * {
+.site-footer > * {
   position: relative;
   z-index: 1;
 }
@@ -692,45 +692,27 @@ a {
 }
 
 /* ============================================================
-   FOOTER NAV
+   SITE FOOTER (brand lockup)
+   Replaces the old redundant footer nav bar. The "AI for Human
+   Possibilities" lockup is a single-colour SVG (img/footer.svg)
+   painted via mask, so its ink can be recoloured per page for
+   contrast against the footer's background colour.
    ============================================================ */
-.site-footer-nav {
-  background: var(--green);
-  border-top: 1.5px solid var(--black);
-  padding: 0;
+.site-footer {
+  /* Full-bleed colour bar; the white footer.svg lockup spans it edge to
+     edge. The bar colour is chosen to contrast the section above — the
+     home page's green "lately" section sits above a red footer. */
+  background: var(--footer-bg, var(--red));
   position: relative;
   isolation: isolate;
+  z-index: 600;   /* paints in front of Finch (z-index 500) so he tucks behind it */
+  font-size: 0; /* remove the inline-image baseline gap */
 }
 
-.site-footer-nav__inner {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.site-footer-nav__links {
-  display: flex;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  gap: 0;
-}
-
-.site-footer-nav__links a {
-  font-family: var(--font-display);
-  font-weight: 900;
-  font-size: 0.9rem;
-  text-decoration: none;
-  color: var(--black);
-  text-transform: lowercase;
-  padding: 1.1rem 2rem;
+.site-footer__lockup {
   display: block;
-  transition: color 0.2s;
-}
-
-.site-footer-nav__links a:hover,
-.site-footer-nav__links a.active {
-  color: var(--white);
+  width: 100%;
+  height: auto;
 }
 
 /* ============================================================
@@ -1098,62 +1080,6 @@ a {
   gap: 3rem;
 }
 
-/* --- Footer (legacy, for subpages) --- */
-.site-footer {
-  border-top: none;
-  padding: 3rem 0;
-  background: var(--black);
-  color: var(--white);
-}
-
-.site-footer__inner {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  gap: 2rem;
-}
-
-.site-footer__brand strong {
-  color: var(--white);
-  font-family: var(--font-serif);
-}
-
-.site-footer__brand p {
-  font-family: var(--font-body);
-  font-size: 0.8rem;
-  color: rgba(255,255,255,0.6);
-  margin-top: 0.35rem;
-}
-
-.site-footer__links {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-}
-
-.site-footer__links a {
-  font-family: var(--font-body);
-  font-size: 0.8rem;
-  color: rgba(255,255,255,0.6);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-.site-footer__links a:hover {
-  color: var(--white);
-}
-
-.site-footer__copy {
-  font-family: var(--font-body);
-  font-size: 0.75rem;
-  color: rgba(255,255,255,0.35);
-  margin-top: 2rem;
-}
-
 /* --- Levels (subpages) --- */
 .levels {
   display: flex;
@@ -1252,8 +1178,7 @@ a {
 
   /* Narrow screens keep the locked artboard composition and crop its sides. */
 
-  .site-nav__links a,
-  .site-footer-nav__links a {
+  .site-nav__links a {
     padding: 0.75rem 1rem;
     font-size: 0.75rem;
   }
@@ -1312,10 +1237,6 @@ a {
   .inset-panel {
     padding: 2rem 1.5rem;
   }
-
-  .site-footer__inner {
-    flex-direction: column;
-  }
 }
 
 @media (max-width: 480px) {
@@ -1331,8 +1252,7 @@ a {
     padding: 2rem 1.25rem 0;
   }
 
-  .site-nav__links a,
-  .site-footer-nav__links a {
+  .site-nav__links a {
     padding: 0.7rem 0.5rem;
     font-size: 0.68rem;
   }
@@ -1386,6 +1306,16 @@ a {
 
 /* Its one eye reuses the hero pupil convention (JS transforms this group). */
 .site-assistant .pupil { transition: transform 0.12s ease; }
+
+/* Manifesto words Flofu can quip about — a very subtle dotted underline hints
+   they're interactive; the ? cursor reinforces it. */
+.flofu-cue {
+  cursor: help;
+  text-decoration: underline dotted;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+}
 
 /* Speech bubble — real HTML text so future messages can change. Hidden until
    the character is tapped (.is-open on the wrapper). */
