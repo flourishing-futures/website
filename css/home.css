@@ -1337,3 +1337,111 @@ a {
     font-size: 0.68rem;
   }
 }
+
+/* ============================================================
+   FLOATING ASSISTANT ("Finch")
+   Fixed bottom-right, above the content but below the global grain
+   (z 9999) so it shares the same riso texture. Hidden until the user
+   scrolls off the landing hero, then slides up and stays put.
+   ============================================================ */
+.site-assistant {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 0;                            /* flat feet flush with the window edge */
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  pointer-events: none;                 /* wrapper is inert; children opt back in */
+  opacity: 0;
+  transform: translateY(130%);
+  /* Ease-out with NO overshoot: it must not bounce up past its resting spot,
+     which would lift the flat feet off the window edge and reveal the crop. */
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;
+}
+.site-assistant.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.site-assistant__char {
+  pointer-events: auto;
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  width: clamp(112px, 13vw, 164px);
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.2s ease;
+}
+.site-assistant__char:hover { transform: translateY(-3px); }
+.site-assistant__char:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 4px;
+  border-radius: 12px;
+}
+.assistant-svg { display: block; width: 100%; height: auto; }
+
+/* Its one eye reuses the hero pupil convention (JS transforms this group). */
+.site-assistant .pupil { transition: transform 0.12s ease; }
+
+/* Speech bubble — real HTML text so future messages can change. Hidden until
+   the character is tapped (.is-open on the wrapper). */
+.site-assistant__bubble {
+  pointer-events: none;
+  margin: 0 0.5rem 0.5rem 0;
+  padding: 0.6rem 1.1rem;
+  max-width: 15rem;
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.05rem;
+  line-height: 1.25;
+  border-radius: 999px;
+  white-space: nowrap;
+  position: relative;
+  opacity: 0;
+  transform: translateY(6px) scale(0.96);
+  transform-origin: bottom right;
+  transition: opacity 0.22s ease, transform 0.22s cubic-bezier(0.34, 1.35, 0.5, 1);
+}
+/* Little tail pointing down toward the character. */
+.site-assistant__bubble::after {
+  content: "";
+  position: absolute;
+  right: 2.25rem;
+  bottom: -7px;
+  width: 16px;
+  height: 16px;
+  background: var(--black);
+  border-radius: 3px;
+  transform: rotate(45deg);
+}
+.site-assistant.is-open .site-assistant__bubble {
+  pointer-events: auto;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+@media (max-width: 600px) {
+  .site-assistant { right: 0.75rem; bottom: 0; }
+  .site-assistant__char { width: clamp(88px, 26vw, 120px); }
+  .site-assistant__bubble { font-size: 0.95rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-assistant {
+    transition: opacity 0.2s ease;
+    transform: none;
+  }
+  .site-assistant.is-visible { transform: none; }
+  .site-assistant__bubble {
+    transition: opacity 0.2s ease;
+    transform: none;
+  }
+  .site-assistant.is-open .site-assistant__bubble { transform: none; }
+  .site-assistant .pupil { transition: none; }
+}
