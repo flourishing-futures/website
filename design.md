@@ -66,7 +66,7 @@
 
 ## Tone & Feel
 
-- **Playful but serious**: Bold colours and friendly elements (smiley faces) balanced with substantive, thoughtful content
+- **Playful and opinionated**: Bold colours and friendly elements (smiley faces) balanced with substantive, thoughtful content
 - **Not corporate**: Avoids the grey/navy government look — deliberately colourful and human
 - **Warm**: The pink/yellow palette conveys warmth, possibility, optimism
 - **Accessible**: High contrast text, clear hierarchy, readable at all sizes
