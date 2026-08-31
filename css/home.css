@@ -627,10 +627,11 @@ a {
   will-change: transform;
 }
 
-/* Stacked positions (0 = front). The front card is in normal flow so the stack
-   (and therefore the image column) sizes to the real content height; the two
-   back cards are absolute and overlay it, peeking out via their offsets. */
-.lately-card[data-pos="0"] { position: relative; transform: translate(0, 0) rotate(0deg); z-index: 3; }
+/* Stacked positions (0 = front). All cards are absolute so none of them drive
+   the stack height — the stack is given a fixed height (the tallest card,
+   measured in JS) so the section stays a constant height as cards cycle and
+   never nudges the footer up and down. Back cards peek out via their offsets. */
+.lately-card[data-pos="0"] { transform: translate(0, 0) rotate(0deg); z-index: 3; }
 .lately-card[data-pos="1"] { transform: translate(16px, 20px) rotate(1.6deg); z-index: 2; }
 .lately-card[data-pos="2"] { transform: translate(32px, 40px) rotate(3.2deg); z-index: 1; }
 
