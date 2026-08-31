@@ -164,10 +164,10 @@ a {
 .hero__title {
   font-family: var(--font-serif);
   font-weight: 600;
-  font-size: 3.25rem;
+  font-size: 2.75rem;
   line-height: 1;
   color: var(--title-color, #fff);
-  max-width: 900px;
+  max-width: 1120px;
   margin: 0 auto;
   text-transform: lowercase;
 }
@@ -1313,9 +1313,9 @@ a {
 .flofu-cue {
   cursor: help;
   text-decoration: underline dotted;
-  text-decoration-thickness: 1px;
+  text-decoration-thickness: 2px;
   text-underline-offset: 0.18em;
-  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+  text-decoration-color: color-mix(in srgb, currentColor 68%, transparent);
 }
 
 /* Speech bubble — real HTML text so future messages can change. Hidden until
