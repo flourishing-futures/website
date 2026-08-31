@@ -322,8 +322,8 @@ a {
    ============================================================ */
 .site-nav {
   background: var(--white);
-  border-top: 3px solid var(--black);
-  border-bottom: 3px solid var(--black);
+  border-top: 1px solid var(--black);
+  border-bottom: 1.5px solid var(--black);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -334,14 +334,21 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
-.site-nav__inner:has(.site-nav__brand-area) {
-  justify-content: space-between;
-}
-
+/* Wordmark pinned to the left; links stay centred. */
 .site-nav__brand {
-  display: none;
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.site-nav__brand-img {
+  height: 26px;
+  width: auto;
 }
 
 .site-nav__links {
@@ -637,44 +644,6 @@ a {
 .site-footer--red   { --footer-bg: var(--red); }
 .site-footer--blue  { --footer-bg: var(--blue); }
 .site-footer--green { --footer-bg: #2EAC00; } /* mid green; brighter --green is too light under white */
-
-/* ============================================================
-   ABOUT PAGE — NAVBAR BRAND
-   ============================================================ */
-.site-nav__brand-area {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.site-nav__logo-link {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  text-decoration: none;
-}
-
-.site-nav__logo-mark {
-  width: 52px;
-  height: auto;
-}
-
-.site-nav__logo-title {
-  font-family: var(--font-serif);
-  font-weight: 600;
-  font-size: 0.7rem;
-  line-height: 0.88;
-  color: var(--black);
-}
-
-.site-nav__tagline {
-  font-family: var(--font-serif);
-  font-weight: 400;
-  font-size: 0.8rem;
-  line-height: 0.88;
-  color: var(--black);
-  margin-left: 0.5rem;
-}
 
 /* ============================================================
    ABOUT PAGE — HERO / WE BELIEVE IN
@@ -1809,7 +1778,7 @@ a {
     font-size: 1.5rem;
   }
 
-  .site-nav__brand-area {
+  .site-nav__brand {
     display: none;
   }
 
