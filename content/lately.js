@@ -25,13 +25,14 @@ window.SITE_CONTENT.lately = [
     "image": { "src": "photos/community-photo.png", "alt": "Conscious Builder Community gathering" }
   },
   {
-    "heading": "Conscious Builder Community:<br>Gathering #2",
+    "heading": "AIMPACT SG Benchmark",
     "body": [
-      "The Conscious Builders Community is a program developed to bring AI developers, designers, researchers and ethicists together to build better products. Here, we share, debate, workshop and design.",
-      "Through inspiration sessions and hands-on product garages: we help builders to engage in critical conversations, identify potential risks, imagine better possibilities, and stay inspired and connected to the human impact of working with AI."
+      "Test highlight",
+      "A AI benchmark focused on human impact",
+      "another paragraph"
     ],
     "cta": { "text": "Find more events", "href": "community.html", "style": "green" },
-    "image": { "src": "photos/community-photo.png", "alt": "Conscious Builder Community gathering" }
+    "image": { "src": "design_ai.jpg", "alt": "Design for AI" }
   },
   {
     "heading": "Conscious Builder Community:<br>Gathering #2",
