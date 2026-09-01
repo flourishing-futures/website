@@ -640,6 +640,22 @@ a {
   height: auto;
 }
 
+/* Initiative credit, right side. Live text (Newsreader regular) so it can be
+   restyled/resized independently of the baked SVG lockup. Sized in vw so it
+   scales with the full-bleed bar, matching the old baked text's behaviour. */
+.site-footer__credit {
+  position: absolute;
+  top: 50%;
+  right: 2.4vw;
+  transform: translateY(-50%);
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 0.83vw;
+  line-height: 1;
+  color: var(--white);
+  white-space: nowrap;
+}
+
 /* Per-page footer bar colours (lockup stays white). */
 .site-footer--red   { --footer-bg: var(--red); }
 .site-footer--blue  { --footer-bg: var(--blue); }
