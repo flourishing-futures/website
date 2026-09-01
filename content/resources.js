@@ -13,11 +13,11 @@
 window.SITE_CONTENT = window.SITE_CONTENT || {};
 window.SITE_CONTENT.resources = [
   {
-    "title": "Flourishing Futures Report",
-    "source": "Flourishing Futures",
+    "title": "Human Impact Benchmark",
+    "source": "MIT Media Labs",
     "type": "Report",
     "description": "A comprehensive look at how AI can support human flourishing across communities and institutions.",
-    "url": "#"
+    "url": "https://impactbench.media.mit.edu/"
   },
   {
     "title": "AI Design Guide…for Humans",
