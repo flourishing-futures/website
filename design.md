@@ -70,3 +70,4 @@
 - **Not corporate**: Avoids the grey/navy government look — deliberately colourful and human
 - **Warm**: The pink/yellow palette conveys warmth, possibility, optimism
 - **Accessible**: High contrast text, clear hierarchy, readable at all sizes
+- **Micor-interaction**: Use fun micro-interactions to make it delightful
