@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About — Flourishing Futures</title>
-  <meta name="description" content="Flourishing Futures — designing AI that expands human agency, judgement and possibility in Singapore's public service.">
-  <link rel="stylesheet" href="css/styles.css?v=20260908d">
+  <meta name="description" content="Flourishing Futures — designing AI that expands human agency, judgement and possibility in public service.">
+  <link rel="stylesheet" href="css/home.css?v=20260908g">
 </head>
 <body>
 
-  <!-- Navigation -->
-  <nav class="site-nav">
+  <!-- Navigation (solid white; wordmark always shown since there's no hero above it) -->
+  <nav class="site-nav site-nav--solid is-white is-scrolled" id="siteNav">
     <div class="container--wide">
       <div class="site-nav__inner">
         <a href="index.html" class="site-nav__brand" aria-label="Flourishing Futures — AI for Human Possibilities">
@@ -27,126 +27,103 @@
     </div>
   </nav>
 
-  <!-- Hero / We Believe In -->
+  <!-- 1. Hero — "What matters most to us" (red, pink/green brush frame) -->
   <section class="about-hero">
-    <div class="about-hero__noise"></div>
-
-    <!-- Critters -->
-    <div class="about-hero__critters">
-      <img src="img/wormie-clean.svg" alt="" class="about-hero__critter about-hero__critter--left">
-      <img src="img/conie-clean.svg" alt="" class="about-hero__critter about-hero__critter--right">
-    </div>
-
-    <div class="about-hero__content">
-      <p class="about-hero__label">We believe in...</p>
-      <h1 class="about-hero__title">
-        A future in which AI makes us more capable and more humane: expanding (not diminishing) the agency, judgement and possibilities of those who build with and depend on it.
+    <img class="about-hero__art" src="img/about-hero.svg" alt="" aria-hidden="true">
+    <div class="about-hero__inner">
+      <p class="about-hero__label" data-reveal>What matters most to us</p>
+      <h1 class="about-hero__title" data-reveal>
+        <span class="about-hero__title-lead">Human flourishing:</span>
+        A state in which all aspects of a person's life are good.
       </h1>
-      <div class="about-hero__body">
-        <p>
-          AI is rapidly reshaping how we live, create and work. While most conversation today is focused on adoption, efficiency and cost, this program designs for the 'hidden' factors: where AI can genuinely enlarge human possibility, and where speed, scale or convenience may come at the cost of judgement, care, agency or trust.
-        </p>
-        <p>
-          Through research, intentional design, institutional collaboration and community - this program aims to shape those choices and positive human-outcomes before these technologies harden into defaults.
-        </p>
-      </div>
-      <div class="about-hero__cta">
+      <p class="about-hero__body" data-reveal>
+        First developed by Harvard University, the flourishing framework is a research-based approach to understanding well-being and human flourishing across key domains of life. Importantly, these help us promote the 'softer' things: meaning and purpose, social relationships, happiness and mental wellbeing.
+      </p>
+      <div class="about-hero__cta" data-reveal>
         <a href="#" class="btn btn--pink">Read paper</a>
       </div>
     </div>
   </section>
 
-  <!-- Why here, why now? -->
+  <!-- 2. "We work to drive..." (green, yellow arch) -->
+  <section class="about-drive">
+    <div class="about-drive__art" aria-hidden="true">
+      <img class="about-drive__char about-drive__char--1" src="img/about-drive-1.svg" alt="">
+      <img class="about-drive__char about-drive__char--2" src="img/about-drive-2.svg" alt="">
+      <img class="about-drive__char about-drive__char--3" src="img/about-drive-3.svg" alt="">
+    </div>
+    <div class="about-drive__inner container">
+      <p class="about-drive__label" data-reveal>We work to drive...</p>
+      <p class="about-drive__title reveal-lines" data-reveal-lines data-flofu-cues>
+        A future in which AI makes us more capable and more humane: expanding (not diminishing) the agency, judgement and possibilities of those who build with and depend on it.
+      </p>
+      <p class="about-drive__body reveal-lines" data-reveal-lines>
+        AI is rapidly reshaping how we live, create and work. While most conversation today is focused on adoption, efficiency and cost, this program designs for the 'hidden' factors: where AI can genuinely enlarge human possibility, and where speed, scale or convenience may come at the cost of judgement, care, agency or trust.
+      </p>
+      <p class="about-drive__body reveal-lines" data-reveal-lines>
+        Through research, intentional design, institutional collaboration and community - this program aims to shape those choices and positive human-outcomes before these technologies harden into defaults.
+      </p>
+      <div class="about-drive__cta" data-reveal>
+        <a href="the-lab.html" class="btn btn--outline-white">Learn more</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. "Why here, why now?" (blue, three numbered columns) -->
   <section class="about-why">
-    <div class="about-why__noise"></div>
-    <div class="container--wide">
-      <h2 class="about-why__heading">Why here, why now?</h2>
-
-      <div class="about-why__cols">
-        <div class="about-why__col">
-          <div class="about-why__badge">
-            <img src="img/star-badge.svg" alt="" class="about-why__star">
-            <span class="about-why__num">1</span>
-          </div>
-          <h3 class="about-why__col-title">The defaults are being set now as AI is scaled across all aspects of life.</h3>
-          <p class="about-why__col-body">
-            As AI becomes embedded in everyday public systems, early choices about automation, judgement and human involvement will become the new defaults.
-          </p>
-        </div>
-
-        <div class="about-why__col">
-          <div class="about-why__badge">
-            <img src="img/star-badge.svg" alt="" class="about-why__star">
-            <span class="about-why__num">2</span>
-          </div>
-          <h3 class="about-why__col-title">We cannot borrow the definition of 'good' from the market alone.</h3>
-          <p class="about-why__col-body">
-            Commercial incentives reward scale, speed, adoption and engagement; but we must also ask what strengthens agency, trust, care, capability and public good.
-          </p>
-        </div>
-
-        <div class="about-why__col">
-          <div class="about-why__badge">
-            <img src="img/star-badge.svg" alt="" class="about-why__star">
-            <span class="about-why__num">3</span>
-          </div>
-          <h3 class="about-why__col-title">We need space to reshape and reimagine what success looks like.</h3>
-          <p class="about-why__col-body">
-            Before we deploy AI, we must ask whether the right relationship between us and machine has been imagined, and demonstrate what better interactions could look like.
-          </p>
-        </div>
+    <p class="about-why__label" data-reveal>Why here, why now?</p>
+    <div class="about-why__cols">
+      <div class="about-why__col" data-reveal>
+        <span class="about-why__num-wrap"><img class="about-why__num" src="img/about-num-1.svg" alt="1" aria-hidden="true"></span>
+        <h3 class="about-why__col-title">The defaults are being set now as AI is scaled across all aspects of life.</h3>
+        <p class="about-why__col-body">As AI becomes embedded in everyday public systems, early choices about automation, judgement and human involvement will become the new defaults.</p>
+      </div>
+      <div class="about-why__col" data-reveal style="--reveal-delay:0.12s">
+        <span class="about-why__num-wrap"><img class="about-why__num" src="img/about-num-2.svg" alt="2" aria-hidden="true"></span>
+        <h3 class="about-why__col-title">We cannot borrow the definition of 'good' from the market alone.</h3>
+        <p class="about-why__col-body">Commercial incentives reward scale, speed, adoption and engagement; but we must also ask what strengthens agency, trust, care, capability and public good.</p>
+      </div>
+      <div class="about-why__col" data-reveal style="--reveal-delay:0.24s">
+        <span class="about-why__num-wrap"><img class="about-why__num" src="img/about-num-3.svg" alt="3" aria-hidden="true"></span>
+        <h3 class="about-why__col-title">We need space to reshape and reimagine what success looks like.</h3>
+        <p class="about-why__col-body">Before we deploy AI, we must ask whether the right relationship between us and machine has been imagined, and demonstrate what better interactions could look like.</p>
       </div>
     </div>
   </section>
 
-  <!-- The Landscape -->
-  <section class="about-landscape">
-    <div class="about-landscape__content">
-      <h2 class="about-landscape__title">
-        A shift towards a more proactive approach to the design, development and deployment of AI
-      </h2>
-
-      <div class="about-landscape__spectrum">
-        <div class="about-landscape__wave">
-          <img src="img/line-wave.svg" alt="" class="about-landscape__wave-img">
-        </div>
-
-        <div class="about-landscape__labels">
-          <div class="about-landscape__item about-landscape__item--1">
-            <h3>Responsible AI</h3>
-            <p>How do we make sure the use of AI is safe, secure, and fair?</p>
-          </div>
-          <div class="about-landscape__item about-landscape__item--2">
-            <h3>Human-Agent Work</h3>
-            <p>How do we rethink work and workplaces so humans and AI collaborate well together?</p>
-          </div>
-          <div class="about-landscape__item about-landscape__item--3">
-            <h3>AI for Human Possibility</h3>
-            <p>How do we build AI that expands human capability and agency?</p>
-          </div>
-          <div class="about-landscape__item about-landscape__item--4">
-            <h3>Flourishing Futures</h3>
-            <p>How do we ensure AI strengthens societal wellbeing, resilience, and care?</p>
-          </div>
-        </div>
+  <!-- 4. "A shift towards..." (gold, blue looping arrow spectrum) -->
+  <section class="about-shift">
+    <h2 class="about-shift__title" data-reveal>A shift towards a more proactive approach to the design, development and deployment of AI</h2>
+    <div class="about-shift__diagram">
+      <img class="about-shift__arrow" src="img/about-arrow.svg" alt="" aria-hidden="true">
+      <div class="about-shift__item about-shift__item--1" data-reveal>
+        <h3>Responsible AI</h3>
+        <p>How do we make sure the use of AI is safe, secure, and fair?</p>
+      </div>
+      <div class="about-shift__item about-shift__item--2" data-reveal style="--reveal-delay:0.1s">
+        <h3>Human-Agent Work</h3>
+        <p>How do we rethink work and workplaces so humans and AI collaborate well together?</p>
+      </div>
+      <div class="about-shift__item about-shift__item--3" data-reveal style="--reveal-delay:0.2s">
+        <h3>AI for Human Possibility</h3>
+        <p>How do we build AI that expands human capability and agency?</p>
+      </div>
+      <div class="about-shift__item about-shift__item--4" data-reveal style="--reveal-delay:0.3s">
+        <h3>Flourishing Futures</h3>
+        <p>How do we ensure AI strengthens societal wellbeing, resilience, and care?</p>
       </div>
     </div>
   </section>
 
-  <!-- We work to develop -->
+  <!-- 5. "We work to develop..." (white, green scribble behind the outcomes box) -->
   <section class="about-develop">
-    <div class="about-develop__bg">
-      <img src="img/polygon-bg.svg" alt="" class="about-develop__polygon">
-    </div>
-    <div class="container">
-      <h2 class="about-develop__heading">We work to develop...</h2>
-
-      <div class="about-develop__card">
-        <div class="about-develop__item about-develop__item--expanded">
+    <img class="about-develop__art" src="img/about-outcomes.svg" alt="" aria-hidden="true">
+    <p class="about-develop__label" data-reveal>We work to develop...</p>
+    <div class="about-develop__inner">
+      <div class="about-develop__box" data-reveal>
+        <div class="about-develop__item">
           <h3 class="about-develop__item-title">1. A shared vocabulary around human-AI choices</h3>
-          <p class="about-develop__item-desc">
-            Teams can clearly distinguish when AI should automate, augment, advise, or step aside: and discuss trade-offs without collapsing human values into simple 'efficiencies' or 'risk' binaries.
-          </p>
+          <p class="about-develop__item-desc">Teams can clearly distinguish when AI should automate, augment, advise, or step aside: and discuss trade-offs without collapsing human values into simple 'efficiencies' or 'risk' binaries.</p>
         </div>
         <div class="about-develop__item">
           <h3 class="about-develop__item-title">2. New standards to measure human outcomes with AI</h3>
@@ -168,20 +145,424 @@
         </div>
       </div>
     </div>
-
-    <!-- Bottom critter -->
-    <div class="about-develop__critter">
-      <img src="img/smiley-critter.svg" alt="" class="about-develop__smiley">
-    </div>
   </section>
 
   <!-- Footer -->
-  <footer class="site-footer site-footer--blue" role="contentinfo">
-    <img class="site-footer__lockup"
-         src="img/logo-wordmark.svg"
+  <footer class="site-footer site-footer--light" role="contentinfo">
+    <img class="site-footer__lockup" src="img/logo-wordmark.svg"
          alt="Flourishing Futures — AI for Human Possibilities">
     <span class="site-footer__credit">An initiative by the GovTech Innovation Office (2026)</span>
   </footer>
+
+  <!-- Floating "Finch" assistant (shared with the home page). -->
+  <div class="site-assistant" id="siteAssistant" aria-hidden="true">
+    <div class="site-assistant__bubble" id="assistantBubble" role="status" aria-live="polite"></div>
+    <button class="site-assistant__char" id="assistantChar" type="button"
+            aria-label="Flourishing Futures assistant" aria-expanded="false">
+      <svg class="assistant-svg" viewBox="0 125 524 445" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <g clip-path="url(#clip0_asst)">
+          <g class="char-part">
+            <path d="M291.047 567.755L291.047 311.43C291.047 243.175 346.378 187.844 414.633 187.844" stroke="url(#paint0_asst)" stroke-width="111.775" stroke-linecap="round"/>
+            <circle cx="34.3588" cy="34.3588" r="32.0642" transform="matrix(0.960246 -0.279156 -0.279156 -0.960246 394.473 230.379)" stroke="black" stroke-width="4.58926"/>
+            <g class="pupil" data-cx="417.88" data-cy="187.79" data-px="412.95" data-py="175.78" data-max="13.0">
+              <circle cx="21.4399" cy="21.4399" r="21.4399" transform="matrix(0.960246 -0.279156 -0.279156 -0.960246 398.348 202.348)" fill="black"/>
+            </g>
+            <circle cx="413.052" cy="338.935" r="44.8075" transform="rotate(-180 413.052 338.935)" fill="url(#paint1_asst)"/>
+          </g>
+          <g class="char-part">
+            <path d="M92 635.825V435.165C92 329.522 177.641 243.881 283.284 243.881" stroke="url(#paint2_asst)" stroke-width="111.775" stroke-linecap="round"/>
+            <path d="M291.125 230C282.377 262.381 236.438 262.381 227.691 230" stroke="black" stroke-width="9.887"/>
+            <rect x="163.938" y="373.531" width="127.167" height="76.0276" rx="38.0138" fill="url(#paint3_asst)"/>
+          </g>
+        </g>
+        <defs>
+          <linearGradient id="paint0_asst" x1="359.803" y1="187.844" x2="124.568" y2="368.327" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#0066FF"/>
+            <stop offset="1" stop-color="#FFFF08" stop-opacity="0.82"/>
+          </linearGradient>
+          <linearGradient id="paint1_asst" x1="387.12" y1="419.578" x2="414.632" y2="294.454" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#FD92FF"/>
+            <stop offset="1" stop-color="#0066FF"/>
+          </linearGradient>
+          <linearGradient id="paint2_asst" x1="225.182" y1="265.2" x2="-106.044" y2="587.46" gradientUnits="userSpaceOnUse">
+            <stop stop-color="white"/>
+            <stop offset="1" stop-color="#0066FF"/>
+          </linearGradient>
+          <linearGradient id="paint3_asst" x1="150.507" y1="417.002" x2="289.998" y2="391.78" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#D9D9D9"/>
+            <stop offset="1" stop-color="#737373"/>
+          </linearGradient>
+          <clipPath id="clip0_asst">
+            <rect width="524" height="570" fill="white"/>
+          </clipPath>
+        </defs>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Global riso grain (matches the home page). -->
+  <div class="grain-overlay" aria-hidden="true"></div>
+
+  <script>
+  // --- Cursor parallax, per section. Each illustration reacts to the cursor's
+  //     position relative to ITS OWN centre (not one shared viewport vector), and
+  //     each has a different depth + drift DIRECTION (mixed signs) — so a single
+  //     mouse move never slides the whole page the same way; each section feels
+  //     independent. The red number badges drift toward the cursor; their springy
+  //     scale-bob and the drive characters' hover bob are pure CSS. --------------
+  (function () {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    // base = element's own resting transform; dx/dy = drift direction & weight.
+    var views = [
+      { sel: '.about-hero__art',    depth: 20, base: 'scale(1.06)',           dx:  1, dy:  0.55 },
+      { sel: '.about-drive__art',   depth: 26, base: 'translate(-50%, -50%)', dx: -1, dy:  0.7  },
+      { sel: '.about-develop__art', depth: 16, base: 'scale(1.08)',           dx:  1, dy: -0.6  }
+    ].map(function (c) { c.node = document.querySelector(c.sel); return c; })
+     .filter(function (c) { return c.node; });
+
+    var nums = Array.prototype.slice.call(document.querySelectorAll('.about-why__num-wrap'));
+    var NUM_MAX = 14, NUM_FACTOR = 0.06;
+
+    function clamp(v) { return v < -1 ? -1 : v > 1 ? 1 : v; }
+
+    var lastX = 0, lastY = 0, raf = null;
+    function frame() {
+      raf = null;
+      views.forEach(function (c) {
+        var r = c.node.getBoundingClientRect();
+        // -1..1 across the element's own box, so each section is self-contained.
+        var nx = clamp((lastX - (r.left + r.width / 2)) / (r.width / 2 || 1));
+        var ny = clamp((lastY - (r.top + r.height / 2)) / (r.height / 2 || 1));
+        var ox = (nx * c.depth * c.dx).toFixed(1);
+        var oy = (ny * c.depth * c.dy).toFixed(1);
+        c.node.style.transform = c.base + ' translate(' + ox + 'px,' + oy + 'px)';
+      });
+      nums.forEach(function (w) {
+        var r = w.getBoundingClientRect();
+        var dx = (lastX - (r.left + r.width / 2)) * NUM_FACTOR;
+        var dy = (lastY - (r.top + r.height / 2)) * NUM_FACTOR;
+        dx = Math.max(-NUM_MAX, Math.min(NUM_MAX, dx));
+        dy = Math.max(-NUM_MAX, Math.min(NUM_MAX, dy));
+        w.style.transform = 'translate(' + dx.toFixed(1) + 'px,' + dy.toFixed(1) + 'px)';
+      });
+    }
+    document.addEventListener('mousemove', function (e) {
+      lastX = e.clientX; lastY = e.clientY;
+      if (!raf) raf = window.requestAnimationFrame(frame);
+    }, { passive: true });
+
+    // --- Arrow "draws on" left-to-right, tied to the section's scroll progress. --
+    var arrow = document.querySelector('.about-shift__arrow');
+    var diagram = document.querySelector('.about-shift__diagram');
+    if (arrow && diagram) {
+      function drawArrow() {
+        var r = diagram.getBoundingClientRect();
+        var start = window.innerHeight * 0.92;   // begins as the diagram enters
+        var end = window.innerHeight * 0.38;      // fully drawn once it's ~mid-view
+        var p = (start - r.top) / (start - end);
+        p = p < 0 ? 0 : p > 1 ? 1 : p;
+        arrow.style.clipPath = 'inset(0 ' + ((1 - p) * 100).toFixed(1) + '% 0 0)';
+      }
+      drawArrow();
+      window.addEventListener('scroll', drawArrow, { passive: true });
+      window.addEventListener('resize', drawArrow, { passive: true });
+    }
+  })();
+
+  // --- On-scroll reveals: blocks fade/rise, statements reveal line-by-line. ---
+  (function () {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    function splitLines(el) {
+      if (!el._text) el._text = el.textContent.trim().replace(/\s+/g, ' ');
+      var words = el._text.split(' ');
+      el.textContent = '';
+      var spans = words.map(function (w, i) {
+        var s = document.createElement('span');
+        s.textContent = w;
+        s.style.display = 'inline-block';
+        el.appendChild(s);
+        if (i < words.length - 1) el.appendChild(document.createTextNode(' '));
+        return s;
+      });
+      var lines = [], cur = [], top = null;
+      spans.forEach(function (s) {
+        var t = s.offsetTop;
+        if (top === null) top = t;
+        if (t - top > 2 && cur.length) { lines.push(cur); cur = []; top = t; }
+        cur.push(s.textContent);
+      });
+      if (cur.length) lines.push(cur);
+      el.textContent = '';
+      lines.forEach(function (words) {
+        var line = document.createElement('span'); line.className = 'reveal-line';
+        var inner = document.createElement('span'); inner.textContent = words.join(' ');
+        line.appendChild(inner); el.appendChild(line);
+      });
+    }
+
+    var lineEls = Array.prototype.slice.call(document.querySelectorAll('[data-reveal-lines]'));
+    lineEls.forEach(splitLines);
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        var el = e.target, vis = e.isIntersecting;
+        if (el.hasAttribute('data-reveal-lines')) {
+          var parts = el.querySelectorAll('.reveal-line > span');
+          Array.prototype.forEach.call(parts, function (s, i) {
+            s.style.transitionDelay = (vis ? i * 90 : 0) + 'ms';
+          });
+          el.classList.toggle('is-in', vis);
+        } else {
+          el.classList.toggle('is-in', vis);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+
+    Array.prototype.forEach.call(
+      document.querySelectorAll('[data-reveal], [data-reveal-lines]'),
+      function (el) { io.observe(el); }
+    );
+
+    var rt;
+    window.addEventListener('resize', function () {
+      clearTimeout(rt);
+      rt = window.setTimeout(function () {
+        lineEls.forEach(function (el) { if (!el.classList.contains('is-in')) splitLines(el); });
+      }, 200);
+    }, { passive: true });
+  })();
+
+  // --- Floating "Finch" assistant: slides up on scroll; its eye tracks the
+  //     cursor; a random quip pops on hover/tap. (Trimmed from index.html.) ---
+  (function () {
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var assistant = document.getElementById('siteAssistant');
+    var assistantChar = document.getElementById('assistantChar');
+    var assistantBubble = document.getElementById('assistantBubble');
+    var siteFooter = document.querySelector('.site-footer');
+    if (!assistant) return;
+
+    // Cursor-following pupil, clamped inside its socket (same convention as home).
+    function placePupil(p, clientX, clientY) {
+      var svg = p.ownerSVGElement; if (!svg) return;
+      var ctm = svg.getScreenCTM(); if (!ctm) return;
+      var rx = parseFloat(p.getAttribute('data-cx'));
+      var ry = parseFloat(p.getAttribute('data-cy'));
+      var px = parseFloat(p.getAttribute('data-px'));
+      var py = parseFloat(p.getAttribute('data-py'));
+      if (isNaN(px)) { px = rx; py = ry; }
+      var max = parseFloat(p.getAttribute('data-max')) || 0;
+      var restx = px - rx, resty = py - ry;
+      var offx = restx, offy = resty;
+      if (clientX != null) {
+        var scale = Math.sqrt(ctm.a * ctm.a + ctm.b * ctm.b) || 1;
+        var sx = ctm.a * rx + ctm.c * ry + ctm.e;
+        var sy = ctm.b * rx + ctm.d * ry + ctm.f;
+        var dx = clientX - sx, dy = clientY - sy;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist > 0.001) {
+          var reach = Math.min(dist / scale, max);
+          offx = (dx / dist) * reach;
+          offy = (dy / dist) * reach;
+        }
+      }
+      var ol = Math.sqrt(offx * offx + offy * offy);
+      if (max > 0 && ol > max) { offx = offx / ol * max; offy = offy / ol * max; }
+      p.setAttribute('transform',
+        'translate(' + (offx - restx).toFixed(2) + ' ' + (offy - resty).toFixed(2) + ')');
+    }
+    function placeScene(scene, clientX, clientY) {
+      var ps = scene.querySelectorAll('.pupil');
+      for (var i = 0; i < ps.length; i++) placePupil(ps[i], clientX, clientY);
+    }
+
+    var raf = null, lastX = 0, lastY = 0, hasMouse = false;
+    document.addEventListener('mousemove', function (e) {
+      lastX = e.clientX; lastY = e.clientY; hasMouse = true;
+      if (raf) return;
+      raf = window.requestAnimationFrame(function () {
+        raf = null;
+        placeScene(assistant, lastX, lastY);
+      });
+    });
+    placeScene(assistant, null, null);   // settle at rest until the mouse moves
+
+    // "Duck" bob — the group bobs on hover; --duck set in user units per lockup.
+    var DUCK_PX = 15;
+    function setDuck() {
+      var svg = assistant.querySelector('.assistant-svg');
+      if (!svg) return;
+      var vbw = svg.viewBox.baseVal.width || 1;
+      var scale = svg.getBoundingClientRect().width / vbw;
+      if (scale > 0) svg.style.setProperty('--duck', (DUCK_PX / scale).toFixed(1) + 'px');
+    }
+    setDuck();
+    window.addEventListener('resize', function () {
+      setDuck();
+      placeScene(assistant, hasMouse ? lastX : null, hasMouse ? lastY : null);
+    }, { passive: true });
+
+    if (!reduce) {
+      Array.prototype.forEach.call(assistant.querySelectorAll('.char-part'), function (part) {
+        part.addEventListener('mouseenter', function () {
+          if (!part.classList.contains('is-bobbing')) part.classList.add('is-bobbing');
+        });
+        part.addEventListener('animationend', function () {
+          part.classList.remove('is-bobbing');
+        });
+      });
+    }
+
+    // Reveal on scroll; ride up onto the footer bar instead of covering it.
+    function onScroll() {
+      var show = window.scrollY > window.innerHeight * 0.6;
+      assistant.classList.toggle('is-visible', show);
+      assistant.setAttribute('aria-hidden', show ? 'false' : 'true');
+      if (siteFooter) {
+        var overlap = window.innerHeight - siteFooter.getBoundingClientRect().top;
+        assistant.style.bottom = Math.max(0, overlap - 8) + 'px';
+      }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // Speech bubble quips.
+    if (assistantChar) {
+      var QUOTES = [
+        'Human detected. Excellent.',
+        'Please retain your judgement.',
+        'Autocomplete responsibly.',
+        'Possibility looks good.',
+        'Computer says...maybe?',
+        'Prediction is not permission.',
+        'Measure what matters.',
+        'Human possibility unlocked.',
+        'Thanks for thinking.',
+        'Automate with care.'
+      ];
+      var lastQuote = -1;
+      function randomQuote() {
+        var i;
+        do { i = Math.floor(Math.random() * QUOTES.length); }
+        while (QUOTES.length > 1 && i === lastQuote);
+        lastQuote = i;
+        return QUOTES[i];
+      }
+      var BUTTON_QUOTES = [
+        "I'd click it.", 'Only one way to find out.', 'Go on then.',
+        'No pressure, mostly.', 'Your move.', 'Free will detected.'
+      ];
+      var lastBtn = -1;
+      function randomButtonQuote() {
+        var i;
+        do { i = Math.floor(Math.random() * BUTTON_QUOTES.length); }
+        while (BUTTON_QUOTES.length > 1 && i === lastBtn);
+        lastBtn = i;
+        return BUTTON_QUOTES[i];
+      }
+      function bobBoth() {
+        if (reduce) return;
+        Array.prototype.forEach.call(assistant.querySelectorAll('.char-part'), function (p) {
+          p.classList.remove('is-bobbing');
+          void p.offsetWidth;
+          p.classList.add('is-bobbing');
+        });
+      }
+      var bubbleTimer = null, introShown = false, hoverQuipOpen = false;
+      function closeBubble() {
+        window.clearTimeout(bubbleTimer); bubbleTimer = null; hoverQuipOpen = false;
+        assistant.classList.remove('is-open');
+        assistantChar.setAttribute('aria-expanded', 'false');
+      }
+      function showBubble(text, autoHide) {
+        window.clearTimeout(bubbleTimer);
+        assistantBubble.textContent = text;
+        assistant.classList.add('is-open');
+        assistantChar.setAttribute('aria-expanded', 'true');
+        assistantBubble.style.animation = 'none';
+        void assistantBubble.offsetWidth;
+        assistantBubble.style.animation = '';
+        bubbleTimer = autoHide ? window.setTimeout(closeBubble, 2000) : null;
+        bobBoth();
+      }
+      function popBubble() { hoverQuipOpen = false; showBubble(randomQuote(), true); }
+      function sayQuip(text) {
+        if (!assistant.classList.contains('is-visible')) return;
+        introShown = true; hoverQuipOpen = true; showBubble(text, false);
+      }
+      function endHover() { if (hoverQuipOpen) closeBubble(); }
+
+      assistantChar.addEventListener('mouseenter', function () {
+        if (introShown) return;
+        introShown = true; popBubble();
+      });
+      assistantChar.addEventListener('click', function () {
+        introShown = true; popBubble();
+      });
+
+      var hoverActive = null;
+      document.addEventListener('mouseover', function (e) {
+        var t = e.target;
+        if (!t || !t.closest) return;
+        var cue = t.closest('.flofu-cue');
+        var el = cue || t.closest('.btn');
+        if (el === hoverActive) return;
+        hoverActive = el || null;
+        if (el) sayQuip(cue ? cue.getAttribute('data-quip') : randomButtonQuote());
+        else endHover();
+      }, { passive: true });
+      document.addEventListener('mouseout', function (e) {
+        if (hoverActive && !e.relatedTarget) { hoverActive = null; endHover(); }
+      }, { passive: true });
+    }
+  })();
+
+  // --- Flofu cue words: tag agency/judgement/possibilities for hover quips. ---
+  (function () {
+    var WORD_QUIPS = {
+      'agency':        'Can I choose, question or say no?',
+      'judgement':     'Important context and consideration!',
+      'possibilities': "What couldn't I do before?"
+    };
+    var CUE_RE = /\b(agency|judgement|possibilities)\b/ig;
+    function tagCues(root) {
+      var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+      var targets = [], n;
+      while ((n = walker.nextNode())) {
+        var p = n.parentNode;
+        if (p && p.classList && p.classList.contains('flofu-cue')) continue;
+        CUE_RE.lastIndex = 0;
+        if (CUE_RE.test(n.nodeValue)) targets.push(n);
+      }
+      targets.forEach(function (node) {
+        var text = node.nodeValue, frag = document.createDocumentFragment(), last = 0, m;
+        CUE_RE.lastIndex = 0;
+        while ((m = CUE_RE.exec(text))) {
+          if (m.index > last) frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+          var span = document.createElement('span');
+          span.className = 'flofu-cue';
+          span.setAttribute('data-quip', WORD_QUIPS[m[1].toLowerCase()]);
+          span.textContent = m[1];
+          frag.appendChild(span);
+          last = m.index + m[1].length;
+        }
+        if (last < text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+        node.parentNode.replaceChild(frag, node);
+      });
+    }
+    function tagAll() {
+      Array.prototype.forEach.call(document.querySelectorAll('[data-flofu-cues]'), tagCues);
+    }
+    tagAll();
+    var rt;
+    window.addEventListener('resize', function () {
+      clearTimeout(rt);
+      rt = window.setTimeout(tagAll, 280);
+    }, { passive: true });
+  })();
+  </script>
 
 </body>
 </html>
