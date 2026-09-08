@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Flourishing Futures: AI for Human Possibility</title>
   <meta name="description" content="Flourishing Futures — designing AI that expands human agency, judgement and possibility in public service.">
-  <link rel="stylesheet" href="css/home.css?v=20260908d">
+  <link rel="stylesheet" href="css/home.css?v=20260908f">
 </head>
 <body>
 
@@ -24,19 +24,31 @@
 
     <div class="hero__stage" id="heroStage">
 
-      <!-- Hand-drawn brush-doodle tiles (References/A|B|C Illustration.svg).
-           Each scene is one full-bleed illustration over its flat colour field;
-           the field colour + question live in the SCENES array below. -->
+      <!-- Hand-drawn brush-doodle tiles, split into per-element layers so each
+           parallaxes at its own depth/direction (data-depth px; mixed signs let
+           the shapes slide against each other and the background). Layers share
+           the tile's viewBox, so object-fit:cover overlays them pixel-perfect. -->
       <div class="hero__scene is-active" data-scene="0">
-        <div class="scene-stage"><img class="hero__doodle" src="img/hero-a.svg" alt="" aria-hidden="true"></div>
+        <div class="scene-stage">
+          <img class="hero__layer" src="img/hero-a-1.svg" alt="" aria-hidden="true" data-depth="7">
+          <img class="hero__layer" src="img/hero-a-3.svg" alt="" aria-hidden="true" data-depth="-15">
+          <img class="hero__layer" src="img/hero-a-4.svg" alt="" aria-hidden="true" data-depth="18">
+          <img class="hero__layer" src="img/hero-a-2.svg" alt="" aria-hidden="true" data-depth="26">
+        </div>
       </div>
 
       <div class="hero__scene" data-scene="1">
-        <div class="scene-stage"><img class="hero__doodle" src="img/hero-b.svg" alt="" aria-hidden="true"></div>
+        <div class="scene-stage">
+          <img class="hero__layer" src="img/hero-b-1.svg" alt="" aria-hidden="true" data-depth="8">
+          <img class="hero__layer" src="img/hero-b-2.svg" alt="" aria-hidden="true" data-depth="-24">
+        </div>
       </div>
 
       <div class="hero__scene" data-scene="2">
-        <div class="scene-stage"><img class="hero__doodle" src="img/hero-c.svg" alt="" aria-hidden="true"></div>
+        <div class="scene-stage">
+          <img class="hero__layer" src="img/hero-c-1.svg" alt="" aria-hidden="true" data-depth="8">
+          <img class="hero__layer" src="img/hero-c-2.svg" alt="" aria-hidden="true" data-depth="-24">
+        </div>
       </div>
 
     </div><!-- /hero__stage -->
@@ -85,21 +97,21 @@
     <p class="things__label" data-reveal>Things we do</p>
     <div class="things__grid">
       <article class="things__col" data-reveal>
-        <img class="things__doodle" src="img/doodle-research.svg" alt="" aria-hidden="true">
+        <span class="things__doodle-wrap" aria-hidden="true"><img class="things__doodle" src="img/doodle-research.svg" alt="" aria-hidden="true"></span>
         <div class="things__col-inner">
           <h2 class="things__heading">Research<br>&amp; Measurement</h2>
           <p class="things__body reveal-lines" data-reveal-lines>Through research partnerships, longitudinal studies and insight into real public-service contexts, build evidence that identifies not only how AI affects human agency, capability, relationships and trust, but also define what better human × AI relationships could be.</p>
         </div>
       </article>
       <article class="things__col" data-reveal>
-        <img class="things__doodle" src="img/doodle-experiment.svg" alt="" aria-hidden="true">
+        <span class="things__doodle-wrap" aria-hidden="true"><img class="things__doodle" src="img/doodle-experiment.svg" alt="" aria-hidden="true"></span>
         <div class="things__col-inner">
           <h2 class="things__heading">Design<br>&amp; Experiment</h2>
           <p class="things__body reveal-lines" data-reveal-lines>AI can do more for public service than make existing work more efficient; it can also strengthen human agency, judgement, learning, care, connection and trust. Here, we test our theories with small, working design interventions and tools that let people experience a different kind of AI, first-hand.</p>
         </div>
       </article>
       <article class="things__col" data-reveal>
-        <img class="things__doodle" src="img/doodle-community.svg" alt="" aria-hidden="true">
+        <span class="things__doodle-wrap" aria-hidden="true"><img class="things__doodle" src="img/doodle-community.svg" alt="" aria-hidden="true"></span>
         <div class="things__col-inner">
           <h2 class="things__heading">Community<br>&amp; Engagement</h2>
           <p class="things__body reveal-lines" data-reveal-lines>Translate evidence into shared standards, decision frameworks, practices, design patterns and capability. This includes clarifying accountability, governance, and policy advisory so human outcomes are built into how AI is commissioned, approved, deployed and reviewed across government.</p>
@@ -313,8 +325,7 @@
 
       scenes[current].classList.remove('is-active');
       resetPupils(scenes[current]);
-      var prevDoodle = scenes[current].querySelector('.hero__doodle');
-      if (prevDoodle) prevDoodle.style.transform = '';   // settle the outgoing tile
+      resetDoodle(scenes[current]);   // settle the outgoing tile's layers
       scenes[i].classList.add('is-active');
       paint(i);
       current = i;
@@ -377,23 +388,31 @@
     function resetPupils(scene) { placeScene(scene, null, null); }
     function moveEyes(clientX, clientY) { placeScene(scenes[current], clientX, clientY); }
 
-    // --- Hero doodle parallax --------------------------------------------
-    // The active tile's brush-doodle drifts a few px toward the cursor for a
-    // touch of life (no eyes to track anymore). Clamped, and skipped under
-    // reduced-motion. Pass null to settle back to centre.
-    var PARALLAX = 0.015, PARALLAX_MAX = 12;
+    // --- Hero layered parallax -------------------------------------------
+    // The active tile's element layers each drift by their own data-depth (px),
+    // as a fraction of the cursor's offset from viewport centre. Mixed depth
+    // signs make the shapes slide against each other and the background for a
+    // sense of relative motion. Vertical drift is gentler. Skipped under
+    // reduced-motion. Pass null to settle everything back to centre.
     function moveDoodle(clientX, clientY) {
       if (reduce) return;
-      var d = scenes[current] && scenes[current].querySelector('.hero__doodle');
-      if (!d) return;
-      var ox = 0, oy = 0;
+      var sc = scenes[current]; if (!sc) return;
+      var layers = sc.querySelectorAll('.hero__layer');
+      var nx = 0, ny = 0;
       if (clientX != null) {
-        ox = (clientX - window.innerWidth / 2) * PARALLAX;
-        oy = (clientY - window.innerHeight / 2) * PARALLAX;
-        ox = Math.max(-PARALLAX_MAX, Math.min(PARALLAX_MAX, ox));
-        oy = Math.max(-PARALLAX_MAX, Math.min(PARALLAX_MAX, oy));
+        nx = (clientX - window.innerWidth / 2) / (window.innerWidth / 2);   // -1..1
+        ny = (clientY - window.innerHeight / 2) / (window.innerHeight / 2);
       }
-      d.style.transform = 'translate(' + ox.toFixed(1) + 'px,' + oy.toFixed(1) + 'px) scale(1.05)';
+      for (var i = 0; i < layers.length; i++) {
+        var d = parseFloat(layers[i].getAttribute('data-depth')) || 0;
+        var ox = (nx * d).toFixed(1);
+        var oy = (ny * d * 0.6).toFixed(1);   // gentler vertical
+        layers[i].style.transform = 'translate(' + ox + 'px,' + oy + 'px) scale(1.08)';
+      }
+    }
+    function resetDoodle(scene) {
+      var layers = scene.querySelectorAll('.hero__layer');
+      for (var i = 0; i < layers.length; i++) layers[i].style.transform = '';
     }
 
     var raf = null, lastX = 0, lastY = 0, hasMouse = false;
@@ -749,6 +768,41 @@
     window.addEventListener('resize', function () {
       clearTimeout(rt);
       rt = window.setTimeout(tagAll, 280);   // after the reveal splitter's 200ms re-split
+    }, { passive: true });
+  })();
+
+  // --- "Things we do" doodles: each drifts subtly toward the cursor (parallax).
+  //     The springy scale bounce on hover is pure CSS (.things__col:hover). ----
+  (function () {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var section = document.querySelector('.things');
+    if (!section) return;
+    var wraps = Array.prototype.slice.call(section.querySelectorAll('.things__doodle-wrap'));
+    if (!wraps.length) return;
+
+    var MAX = 18, FACTOR = 0.05;         // clamp px, and how strongly it follows
+    var lastX = 0, lastY = 0, raf = null, visible = false;
+
+    // Only do the work while the section is actually on screen.
+    var io = new IntersectionObserver(function (es) { visible = es[0].isIntersecting; }, { threshold: 0 });
+    io.observe(section);
+
+    function frame() {
+      raf = null;
+      if (!visible) return;
+      wraps.forEach(function (w) {
+        var r = w.getBoundingClientRect();
+        var dx = (lastX - (r.left + r.width / 2)) * FACTOR;
+        var dy = (lastY - (r.top + r.height / 2)) * FACTOR;
+        dx = Math.max(-MAX, Math.min(MAX, dx));
+        dy = Math.max(-MAX, Math.min(MAX, dy));
+        w.style.setProperty('--px', dx.toFixed(1) + 'px');
+        w.style.setProperty('--py', dy.toFixed(1) + 'px');
+      });
+    }
+    document.addEventListener('mousemove', function (e) {
+      lastX = e.clientX; lastY = e.clientY;
+      if (!raf) raf = window.requestAnimationFrame(frame);
     }, { passive: true });
   })();
   </script>
