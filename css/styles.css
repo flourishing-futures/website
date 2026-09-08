@@ -347,8 +347,9 @@ a {
 }
 
 .site-nav__brand-img {
-  height: 26px;
+  height: 34px;   /* two-line wordmark */
   width: auto;
+  filter: brightness(0);   /* white SVG → black on the white nav */
 }
 
 .site-nav__links {
@@ -626,34 +627,35 @@ a {
    contrast against the footer's background colour.
    ============================================================ */
 .site-footer {
-  /* Full-bleed colour bar; the white footer.svg lockup spans it edge to
-     edge (logo left, initiative credit right). The bar colour is set per
-     page to contrast the section directly above it. */
+  /* Full-bleed colour bar: white wordmark logo left, initiative credit right,
+     with a thin white rule on top. Bar colour set per page to contrast the
+     section directly above it. */
   background: var(--footer-bg, var(--blue));
   position: relative;
-  font-size: 0; /* remove the inline-image baseline gap */
+  border-top: 3px solid var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.4rem 2.4vw;
 }
 
+/* White wordmark (the SVG ink is already white). */
 .site-footer__lockup {
   display: block;
-  width: 100%;
-  height: auto;
+  height: 42px;
+  width: auto;
+  flex-shrink: 0;
 }
 
-/* Initiative credit, right side. Live text (Newsreader regular) so it can be
-   restyled/resized independently of the baked SVG lockup. Sized in vw so it
-   scales with the full-bleed bar, matching the old baked text's behaviour. */
+/* Initiative credit, right side. Live text (Newsreader regular). */
 .site-footer__credit {
-  position: absolute;
-  top: 50%;
-  right: 2.4vw;
-  transform: translateY(-50%);
   font-family: var(--font-serif);
   font-weight: 400;
-  font-size: 0.83vw;
-  line-height: 1;
+  font-size: 1rem;
+  line-height: 1.2;
   color: var(--white);
-  white-space: nowrap;
+  text-align: right;
 }
 
 /* Per-page footer bar colours (lockup stays white). */
