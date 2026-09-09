@@ -1400,8 +1400,13 @@ a {
   width: clamp(112px, 13vw, 164px);
   -webkit-tap-highlight-color: transparent;
   transition: transform 0.2s ease;
+  /* Sink the eels a touch so the drawing's faded tail slips below the window
+     edge — they read as heads poking up out of the ground rather than a
+     picture that stops. The bottom "extra length" is what bobs into view. */
+  --flofu-sink: 8%;
+  transform: translateY(var(--flofu-sink, 0px));
 }
-.site-assistant__char:hover { transform: translateY(-3px); }
+.site-assistant__char:hover { transform: translateY(calc(var(--flofu-sink, 0px) - 3px)); }
 .site-assistant__char:focus-visible {
   outline: 3px solid var(--blue);
   outline-offset: 4px;
