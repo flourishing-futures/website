@@ -1,57 +1,54 @@
-# Flourishing Futures 🌱
-### *AI for Human Possibilities*
+# Flourishing Futures
+### AI for Human Possibilities
 
-The landing site for **Flourishing Futures**, a programme by the **GovTech Innovation Office** asking a deceptively simple question:
+The website for **Flourishing Futures**, a programme run by the **GovTech Innovation Office**.
 
-> Not just *can* AI do this — but should it, and does it leave people **more capable, more human, and more free**?
+Most talk about AI is about speed, cost, and how much of it you can cram into a workflow. This programme is more interested in whether people come out of the deal better off: still able to think, decide, and do their jobs well. The site is where we try to explain that without sounding like a white paper.
 
-Most of the conversation around AI is about adoption, efficiency and cost. This programme designs for the quieter stuff — agency, judgement, care and trust — and tries to shape the good defaults *before* the technology hardens into place.
+## The look
 
----
+It's colourful and hand-drawn on purpose. Big flat colour, wobbly brush doodles, serif headlines that act like they're mid-thought. There are a few small toys built in:
 
-## 🎨 The vibe
+- Characters that bob a little when you hover them
+- Two of them whose eyes follow your cursor around the green section
+- An outcomes list on the About page that opens like an accordion
+- Finch, the bird in the corner, who watches your cursor and pops up now and then
 
-This is not a greyscale enterprise deck. Expect:
+None of it is essential. That's sort of the point.
 
-- **Loose, hand-drawn brush doodles** over big, bold pop-colour fields
-- **Newsreader** serif for the thinking-out-loud headlines, **GT Maru** for punchy labels, **Atkinson Hyperlegible** for readable body copy
-- Playful micro-interactions: characters that **bob when you hover** and **eyes that follow your cursor**, an outcomes list that **unfurls like an accordion**, and parallax that (mostly) knows when to sit still
-- **Finch** 🐤 — the little floating assistant in the corner who tracks your cursor and occasionally has opinions
+## The pages
 
-## 🗺️ The pages
-
-| Page | What lives there |
-|------|------------------|
-| `index.html` | Home — the rotating hero and the pitch |
-| `about.html` | Why here, why now, and the outcomes we're chasing |
-| `the-lab.html` | The Lab — experiments and prototypes |
+| Page | What's on it |
+|------|--------------|
+| `index.html` | Home, and the rotating hero |
+| `about.html` | Why the programme exists and what it's aiming for |
+| `the-lab.html` | The Lab: experiments and prototypes |
 | `resource-centre.html` | The resource hub |
-| `community.html` | Community & events |
+| `community.html` | Community and events |
 
-## 🛠️ Under the hood
+## How it's built
 
-Refreshingly boring, on purpose:
+Plainly. It's HTML, CSS, and vanilla JavaScript. No framework, no bundler, no build step, nothing to `npm install`.
 
-- **Plain HTML + CSS + vanilla JS.** No framework, no bundler, **no build step.**
-- Styles live in `css/` (`home.css` powers the home + about redesign; `styles.css` serves the other subpages).
-- Per-page behaviour is inline `<script>` at the bottom of each page — small IIFEs, each guarded by `prefers-reduced-motion`.
-- Illustrations are SVGs in `img/`; a few are inlined into the page so their innards (eyes!) can be animated.
+- CSS lives in `css/`. `home.css` runs the home and about pages; `styles.css` covers the rest.
+- Each page's JavaScript sits in a `<script>` tag at the bottom, in small chunks that behave themselves and respect `prefers-reduced-motion`.
+- Illustrations are SVGs in `img/`. A couple are pasted straight into the page so their eyes can move.
 
-### Run it locally
+### Running it
 
-No install required — just serve the folder:
+Serve the folder:
 
 ```bash
 python3 -m http.server 8000
-# then open http://localhost:8000
+# open http://localhost:8000
 ```
 
-> Tip: open it *through the server* rather than double-clicking the file, so the fetch-y and inline-SVG bits behave.
+Open it through the server rather than double-clicking the file, or a couple of the moving parts will sulk.
 
-### Deploy
+### Deploying
 
-Pushed to `main` → **Vercel** does the rest. It's a static site, so a deploy is really just "serve these files, but faster and everywhere."
+Push to `main` and Vercel takes it from there. It's a static site, so deploying mostly means putting the same files somewhere faster.
 
 ---
 
-*An initiative by the GovTech Innovation Office · 2026* ✨
+*A GovTech Innovation Office initiative, 2026.*
