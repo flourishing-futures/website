@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About — Flourishing Futures</title>
   <meta name="description" content="Flourishing Futures — designing AI that expands human agency, judgement and possibility in public service.">
-  <link rel="stylesheet" href="css/home.css?v=20260909g">
+  <link rel="stylesheet" href="css/home.css?v=20260909h">
 </head>
 <body>
 
@@ -29,7 +29,16 @@
 
   <!-- 1. Hero — "What matters most to us" (red, pink/green brush frame) -->
   <section class="about-hero">
-    <img class="about-hero__art" src="img/about-hero.svg" alt="" aria-hidden="true">
+    <!-- Hero art split into per-colour layers so the two colours parallax at
+         their own depth/direction (data-depth px; mixed signs slide the pink
+         and green planes against each other). DOM order = original paint order,
+         so at rest they overlay pixel-perfect over the flat field. -->
+    <div class="about-hero__art" aria-hidden="true">
+      <img class="about-hero__layer" src="img/about-hero-1.svg" alt="" aria-hidden="true" data-depth="14">
+      <img class="about-hero__layer" src="img/about-hero-2.svg" alt="" aria-hidden="true" data-depth="-24">
+      <img class="about-hero__layer" src="img/about-hero-3.svg" alt="" aria-hidden="true" data-depth="14">
+      <img class="about-hero__layer" src="img/about-hero-4.svg" alt="" aria-hidden="true" data-depth="-24">
+    </div>
     <div class="about-hero__inner">
       <p class="about-hero__label" data-reveal>What matters most to us</p>
       <h1 class="about-hero__title" data-reveal>
@@ -305,10 +314,18 @@
     // The green "drive" section no longer parallaxes on mouse travel — its
     // characters only bob on hover (CSS) and their eyes track the cursor (below).
     var views = [
-      { sel: '.about-hero__art',    depth: 20, base: 'scale(1.06)', dx:  1, dy:  0.55 },
       { sel: '.about-develop__art', depth: 16, base: 'scale(1.08)', dx:  1, dy: -0.6  }
     ].map(function (c) { c.node = document.querySelector(c.sel); return c; })
      .filter(function (c) { return c.node; });
+
+    // Hero art is layered by colour: each layer drifts by its OWN signed
+    // data-depth, relative to the hero's own centre, so the pink and green
+    // planes slide against each other (mixed signs) rather than as one canvas.
+    Array.prototype.slice.call(document.querySelectorAll('.about-hero__layer'))
+      .forEach(function (node) {
+        views.push({ node: node, depth: parseFloat(node.getAttribute('data-depth')) || 0,
+                     base: 'scale(1.06)', dx: 1, dy: 0.55 });
+      });
 
     var nums = Array.prototype.slice.call(document.querySelectorAll('.about-why__num-wrap'));
     var NUM_MAX = 14, NUM_FACTOR = 0.06;
