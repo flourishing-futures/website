@@ -1986,3 +1986,110 @@ a {
   .about-develop__box { padding: 0.5rem 1.5rem 1rem; }
   .about-develop__art { height: 102%; opacity: 0.85; }
 }
+
+/* ============================================================
+   LAB PAGE
+   Single-screen "Meet the AI Lab / Coming soon" hero on the green
+   field — two-colour brush-doodle parallax (mirrors .about-hero__*),
+   a riso grain overlay, and Flofu docked over a transparent footer.
+   ============================================================ */
+.lab-hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--green);
+  overflow: hidden;
+}
+.lab-hero__art {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+/* Mirrors .about-hero__layer: full-bleed colour plane, overscanned so the
+   cursor parallax never exposes the field edge. */
+.lab-hero__layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.06);
+  transition: transform 0.3s ease-out;
+  will-change: transform;
+}
+.lab-hero__inner {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 1.4rem;
+  max-width: var(--container-wide);
+  margin: 0 auto;
+  padding: 8rem 1.5rem 4rem;   /* top padding clears the fixed nav */
+}
+.lab-hero__label {
+  font-family: var(--font-display);
+  font-weight: 900;
+  color: var(--green-grad-start);
+  font-size: 1.05rem;
+  letter-spacing: 0.01em;
+  margin: 0;
+  max-width: 100%;
+}
+.lab-hero__title {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  color: var(--white);
+  line-height: 1.05;
+  font-size: clamp(2rem, 5.2vw, 4.6rem);
+  margin: 0;
+  max-width: min(22ch, 100%);
+}
+.lab-hero__soon {
+  font-family: var(--font-display);
+  font-weight: 900;
+  color: var(--blue-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 1.05rem;
+  margin: 0.4rem 0;
+}
+.lab-hero__cta {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--white);
+  font-size: 1.05rem;
+  line-height: 1.5;
+  max-width: min(42ch, 100%);
+  margin: 0;
+}
+.lab-hero__chat {
+  color: var(--white);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.lab-hero__chat:hover { color: var(--green-grad-start); }
+
+/* Lab footer: its own solid green bar below the hero (same pattern as the
+   home/about footers — a colour band with the shared white top rule), so the
+   brush doodles never cut into the wordmark or credit. Ink is black for
+   legibility on the lighter green. */
+.site-footer--lab { background: var(--green); }
+.site-footer--lab .site-footer__lockup { filter: brightness(0); }
+.site-footer--lab .site-footer__credit { color: var(--black); }
+
+@media (max-width: 640px) {
+  .lab-hero__inner { padding: 6rem 1.25rem 3rem; gap: 1.1rem; }
+  .site-footer--lab {
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+    padding: 1.4rem 1.5rem;
+  }
+  .site-footer--lab .site-footer__credit { text-align: center; }
+}

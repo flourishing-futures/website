@@ -99,23 +99,8 @@ a {
   z-index: 0;
 }
 
-.hero__noise,
-.about-hero__noise,
-.lab-about__noise,
-.comm-events__noise {
-  background-image: url('../img/noise.svg');
-}
-
-.about-why__noise,
-.lab-hero__noise,
-.lab-browse__noise,
-.res-hero__noise,
-.res-featured__bg,
-.res-press__noise,
-.comm-hero__noise,
-.comm-collaborate__noise {
-  background-image: url('../img/yellow-bg.png');
-}
+/* Grain/noise overlays removed site-wide (design decision, 2026-09-09).
+   The overlay divs stay as harmless no-op layers; no texture image loads. */
 
 .hero__noise { opacity: 0.4; z-index: 1; }
 .about-hero__noise { opacity: 0.35; z-index: 1; }
@@ -390,9 +375,6 @@ a {
    ============================================================ */
 .vision {
   background: var(--yellow);
-  background-image: url('../img/yellow-bg.png');
-  background-size: 512px 512px;
-  background-repeat: repeat;
   padding: 5rem 1.5rem 5rem;
   text-align: center;
 }
@@ -1364,9 +1346,6 @@ a {
    ============================================================ */
 .res-featured--browse {
   background: var(--yellow);
-  background-image: url('../img/yellow-bg.png');
-  background-size: 512px 512px;
-  background-repeat: repeat;
   padding: 3rem 1.5rem 5rem;
 }
 
