@@ -121,20 +121,6 @@ a {
   transition: background 0.6s ease;
 }
 
-/* Global riso grain — ONE fixed layer over the entire page so the background,
-   characters, text and logos all share the exact same grain scale (Ryan's
-   consistency requirement). soft-light + mid-grey noise textures without
-   washing the colours lighter, so the brand hexes stay true. */
-.grain-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  pointer-events: none;
-  background: url('../img/grain-riso.svg') repeat;
-  background-size: 280px 280px;
-  mix-blend-mode: overlay;
-  opacity: 0.55;
-}
 
 .hero__logo {
   position: relative;
@@ -385,7 +371,6 @@ a {
   pointer-events: none;
 }
 
-/* (Per-section grain removed — the global .grain-overlay now covers these.) */
 .vision > *,
 .lately > *,
 .site-footer > * {
@@ -1381,8 +1366,7 @@ a {
 
 /* ============================================================
    FLOATING ASSISTANT ("Finch")
-   Fixed bottom-right, above the content but below the global grain
-   (z 9999) so it shares the same riso texture. Hidden until the user
+   Fixed bottom-right, above the content. Hidden until the user
    scrolls off the landing hero, then slides up and stays put.
    ============================================================ */
 .site-assistant {
@@ -1508,7 +1492,7 @@ a {
    ABOUT PAGE
    Brings the About page in line with the home art direction:
    full-bleed brush-doodle illustrations behind bold colour
-   fields, serif statements, on-scroll reveals + shared grain.
+   fields, serif statements, on-scroll reveals.
    ============================================================ */
 
 /* Nav sits at the very top of the About page (no hero above it), so it wears
@@ -1607,7 +1591,7 @@ a {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  background: var(--green);
+  background: #00A744;
   text-align: center;
   padding: 6.5rem 1.5rem;
 }
@@ -1638,7 +1622,16 @@ a {
   transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);   /* springy bob */
   will-change: transform;
 }
-.about-drive__char:hover { transform: scale(1.09); }
+.about-drive__char:hover { transform: scale(1.025); }   /* very subtle bob */
+/* The two eye marks of chars 1 & 2 (grouped) glide toward the cursor via JS;
+   this eases each step and the return-to-centre on mouse-leave. */
+.about-drive__eyes {
+  transition: transform 0.18s ease-out;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .about-drive__eyes { transition: none; }
+}
 /* Each character SVG is cropped to its own bounding box; these percentages of the
    source illustration's frame reassemble them into the original composition (and
    keep each hit-area tight to its character). */
@@ -1673,7 +1666,7 @@ a {
 
 /* ---- 3. "Why here, why now?" (blue, 3 numbered columns) ---- */
 .about-why {
-  background: var(--blue);
+  background: #0121C5;
   color: var(--white);
   padding: 6rem 1.5rem;
   text-align: center;
@@ -1854,12 +1847,89 @@ a {
   border-bottom: 1.5px solid var(--black);
 }
 .about-develop__item--last { border-bottom: none; }
+.about-develop__item-heading {
+  margin: 0;
+  font: inherit;
+}
+.about-develop__item-trigger {
+  display: flex;
+  width: 100%;
+  align-items: flex-start;       /* pin the +/- to the title's first line */
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0;
+  background: none;
+  border: 0;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+}
 .about-develop__item-title {
   font-family: var(--font-serif);
   font-weight: 400;
   font-size: 1.85rem;
   line-height: 1.12;
   color: var(--black);
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+.about-develop__item-trigger:hover .about-develop__item-title,
+.about-develop__item-trigger:focus-visible .about-develop__item-title {
+  transform: translateX(4px);
+  color: #00A744;              /* matches the green squiggle behind the box */
+}
+/* Persistent +/- icon: two bars drawn in currentColor. The vertical bar
+   collapses (scaleY 0) when the row opens, morphing the + into a -. */
+.about-develop__item-icon {
+  position: relative;
+  flex: none;
+  width: 18px;
+  /* Height matches the title's first line box (font-size x line-height), and the
+     trigger's flex-start alignment tops it with the title — so the cross sits
+     centred on line 1 regardless of how many lines the title wraps to. */
+  font-size: 1.85rem;
+  height: 1.12em;
+  color: var(--black);
+  transition: color 0.25s ease;
+}
+.about-develop__item-icon::before,
+.about-develop__item-icon::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: currentColor;
+  transition: transform 0.45s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.about-develop__item-icon::before {          /* horizontal bar (always shown) */
+  width: 18px;
+  height: 2px;
+  transform: translate(-50%, -50%);
+}
+.about-develop__item-icon::after {           /* vertical bar (hidden when open) */
+  width: 2px;
+  height: 18px;
+  transform: translate(-50%, -50%);
+}
+.about-develop__item.is-open .about-develop__item-icon::after {
+  transform: translate(-50%, -50%) scaleY(0);
+}
+.about-develop__item-trigger:hover .about-develop__item-icon,
+.about-develop__item-trigger:focus-visible .about-develop__item-icon {
+  color: #00A744;              /* matches the green squiggle behind the box */
+}
+/* Collapse via grid-rows 0fr -> 1fr; inner wrapper clips the content. */
+.about-develop__item-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  /* ease-in-out both ends: gentle start, gentle settle */
+  transition: grid-template-rows 0.45s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.about-develop__item.is-open .about-develop__item-panel {
+  grid-template-rows: 1fr;
+}
+.about-develop__item-panel-inner {
+  overflow: hidden;
+  min-height: 0;
 }
 .about-develop__item-desc {
   font-family: var(--font-body);
@@ -1869,6 +1939,17 @@ a {
   color: var(--black);
   margin-top: 0.85rem;
   max-width: 560px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .about-develop__item-title,
+  .about-develop__item-icon,
+  .about-develop__item-panel {
+    transition: none;
+  }
+  .about-develop__item-icon::before,
+  .about-develop__item-icon::after {
+    transition: none;
+  }
 }
 
 @media (max-width: 900px) {
@@ -1889,6 +1970,7 @@ a {
 
 @media (max-width: 768px) {
   .about-develop__item-title { font-size: 1.45rem; }
+  .about-develop__item-icon { font-size: 1.45rem; }   /* keep it on the smaller title's first line */
   .about-develop__box { padding: 0.5rem 1.5rem 1rem; }
   .about-develop__art { height: 102%; opacity: 0.85; }
 }
