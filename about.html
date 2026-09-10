@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About — Flourishing Futures</title>
   <meta name="description" content="Flourishing Futures — designing AI that expands human agency, judgement and possibility in public service.">
-  <link rel="stylesheet" href="css/home.css?v=20260909i">
+  <link rel="stylesheet" href="css/home.css?v=20260910about">
 </head>
 <body>
 
@@ -627,18 +627,27 @@
       });
     }
 
-    // Reveal on scroll; ride up onto the footer bar instead of covering it.
-    function onScroll() {
-      var show = window.scrollY > window.innerHeight * 0.6;
-      assistant.classList.toggle('is-visible', show);
-      assistant.setAttribute('aria-hidden', show ? 'false' : 'true');
+    // Unlike the home page (which has a tall landing hero to scroll past before
+    // Flofu appears), this page has no such hero — so Flofu animates in on load
+    // and simply stays, present from the top. We still ride up onto the footer
+    // bar instead of covering it while scrolling.
+    function dockFooter() {
       if (siteFooter) {
         var overlap = window.innerHeight - siteFooter.getBoundingClientRect().top;
         assistant.style.bottom = Math.max(0, overlap - 8) + 'px';
       }
     }
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
+    window.addEventListener('scroll', dockFooter, { passive: true });
+    dockFooter();
+    // Defer two frames so the hidden start state paints before we flip to
+    // visible — otherwise the CSS slide-up wouldn't animate. (Reduced motion
+    // disables that transition in CSS, so it just appears.)
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        assistant.classList.add('is-visible');
+        assistant.setAttribute('aria-hidden', 'false');
+      });
+    });
 
     // Speech bubble quips.
     if (assistantChar) {
