@@ -2072,8 +2072,13 @@ a {
    brush doodles never cut into the wordmark or credit. Ink is black for
    legibility on the lighter green. */
 .site-footer--lab { background: #1D8949; }   /* match the calmer lab-hero field */
-.site-footer--lab .site-footer__lockup { filter: brightness(0); }
-.site-footer--lab .site-footer__credit { color: var(--black); }
+/* Lab footer ink is the page's lime (matches the hero label + "Let's chat")
+   for legibility on the green. The wordmark is inlined as an SVG whose path
+   is fill:currentColor, so this colour drives it (robust everywhere, unlike a
+   same-origin CSS mask). Sizing is inherited from the base .site-footer__lockup
+   rule (height 42px, width auto from the SVG's own aspect ratio). */
+.site-footer--lab .site-footer__lockup { color: var(--green-grad-start); }
+.site-footer--lab .site-footer__credit { color: var(--green-grad-start); }
 
 @media (max-width: 640px) {
   .lab-hero__inner { padding: 6rem 1.25rem 3rem; gap: 1.1rem; }
