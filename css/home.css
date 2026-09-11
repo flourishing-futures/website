@@ -1990,7 +1990,7 @@ a {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: var(--green);
+  background: #1D8949;   /* calmer green field so the tonal doodles don't clash */
   overflow: hidden;
 }
 .lab-hero__art {
@@ -2071,7 +2071,7 @@ a {
    home/about footers — a colour band with the shared white top rule), so the
    brush doodles never cut into the wordmark or credit. Ink is black for
    legibility on the lighter green. */
-.site-footer--lab { background: var(--green); }
+.site-footer--lab { background: #1D8949; }   /* match the calmer lab-hero field */
 .site-footer--lab .site-footer__lockup { filter: brightness(0); }
 .site-footer--lab .site-footer__credit { color: var(--black); }
 
