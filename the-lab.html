@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Lab — Flourishing Futures</title>
   <meta name="description" content="Meet the Flourishing Futures AI Lab — a space for discovering, designing and propagating a better relationship between human and machine. Coming soon.">
-  <link rel="stylesheet" href="css/home.css?v=20260909lab">
+  <link rel="stylesheet" href="css/home.css?v=20260910labcalm">
 </head>
 <body>
 
@@ -29,12 +29,16 @@
 
   <!-- Hero — "Meet the AI Lab / Coming soon", on the green field. -->
   <section class="lab-hero">
-    <!-- Hero art split into per-colour layers so pink and gold parallax at
-         their own depth/direction (data-depth px), same convention as the
-         About hero. DOM order = paint order: pink behind, gold in front. -->
+    <!-- Hero art split into per-element groups (planet, rocket, pencil, shapes)
+         so each doodle parallaxes at its own depth/direction (data-depth px),
+         same layer mechanism as the About hero. All four share one viewBox and
+         object-fit:cover, so they stay aligned. DOM order = paint order:
+         shapes behind, then rocket, pencil, planet in front. -->
     <div class="lab-hero__art" aria-hidden="true">
-      <img class="lab-hero__layer" src="img/lab-hero-1.svg" alt="" data-depth="14">
-      <img class="lab-hero__layer" src="img/lab-hero-2.svg" alt="" data-depth="-24">
+      <img class="lab-hero__layer" src="img/lab-shapes.svg" alt="" data-depth="-10">
+      <img class="lab-hero__layer" src="img/lab-rocket.svg" alt="" data-depth="26">
+      <img class="lab-hero__layer" src="img/lab-pencil.svg" alt="" data-depth="-20">
+      <img class="lab-hero__layer" src="img/lab-planet.svg" alt="" data-depth="14">
     </div>
     <div class="lab-hero__inner">
       <p class="lab-hero__label" data-reveal>Meet the Flourishing Futures AI Lab</p>
