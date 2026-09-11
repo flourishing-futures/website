@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About — Flourishing Futures</title>
   <meta name="description" content="Flourishing Futures — designing AI that expands human agency, judgement and possibility in public service.">
-  <link rel="stylesheet" href="css/home.css?v=20260910about">
+  <link rel="stylesheet" href="css/home.css?v=20260911red">
 </head>
 <body>
 
@@ -29,15 +29,13 @@
 
   <!-- 1. Hero — "What matters most to us" (red, pink/green brush frame) -->
   <section class="about-hero">
-    <!-- Hero art split into per-colour layers so the two colours parallax at
-         their own depth/direction (data-depth px; mixed signs slide the pink
-         and green planes against each other). DOM order = original paint order,
-         so at rest they overlay pixel-perfect over the flat field. -->
+    <!-- Single-colour art split into two planes (alternating brush strokes) so
+         they still parallax at their own depth/direction (data-depth px; mixed
+         signs slide the two planes against each other) as the old two-colour
+         version did. They share one viewBox and cover identically. -->
     <div class="about-hero__art" aria-hidden="true">
-      <img class="about-hero__layer" src="img/about-hero-1.svg" alt="" aria-hidden="true" data-depth="14">
-      <img class="about-hero__layer" src="img/about-hero-2.svg" alt="" aria-hidden="true" data-depth="-24">
-      <img class="about-hero__layer" src="img/about-hero-3.svg" alt="" aria-hidden="true" data-depth="14">
-      <img class="about-hero__layer" src="img/about-hero-4.svg" alt="" aria-hidden="true" data-depth="-24">
+      <img class="about-hero__layer" src="img/about-hero-1.svg?v=20260911b" alt="" aria-hidden="true" data-depth="14">
+      <img class="about-hero__layer" src="img/about-hero-2.svg?v=20260911b" alt="" aria-hidden="true" data-depth="-24">
     </div>
     <div class="about-hero__inner">
       <p class="about-hero__label" data-reveal>What matters most to us</p>
@@ -342,8 +340,8 @@
     ].map(function (c) { c.node = document.querySelector(c.sel); return c; })
      .filter(function (c) { return c.node; });
 
-    // Hero art is layered by colour: each layer drifts by its OWN signed
-    // data-depth, relative to the hero's own centre, so the pink and green
+    // Hero art is a single colour split into two planes: each layer drifts by
+    // its OWN signed data-depth, relative to the hero's own centre, so the two
     // planes slide against each other (mixed signs) rather than as one canvas.
     Array.prototype.slice.call(document.querySelectorAll('.about-hero__layer'))
       .forEach(function (node) {

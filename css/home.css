@@ -44,7 +44,7 @@
 
 /* --- Custom Properties --- */
 :root {
-  --red: #FF2200;
+  --red: #E42600;   /* softened from #FF2200 so red surfaces are less blinding */
   --yellow: #E9CE00; /* mustard */
   --yellow-soft: #FDFF81;
   --green: #2EAC00;
