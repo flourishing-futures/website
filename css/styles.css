@@ -1955,7 +1955,7 @@ a {
 /* --- Hero: blue field + red illustration spanning behind the title AND
        the featured flip-deck (they share this one section) ------------ */
 .res-hero {
-  background: var(--blue);
+  background: #1934BE;
   position: relative;
   overflow: hidden;
   isolation: isolate;
