@@ -1912,3 +1912,498 @@ a {
     font-size: 1.5rem;
   }
 }
+
+/* ============================================================
+   RESOURCE HUB — dynamic hero, flip-deck, searchable stream
+   Markup for these is built at runtime by renderResources() in
+   js/render-content.js from window.SITE_CONTENT.resources; the old
+   .res-featured/.res-press/.res-browse/.res-community rules above
+   are left in place (unused by this page now) rather than removed.
+   ============================================================ */
+
+/* --- GT Maru (display font), ported from css/home.css so labels,
+   eyebrows and tag buttons on this page render in the display face --- */
+@font-face {
+  font-family: 'GT Maru';
+  src: url('../fonts/GTMaruRegular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'GT Maru';
+  src: url('../fonts/GTMaruMedium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'GT Maru';
+  src: url('../fonts/GTMaruBold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'GT Maru';
+  src: url('../fonts/GTMaruBlack.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* --- Hero: blue field + red illustration spanning behind the title AND
+       the featured flip-deck (they share this one section) ------------ */
+.res-hero {
+  background: var(--blue);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  padding: 3rem 1.5rem 5rem;
+}
+
+.res-hero__art {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Three interleaved slices of the red art, parallaxed at different depths so
+   the strokes drift against each other like ripples as the cursor moves. */
+.res-hero__layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1.04);
+  transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+  will-change: transform;
+}
+
+.res-hero__inner {
+  position: relative;
+  z-index: 1;
+}
+
+.res-hero__title {
+  margin-bottom: 2.5rem;
+}
+
+/* First line: the front half ("Care about" → …) types in on a caret while
+   "humans?" stays constant. Timed to the deck flip (see initHeroRotator). */
+.res-hero__rotate {
+  display: inline-block;
+  white-space: pre;
+}
+.res-hero__rotate::after {
+  content: '';
+  display: inline-block;
+  width: 0.07em;
+  height: 0.82em;
+  margin-left: 0.05em;
+  background: currentColor;
+  vertical-align: -0.04em;
+  animation: res-caret-blink 1s steps(1) infinite;
+}
+
+@keyframes res-caret-blink {
+  0%, 50%  { opacity: 1; }
+  50.01%, 100% { opacity: 0; }
+}
+
+/* --- Flip-deck: cycling stack of the 3 newest resources ------------ */
+.res-deck__deck {
+  position: relative;
+  max-width: 880px;
+  margin: 0 auto;
+  z-index: 2;
+}
+
+.res-deck__stack {
+  position: relative;
+  z-index: 2;
+  min-height: 440px;
+}
+
+.res-deck-card {
+  position: absolute;
+  inset: 0;
+  background: var(--white);
+  border: 1.5px solid var(--black);
+  border-radius: 1.75rem;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  min-height: 440px;
+  cursor: pointer;
+  transform-origin: center bottom;
+  transition: transform 0.55s cubic-bezier(.34, 1.1, .5, 1), opacity 0.4s ease;
+  will-change: transform;
+}
+
+/* Stacked positions (0 = front); each card is absolute so none of them
+   drive the stack height (JS pins the stack to the tallest card). */
+.res-deck-card[data-pos="0"] { transform: translate(0, 0) rotate(0deg); z-index: 3; }
+.res-deck-card[data-pos="1"] { transform: translate(16px, 20px) rotate(1.6deg); z-index: 2; }
+.res-deck-card[data-pos="2"] { transform: translate(32px, 40px) rotate(3.2deg); z-index: 1; }
+
+/* Front card lifts up before being sent to the back */
+.res-deck-card.is-flipping {
+  transform: translate(-12px, -46px) rotate(-3deg) scale(1.02);
+  z-index: 5;
+}
+
+.res-deck-card__content {
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.res-deck-card__eyebrow {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 0.85rem;
+  color: #5C0037;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.res-deck-card__title {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: 2.5rem;
+  line-height: 1.05;
+  color: var(--black);
+}
+
+.res-deck-card__body {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--black);
+}
+
+.res-deck-card__body p {
+  margin-bottom: 0.75rem;
+}
+
+.res-deck-card__content > div:last-child {
+  margin-top: auto;
+}
+
+.res-deck-card__image {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  margin: 1.25rem 1.25rem 1.25rem 0;
+  min-height: 0;
+}
+
+.res-deck-card__image--blue { background: var(--blue); }
+
+.res-deck-card__image img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* --- Stream: gold backdrop + green illustration, search + tags + grid --- */
+.res-stream {
+  background: #E4B103;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  padding: 3rem 1.5rem 5rem;
+}
+
+.res-stream__art {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.res-stream__layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0.6;
+}
+
+.res-stream__inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.res-stream__search {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--white);
+  border: 2px solid var(--black);
+  border-radius: 100px;
+  padding: 0.75rem 1.5rem;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.res-stream__search-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--black);
+  flex-shrink: 0;
+}
+
+.res-stream__search-input {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1.05rem;
+  color: var(--black);
+  background: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+}
+
+.res-stream__search-input::placeholder {
+  color: rgba(0, 0, 0, 0.45);
+}
+
+.res-stream__tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1.5rem 0 2.5rem;
+}
+
+/* Leading slot holds BOTH "Browse by:" and "✕ Clear all" stacked in one grid
+   cell, so swapping between them never changes the slot width — the tag row
+   to the right stays put. Only one is visible/interactive at a time. */
+.res-stream__lead {
+  display: inline-grid;
+  justify-items: start;
+  align-items: center;
+  margin-right: 0.35rem;
+}
+.res-stream__lead > * {
+  grid-area: 1 / 1;
+  transition: opacity 0.25s ease;
+}
+
+.res-stream__tags-label {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1rem;
+  color: var(--black);
+  white-space: nowrap;
+}
+
+.res-stream__lead .res-stream__tags-label { opacity: 1; }
+.res-stream__lead .res-stream__tag--clear { opacity: 0; pointer-events: none; }
+.res-stream__lead.is-filtering .res-stream__tags-label { opacity: 0; pointer-events: none; }
+.res-stream__lead.is-filtering .res-stream__tag--clear { opacity: 1; pointer-events: auto; }
+
+.res-stream__tag {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1rem;
+  color: var(--black);
+  background: transparent;
+  border: 2px solid transparent;
+  border-radius: 100px;
+  padding: 0.4rem 1.1rem;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease,
+              transform 0.28s cubic-bezier(0.34, 1.5, 0.5, 1);
+}
+
+.res-stream__tag:hover {
+  border-color: var(--black);
+}
+
+.res-stream__tag:active {
+  transform: scale(0.94);
+}
+
+.res-stream__tag--active {
+  background: var(--blue);
+  color: var(--white);
+  border-color: var(--blue);
+  transform: scale(1.06);
+}
+
+/* Springy pop each time a tag toggles on */
+.res-stream__tag--pop {
+  animation: res-tag-pop 0.34s cubic-bezier(0.34, 1.5, 0.5, 1);
+}
+
+@keyframes res-tag-pop {
+  0%   { transform: scale(0.9); }
+  60%  { transform: scale(1.12); }
+  100% { transform: scale(1.06); }
+}
+
+.res-stream__tag--clear {
+  border-color: var(--black);
+}
+
+.res-stream__tag--clear:hover {
+  background: var(--black);
+  color: var(--white);
+}
+
+.res-stream__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.res-stream-card {
+  background: var(--white);
+  border: 2px solid var(--black);
+  border-radius: 1.5rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.34, 1.4, 0.5, 1), box-shadow 0.3s ease;
+}
+
+.res-stream-card:hover {
+  transform: translateY(-8px) rotate(-0.5deg);
+  box-shadow: 9px 11px 0 var(--blue);
+}
+
+.res-stream-card__image {
+  position: relative;
+  height: 200px;
+  margin: 0.5rem;
+  border-radius: 1rem;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--blue), var(--yellow-soft));
+}
+
+.res-stream-card__image img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s cubic-bezier(0.34, 1.4, 0.5, 1);
+}
+
+.res-stream-card:hover .res-stream-card__image img {
+  transform: scale(1.05);
+}
+
+.res-stream-card__content {
+  padding: 1.25rem 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  flex: 1;
+}
+
+.res-stream-card__title {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: 1.6rem;
+  line-height: 1.1;
+  color: var(--black);
+}
+
+.res-stream-card__title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.res-stream-card__title a:hover {
+  text-decoration: underline;
+}
+
+.res-stream-card__author {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 0.8rem;
+  color: #8800FF;
+}
+
+.res-stream-card__body {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--black);
+  flex: 1;
+}
+
+.res-stream-card__body p {
+  margin-bottom: 0.6rem;
+}
+
+.res-stream-card__content > div:last-child {
+  margin-top: auto;
+}
+
+.res-stream__empty {
+  text-align: center;
+  opacity: 0.6;
+  font-family: var(--font-body);
+  padding: 2rem;
+}
+
+@media (max-width: 768px) {
+  .res-deck-card {
+    grid-template-columns: 1fr;
+  }
+
+  .res-deck-card__image {
+    margin: 0 1.25rem 1.25rem;
+    min-height: 220px;
+  }
+
+  .res-deck-card__title {
+    font-size: 1.75rem;
+  }
+
+  .res-stream__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Respect reduced-motion: keep the content, drop the movement */
+@media (prefers-reduced-motion: reduce) {
+  .res-hero__layer,
+  .res-stream-card,
+  .res-stream-card__image img,
+  .res-stream__tag,
+  .res-stream__lead > * {
+    transition: none !important;
+  }
+  .res-hero__layer {
+    transform: scale(1.04) !important;
+  }
+  .res-stream__tag--pop {
+    animation: none !important;
+  }
+  .res-hero__rotate::after {
+    animation: none !important;
+  }
+}
