@@ -64,9 +64,11 @@
 .ff-vt-wrap--close .ff-vt-fill {
   animation: ff-vt-close var(--vt-close-dur) var(--vt-ease) both;
 }
-.ff-vt-wrap--open .ff-vt-fill {
-  /* delay + fill:both hold the closed state before paint → no flash */
-  animation: ff-vt-open var(--vt-open-dur) var(--vt-ease) 0.04s both;
+/* The arriving curtain is built fully closed (--vt-r:0 → colour covers,
+ * no flash) and stays that way until JS knows WHERE to open from — i.e.
+ * the cursor's current position on the new page — then adds .is-playing. */
+.ff-vt-wrap--open.is-playing .ff-vt-fill {
+  animation: ff-vt-open var(--vt-open-dur) var(--vt-ease) both;
 }
 
 /* Hidden host for the SVG filter definition (injected by JS). */
