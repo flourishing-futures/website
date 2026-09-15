@@ -3,18 +3,22 @@
  *
  * Leaving a page:  intercept the click, iris the page window CLOSED to
  *   the click point while THIS page's key colour (ink-edged) fills in
- *   around it, then navigate. Colour + origin stashed in sessionStorage.
- * Arriving on a page:  a same-colour field (built before first paint)
- *   irises OPEN from that same point to reveal the page.
+ *   around it, then navigate. The LATEST cursor position (tracked
+ *   through the close) + colour are stashed in sessionStorage.
+ * Arriving on a page:  a same-colour field is built fully closed, then
+ *   irises OPEN from wherever the cursor is NOW — the first pointer move
+ *   on the new page wins; if the pointer is still, it falls back to the
+ *   handed-off position after a short beat.
  *
- * The organic edge comes from an SVG turbulence/displacement filter on
- * a wrapper element (see css/transitions.css). Honours reduced motion.
+ * Organic edge = SVG turbulence/displacement filter (css/transitions.css).
+ * Honours prefers-reduced-motion.
  * ------------------------------------------------------------------ */
 (function () {
   'use strict';
 
   var KEY = 'ff-vt';
-  var MARGIN = 0.15; // matches .ff-vt-fill inset:-15%; used for origin math
+  var MARGIN = 0.15;      // matches .ff-vt-fill inset:-15%; used for origin math
+  var OPEN_FALLBACK = 140; // ms to wait for a pointer move before opening from stored
 
   // Key colour of the page you're LEAVING → the curtain colour.
   var PAGE_COLORS = {
@@ -37,6 +41,10 @@
     var parts = location.pathname.split('/');
     var name = parts[parts.length - 1];
     return PAGE_COLORS.hasOwnProperty(name) ? PAGE_COLORS[name] : DEFAULT_COLOR;
+  }
+
+  function clamp(v, lo, hi) {
+    return v < lo ? lo : v > hi ? hi : v;
   }
 
   // Distance from (cx,cy) to the farthest viewport corner — the radius
@@ -87,9 +95,14 @@
     return fill;
   }
 
-  /* ---------- Arriving page: iris OPEN to reveal ---------- *
-   * Runs during head parse (script not deferred) so the curtain is
-   * built and painted before the page's own content — no flash. */
+  function removeWrap(fill) {
+    var wrap = fill && fill.parentNode;
+    if (wrap && wrap.parentNode) wrap.parentNode.removeChild(wrap);
+  }
+
+  /* ---------- Arriving page: iris OPEN from the current cursor ---------- *
+   * Runs during head parse (script not deferred) so the curtain is built
+   * and painted (fully closed) before the page's own content — no flash. */
   (function playArrival() {
     if (reduced) {
       try { sessionStorage.removeItem(KEY); } catch (_) {}
@@ -104,69 +117,105 @@
     }
     if (!data) return;
 
-    var w = window.innerWidth;
-    var h = window.innerHeight;
-    var cx = (parseFloat(data.x) / 100) * w;
-    var cy = (parseFloat(data.y) / 100) * h;
-    setVars(data.color || DEFAULT_COLOR, cx, cy, w, h);
+    var color = data.color || DEFAULT_COLOR;
+    root.style.setProperty('--vt-color', color); // keep the closed field the right colour
+    var fill = buildCurtain('open');              // starts fully closed (--vt-r:0)
+    var wrap = fill.parentNode;
 
-    var fill = buildCurtain('open');
-    function cleanup() {
-      var wrap = fill.parentNode;
-      if (wrap && wrap.parentNode) wrap.parentNode.removeChild(wrap);
-    }
-    fill.addEventListener('animationend', cleanup);
-    setTimeout(cleanup, 2000); // safety if animationend never fires
-  })();
-
-  /* ---------- Leaving page: iris CLOSED, then navigate ---------- */
-  document.addEventListener(
-    'click',
-    function (e) {
-      if (reduced) return;
-      if (e.defaultPrevented || e.button !== 0) return;
-      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-
-      var a = e.target.closest && e.target.closest('a[href]');
-      if (!a) return;
-      if (a.target === '_blank' || a.hasAttribute('download')) return;
-      if (a.hasAttribute('data-no-transition')) return;
-
-      var url;
-      try {
-        url = new URL(a.getAttribute('href'), location.href);
-      } catch (_) {
-        return;
-      }
-      if (url.origin !== location.origin) return;
-      if (url.pathname === location.pathname && !url.search && url.hash) return; // in-page anchor
-      if (url.href === location.href) return;
-
-      e.preventDefault();
+    var played = false;
+    function open(cx, cy) {
+      if (played) return;
+      played = true;
+      document.removeEventListener('pointermove', onMove, true);
+      document.removeEventListener('mousemove', onMove, true);
+      clearTimeout(fallbackId);
 
       var w = window.innerWidth;
       var h = window.innerHeight;
-      var color = keyColor();
-      var xPct = ((e.clientX / w) * 100).toFixed(2) + '%';
-      var yPct = ((e.clientY / h) * 100).toFixed(2) + '%';
+      setVars(color, clamp(cx, 0, w), clamp(cy, 0, h), w, h);
 
-      setVars(color, e.clientX, e.clientY, w, h);
+      // Let the origin/colour vars apply, then trigger the reveal.
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          wrap.classList.add('is-playing');
+        });
+      });
+    }
 
-      // Hand colour + origin (as viewport %) to the arriving page.
-      try {
-        sessionStorage.setItem(KEY, JSON.stringify({ color: color, x: xPct, y: yPct }));
-      } catch (_) {}
+    function onMove(e) {
+      open(e.clientX, e.clientY); // truest "where the mouse is now"
+    }
+    document.addEventListener('pointermove', onMove, true);
+    document.addEventListener('mousemove', onMove, true); // older-browser safety
 
-      var fill = buildCurtain('close');
-      var navigated = false;
-      function go() {
-        if (navigated) return;
-        navigated = true;
-        location.href = url.href;
-      }
-      fill.addEventListener('animationend', go);
-      setTimeout(go, 900); // fallback if the animation stalls
-    },
-    false
-  );
+    // No pointer movement (still mouse / touch / keyboard) → open from the
+    // last cursor position handed off by the page we came from.
+    var w0 = window.innerWidth, h0 = window.innerHeight;
+    var fx = (parseFloat(data.x) / 100) * w0;
+    var fy = (parseFloat(data.y) / 100) * h0;
+    var fallbackId = setTimeout(function () { open(fx, fy); }, OPEN_FALLBACK);
+
+    fill.addEventListener('animationend', function () { removeWrap(fill); });
+    setTimeout(function () { removeWrap(fill); }, OPEN_FALLBACK + 2500); // safety
+  })();
+
+  /* ---------- Leaving page: track the pointer, iris CLOSED, navigate ---------- */
+  if (!reduced) {
+    var lastX = null, lastY = null;
+    function track(e) { lastX = e.clientX; lastY = e.clientY; }
+    document.addEventListener('pointermove', track, { passive: true });
+    document.addEventListener('mousemove', track, { passive: true });
+
+    document.addEventListener(
+      'click',
+      function (e) {
+        if (e.defaultPrevented || e.button !== 0) return;
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+
+        var a = e.target.closest && e.target.closest('a[href]');
+        if (!a) return;
+        if (a.target === '_blank' || a.hasAttribute('download')) return;
+        if (a.hasAttribute('data-no-transition')) return;
+
+        var url;
+        try {
+          url = new URL(a.getAttribute('href'), location.href);
+        } catch (_) {
+          return;
+        }
+        if (url.origin !== location.origin) return;
+        if (url.pathname === location.pathname && !url.search && url.hash) return; // in-page anchor
+        if (url.href === location.href) return;
+
+        e.preventDefault();
+
+        var w = window.innerWidth;
+        var h = window.innerHeight;
+        var color = keyColor();
+
+        // Close irises to the click point.
+        setVars(color, e.clientX, e.clientY, w, h);
+        // Seed the pointer with the click so a still mouse still hands off sanely.
+        if (lastX === null) { lastX = e.clientX; lastY = e.clientY; }
+
+        var fill = buildCurtain('close');
+        var navigated = false;
+        function go() {
+          if (navigated) return;
+          navigated = true;
+          // Hand off colour + the LATEST cursor position (as viewport %),
+          // so the next page opens from where the mouse ended up.
+          var xPct = (clamp(lastX, 0, w) / w * 100).toFixed(2) + '%';
+          var yPct = (clamp(lastY, 0, h) / h * 100).toFixed(2) + '%';
+          try {
+            sessionStorage.setItem(KEY, JSON.stringify({ color: color, x: xPct, y: yPct }));
+          } catch (_) {}
+          location.href = url.href;
+        }
+        fill.addEventListener('animationend', go);
+        setTimeout(go, 900); // fallback if the animation stalls
+      },
+      false
+    );
+  }
 })();
