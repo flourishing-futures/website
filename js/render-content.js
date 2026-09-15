@@ -81,7 +81,7 @@
     var html = '';
     for (var i = 0; i < items.length; i++) {
       var item = items[i];
-      var eyebrow = item.eyebrow || 'Hot off the press';
+      var eyebrow = item.eyebrow || 'Featured';
       var bodyHtml = '';
       for (var j = 0; j < item.body.length; j++) {
         bodyHtml += '<p>' + item.body[j] + '</p>';
