@@ -1,0 +1,83 @@
+/* ------------------------------------------------------------------ *
+ * Page transitions — ink iris (aperture) wipe.
+ *
+ * Same aperture motion as before (a circular window irises closed on
+ * the page you leave, then open on the page you arrive at), but the
+ * window's edge is warped by an SVG turbulence/displacement filter so
+ * it reads as a hand-painted ink boundary rather than a perfect circle.
+ *
+ * Structure per phase:  .ff-vt-wrap (carries the filter)
+ *                          └ .ff-vt-fill (the colour + circular mask)
+ * The filter sits on the wrapper so it warps the child's already-masked
+ * alpha edge. If filters are unsupported the mask still gives a clean
+ * iris. Orchestrated by js/page-transitions.js. Honours reduced motion.
+ * ------------------------------------------------------------------ */
+
+/* Registered so it can be animated (a plain custom property can't be). */
+@property --vt-r {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+:root {
+  --vt-x: 50%;              /* aperture centre (px, set per-navigation by JS) */
+  --vt-y: 50%;
+  --vt-rmax: 150vmax;       /* radius that just covers the viewport (JS sets px) */
+  --vt-color: #14110F;      /* curtain colour = key colour of page left */
+  --vt-close-dur: 0.5s;     /* iris close (leaving)  */
+  --vt-open-dur: 0.58s;     /* iris open  (arriving) */
+  --vt-ease: cubic-bezier(.66, 0, .2, 1);
+}
+
+@keyframes ff-vt-close {   /* big → small: page window collapses to the point */
+  from { --vt-r: var(--vt-rmax); }
+  to   { --vt-r: 0px; }
+}
+@keyframes ff-vt-open {    /* small → big: page window opens out from the point */
+  from { --vt-r: 0px; }
+  to   { --vt-r: var(--vt-rmax); }
+}
+
+/* Wrapper only carries the ink filter (applied AFTER the child's mask,
+ * so it warps the masked edge). pointer-events off; sits above all. */
+.ff-vt-wrap {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  pointer-events: none;
+  filter: url(#ff-vt-ink);
+}
+
+/* The colour field, masked so the circle interior is the transparent
+ * window the page shows through. Oversized (inset:-15%) so the ink
+ * displacement never exposes a gap of page at the screen edge. */
+.ff-vt-fill {
+  position: absolute;
+  inset: -15%;
+  background: var(--vt-color);
+  -webkit-mask: radial-gradient(circle var(--vt-r) at var(--vt-x) var(--vt-y), #0000 99%, #000 100%);
+          mask: radial-gradient(circle var(--vt-r) at var(--vt-x) var(--vt-y), #0000 99%, #000 100%);
+  will-change: --vt-r;
+}
+
+.ff-vt-wrap--close .ff-vt-fill {
+  animation: ff-vt-close var(--vt-close-dur) var(--vt-ease) both;
+}
+.ff-vt-wrap--open .ff-vt-fill {
+  /* delay + fill:both hold the closed state before paint → no flash */
+  animation: ff-vt-open var(--vt-open-dur) var(--vt-ease) 0.04s both;
+}
+
+/* Hidden host for the SVG filter definition (injected by JS). */
+.ff-vt-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+/* No wipe for users who prefer reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  .ff-vt-wrap { display: none; }
+}
