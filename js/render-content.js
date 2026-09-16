@@ -5,6 +5,7 @@
   if (data.lately) renderLately(data.lately);
   if (data.resources) renderResources(data.resources);
   if (data.events) renderEvents(data.events);
+  if (data.community) renderCommunity(data.community);
 
   /* --- Lately cards (index.html) ------------------------------------ */
   function renderLately(items) {
@@ -577,5 +578,424 @@
     var month = months[parseInt(parts[1], 10) - 1];
     var year = parts[0];
     return day + ' ' + month + ' ' + year;
+  }
+
+  /* --- Community hub (community.html) -------------------------------- */
+  /* Builds the "Upcoming" spotlight card, the gallery photo ticker, and
+     the experts ticker from window.SITE_CONTENT.community, then wires up
+     the hero parallax, scroll reveals, and the auto-scrolling/draggable
+     ticker tracks. */
+  function renderCommunity(c) {
+    if (c.upcoming) renderCmtyUpcoming(c.upcoming);
+    if (c.gallery) renderCmtyGallery(c.gallery);
+    if (c.experts) renderCmtyExperts(c.experts);
+
+    initCmtyHeroParallax();
+    initCmtyReveals();
+    initCmtyRotator();
+
+    var tickers = document.querySelectorAll('[data-ticker]');
+    for (var i = 0; i < tickers.length; i++) initTicker(tickers[i]);
+  }
+
+  function renderCmtyUpcoming(item) {
+    var mount = document.getElementById('cmtyUpcoming');
+    if (!mount) return;
+
+    var bodyHtml = '';
+    for (var i = 0; i < item.body.length; i++) {
+      bodyHtml += '<p class="lately-card__body">' + item.body[i] + '</p>';
+    }
+
+    var imageHtml = item.image
+      ? '<div class="lately-card__image"><img src="' + item.image.src + '" alt="' + (item.image.alt || '') + '"></div>'
+      : '<div class="lately-card__image lately-card__image--blue"></div>';
+
+    var href = item.cta && item.cta.href ? item.cta.href : '#';
+
+    mount.innerHTML =
+      '<article class="lately-card cmty-card" data-href="' + href + '">' +
+        '<div class="lately-card__content">' +
+          '<h2 class="lately-card__heading">' + item.title + '</h2>' +
+          bodyHtml +
+          '<p class="cmty-card__meta"><strong>When:</strong> ' + item.when + '<br><strong>Where:</strong> ' + item.where + '</p>' +
+          '<div><a href="' + href + '" class="btn btn--green">' + item.cta.text + '</a></div>' +
+        '</div>' +
+        imageHtml +
+      '</article>';
+
+    // Whole card is clickable, but let the inner CTA <a> handle its own clicks
+    // (so modifiers / middle-click still work). Mirrors the resource stream cards.
+    var card = mount.querySelector('.cmty-card');
+    if (card) {
+      card.addEventListener('click', function (e) {
+        if (e.target.closest('a') || e.target.closest('button')) return;
+        var h = this.getAttribute('data-href');
+        if (!h || h === '#') return;
+        window.location.href = h;
+      });
+    }
+  }
+
+  function renderCmtyGallery(items) {
+    var track = document.getElementById('cmtyGalleryTrack');
+    if (!track) return;
+
+    var html = '';
+    for (var i = 0; i < items.length; i++) {
+      var item = items[i];
+      // Real photos: fixed-height <img>, natural width (sized via CSS).
+      // Fallback (no src, only a swatch color) keeps the old colored box.
+      var innerHtml = item.src
+        ? '<img class="cmty-ticker__img" src="' + item.src + '" alt="' + (item.alt || '') + '" draggable="false">'
+        : '<div class="cmty-ticker__media" style="background:' + item.color + '" role="img" aria-label="' + (item.alt || '') + '"></div>';
+
+      html +=
+        '<figure class="cmty-ticker__card cmty-ticker__card--photo">' +
+          innerHtml +
+        '</figure>';
+    }
+    track.innerHTML = html;
+  }
+
+  function renderCmtyExperts(items) {
+    var track = document.getElementById('cmtyExpertsTrack');
+    if (!track) return;
+
+    var html = '';
+    for (var i = 0; i < items.length; i++) {
+      var item = items[i];
+      var photoHtml = item.img
+        ? '<div class="cmty-expert__photo"><img src="' + item.img + '" alt="' + item.name + '" draggable="false"></div>'
+        : '<div class="cmty-expert__photo" aria-hidden="true"></div>';
+
+      html +=
+        '<figure class="cmty-ticker__card cmty-ticker__card--expert">' +
+          photoHtml +
+          '<figcaption class="cmty-expert__caption">' +
+            '<p class="cmty-expert__name">' + item.name + '</p>' +
+            '<p class="cmty-expert__title">' + item.title + '</p>' +
+            '<p class="cmty-expert__org">' + item.org + '</p>' +
+          '</figcaption>' +
+        '</figure>';
+    }
+    track.innerHTML = html;
+  }
+
+  /* Same ripple-parallax approach as the Resource Hub hero, retargeted at
+     the Community hero's own layer markup. */
+  function initCmtyHeroParallax() {
+    var hero = document.querySelector('.cmty-hero');
+    if (!hero) return;
+    var layers = Array.prototype.slice.call(hero.querySelectorAll('.cmty-hero__layer'));
+    if (!layers.length) return;
+    if (window.matchMedia &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var tx = 0, ty = 0, raf = null;
+
+    function apply() {
+      raf = null;
+      for (var i = 0; i < layers.length; i++) {
+        var d = parseFloat(layers[i].getAttribute('data-depth')) || 0;
+        var dir = (i % 2 === 0) ? 1 : -1;
+        var x = tx * d * dir;
+        var y = ty * d * dir * 0.6;
+        layers[i].style.transform = 'scale(1.04) translate(' + x + 'px,' + y + 'px)';
+      }
+    }
+
+    hero.addEventListener('mousemove', function (e) {
+      var r = hero.getBoundingClientRect();
+      tx = (e.clientX - r.left) / r.width - 0.5;
+      ty = (e.clientY - r.top) / r.height - 0.5;
+      if (!raf) raf = requestAnimationFrame(apply);
+    });
+    hero.addEventListener('mouseleave', function () {
+      tx = 0; ty = 0;
+      if (!raf) raf = requestAnimationFrame(apply);
+    });
+  }
+
+  /* Types the hero eyebrow's rotating phrase in and out, cycling through a
+     fixed list on its own timer — unlike the Resource Hub's rotator, the
+     community hero has no deck to sync against, so this just holds each
+     phrase for ~3.2s and advances. Reuses the same erase-then-type
+     technique as initHeroRotator's typeTo. */
+  function initCmtyRotator() {
+    var el = document.querySelector('.cmty-hero__rotate');
+    if (!el) return;
+    var phrases = [
+      'Design for humans',
+      'Build responsible AI',
+      'Understand humans better',
+      'Unlock human possibility',
+      'Create better futures'
+    ];
+    var reduce = window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // The element already shows phrases[0] as static markup, so start the
+    // index there and let the first tick advance to phrases[1] rather than
+    // immediately retyping phrases[0].
+    var i = 0;
+    var gen = 0;
+
+    function typeTo(text) {
+      gen++;
+      var myGen = gen;
+      if (reduce) { el.textContent = text; return; }
+      function erase() {
+        if (myGen !== gen) return;
+        var cur = el.textContent;
+        if (cur.length) {
+          el.textContent = cur.slice(0, -1);
+          window.setTimeout(erase, 30);
+        } else {
+          typeIn(1);
+        }
+      }
+      function typeIn(n) {
+        if (myGen !== gen) return;
+        el.textContent = text.slice(0, n);
+        if (n < text.length) window.setTimeout(function () { typeIn(n + 1); }, 55);
+      }
+      erase();
+    }
+
+    window.setInterval(function () {
+      i = (i + 1) % phrases.length;
+      typeTo(phrases[i]);
+    }, 3200);
+  }
+
+  /* Scroll-triggered reveals for [data-reveal] elements on community.html.
+     Mirrors the inline observer other pages set up directly in markup —
+     render-content.js has none yet, so the community sections own it here. */
+  function initCmtyReveals() {
+    var targets = Array.prototype.slice.call(document.querySelectorAll('[data-reveal]'));
+    if (!targets.length) return;
+
+    var reduce = window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (reduce) {
+      for (var i = 0; i < targets.length; i++) targets[i].classList.add('is-in');
+      return;
+    }
+
+    var observer = new IntersectionObserver(function (entries) {
+      for (var i = 0; i < entries.length; i++) {
+        var entry = entries[i];
+        if (entry.isIntersecting) entry.target.classList.add('is-in');
+        else entry.target.classList.remove('is-in');
+      }
+    }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+
+    for (var j = 0; j < targets.length; j++) observer.observe(targets[j]);
+  }
+
+  /* Ticker entry point: the two community carousels ("gallery" and
+     "experts") now behave differently, so this just reads the mode off the
+     container and hands off to the right implementation. Each implementation
+     owns its own closured state so multiple tickers never share a loop or
+     a position. */
+  function initTicker(container) {
+    var track = container.querySelector('.cmty-ticker__track');
+    if (!track) return;
+
+    var mode = container.getAttribute('data-ticker');
+
+    if (mode === 'experts') {
+      initStaticDragTicker(container, track);
+    } else {
+      initGalleryTicker(container, track);
+    }
+  }
+
+  /* Gallery mode: duplicates the track's cards once for a seamless
+     right-to-left loop, auto-scrolls at a gentle base speed, and lets a
+     pointer drag take over — flicking it imparts momentum that decays
+     (friction) back down into the base auto-scroll, in whichever direction
+     it was flung. */
+  function initGalleryTicker(container, track) {
+    var reduce = window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Duplicate the current cards once so the strip can wrap seamlessly.
+    var originals = Array.prototype.slice.call(track.children);
+    var originalCount = originals.length;
+    for (var i = 0; i < originalCount; i++) {
+      track.appendChild(originals[i].cloneNode(true));
+    }
+
+    var x = 0;
+    var half = 0;
+    var speed = 0.5;
+    var dragging = false;
+    var momentum = false; // true while a post-flick glide is decaying
+    var mv = 0;           // momentum velocity, px/frame, decays via friction
+    var vel = 0;          // smoothed pointer velocity, tracked during drag
+    var lastX = 0;
+    var startPointerX = 0;
+    var startX = 0;
+    var resizeTimer = null;
+
+    function wrap() {
+      if (!half) return;
+      while (x <= -half) x += half;
+      while (x > 0) x -= half;
+    }
+
+    // The true loop period is the offset of the first cloned card relative
+    // to the first original card — that span includes the trailing
+    // inter-item gap, so card (originalCount + 1) lands exactly where card 1
+    // started and the wrap is seamless. (track.scrollWidth / 2 was off by
+    // half a gap.)
+    function measureHalf() {
+      var cloneStart = track.children[originalCount];
+      if (!cloneStart || !track.firstElementChild) return 0;
+      return cloneStart.offsetLeft - track.firstElementChild.offsetLeft;
+    }
+
+    function recomputeHalf() {
+      var next = measureHalf();
+      if (!next) {
+        // Layout isn't ready yet (e.g. images still loading) — retry.
+        requestAnimationFrame(recomputeHalf);
+        return;
+      }
+      half = next;
+      // Re-normalize the current position into the new period so a live
+      // recompute (an image finishing load, a resize) never causes a
+      // visible jump.
+      wrap();
+      track.style.transform = 'translateX(' + x + 'px)';
+    }
+    recomputeHalf();
+
+    // Gallery cards are real <img>s now and load asynchronously, which can
+    // shift the track's layout (and therefore `half`) after our first
+    // measurement — recompute per-image-load, plus once more on window
+    // 'load' as a backstop, and on resize as before.
+    var imgs = track.querySelectorAll('img');
+    for (var m = 0; m < imgs.length; m++) {
+      imgs[m].addEventListener('load', recomputeHalf);
+    }
+    window.addEventListener('load', recomputeHalf);
+
+    window.addEventListener('resize', function () {
+      if (resizeTimer) window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(recomputeHalf, 150);
+    });
+
+    // Three effective states, mutually exclusive: dragging (transform set
+    // directly in pointermove, this loop no-ops), momentum (decaying mv),
+    // auto (base speed). Auto never runs while dragging or gliding.
+    function frame() {
+      if (!dragging) {
+        if (momentum) {
+          x += mv;
+          mv *= 0.94;
+          wrap();
+          track.style.transform = 'translateX(' + x + 'px)';
+          if (Math.abs(mv) < speed) momentum = false;
+        } else {
+          x -= speed;
+          if (half && x <= -half) x += half;
+          track.style.transform = 'translateX(' + x + 'px)';
+        }
+      }
+      requestAnimationFrame(frame);
+    }
+    if (!reduce) requestAnimationFrame(frame);
+
+    container.addEventListener('pointerdown', function (e) {
+      dragging = true;
+      momentum = false;
+      vel = 0;
+      lastX = e.clientX;
+      container.classList.add('is-dragging');
+      if (container.setPointerCapture) container.setPointerCapture(e.pointerId);
+      startPointerX = e.clientX;
+      startX = x;
+      e.preventDefault();
+    });
+
+    container.addEventListener('pointermove', function (e) {
+      if (!dragging) return;
+      var dx = e.clientX - lastX;
+      vel = 0.8 * vel + 0.2 * dx; // smoothed pointer velocity
+      lastX = e.clientX;
+      x = startX + (e.clientX - startPointerX);
+      wrap();
+      track.style.transform = 'translateX(' + x + 'px)';
+    });
+
+    function endDrag() {
+      if (!dragging) return;
+      dragging = false;
+      container.classList.remove('is-dragging');
+      // Reduced motion: just stop — no glide, no auto-scroll resume.
+      if (!reduce && vel) {
+        mv = vel;
+        momentum = true;
+      }
+    }
+    container.addEventListener('pointerup', endDrag);
+    container.addEventListener('pointercancel', endDrag);
+    container.addEventListener('lostpointercapture', endDrag);
+  }
+
+  /* Experts mode: only ~4 cards, so this never moves on its own — no clone,
+     no auto-scroll, no momentum. Pure drag, clamped so you can't pull past
+     either end of the (finite) track. */
+  function initStaticDragTicker(container, track) {
+    var x = 0;
+    var dragging = false;
+    var startPointerX = 0;
+    var startX = 0;
+    var minX = 0;
+    var resizeTimer = null;
+
+    function recomputeMinX() {
+      minX = Math.min(0, container.clientWidth - track.scrollWidth);
+      // Layout might not be ready yet (e.g. images still loading) — retry.
+      if (!track.scrollWidth) requestAnimationFrame(recomputeMinX);
+    }
+    recomputeMinX();
+
+    window.addEventListener('resize', function () {
+      if (resizeTimer) window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(recomputeMinX, 150);
+    });
+
+    function clamp(val) {
+      if (val > 0) return 0;
+      if (val < minX) return minX;
+      return val;
+    }
+
+    container.addEventListener('pointerdown', function (e) {
+      dragging = true;
+      container.classList.add('is-dragging');
+      if (container.setPointerCapture) container.setPointerCapture(e.pointerId);
+      startPointerX = e.clientX;
+      startX = x;
+      e.preventDefault();
+    });
+
+    container.addEventListener('pointermove', function (e) {
+      if (!dragging) return;
+      x = clamp(startX + (e.clientX - startPointerX));
+      track.style.transform = 'translateX(' + x + 'px)';
+    });
+
+    function endDrag() {
+      dragging = false;
+      container.classList.remove('is-dragging');
+    }
+    container.addEventListener('pointerup', endDrag);
+    container.addEventListener('pointercancel', endDrag);
+    container.addEventListener('lostpointercapture', endDrag);
   }
 })();
