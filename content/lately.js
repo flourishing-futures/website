@@ -22,7 +22,7 @@ window.SITE_CONTENT.lately = [
       "Through inspiration sessions and hands-on product garages: we help builders to engage in critical conversations, identify potential risks, imagine better possibilities, and stay inspired and connected to the human impact of working with AI."
     ],
     "cta": { "text": "Find more events", "href": "community.html", "style": "green" },
-    "image": { "src": "photos/community-photo.png", "alt": "Conscious Builder Community gathering" }
+    "image": { "src": "img/community-photo.webp", "alt": "Conscious Builder Community gathering" }
   },
   {
     "heading": "AIMPACT SG Benchmark",
@@ -41,6 +41,6 @@ window.SITE_CONTENT.lately = [
       "Through inspiration sessions and hands-on product garages: we help builders to engage in critical conversations, identify potential risks, imagine better possibilities, and stay inspired and connected to the human impact of working with AI."
     ],
     "cta": { "text": "Find more events", "href": "community.html", "style": "green" },
-    "image": { "src": "photos/community-photo.png", "alt": "Conscious Builder Community gathering" }
+    "image": { "src": "img/community-photo.webp", "alt": "Conscious Builder Community gathering" }
   }
 ];

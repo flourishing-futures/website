@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Lab — Flourishing Futures</title>
   <meta name="description" content="Meet the Flourishing Futures AI Lab — a space for discovering, designing and propagating a better relationship between human and machine. Coming soon.">
-  <link rel="stylesheet" href="css/home.css?v=20260911labfoot2">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700&family=Atkinson+Hyperlegible+Next:wght@300;400;500&display=swap">
+  <link rel="stylesheet" href="css/home.css?v=20260916opt">
   <link rel="stylesheet" href="css/transitions.css?v=20260914vt5">
   <script src="js/page-transitions.js?v=20260914vt5"></script>
 </head>
@@ -16,7 +19,7 @@
     <div class="container--wide">
       <div class="site-nav__inner">
         <a href="index.html" class="site-nav__brand" aria-label="Flourishing Futures — AI for Human Possibilities">
-          <img src="img/logo-wordmark.svg" alt="Flourishing Futures — AI for Human Possibility" class="site-nav__brand-img">
+          <img src="img/logo-wordmark.svg" decoding="async" alt="Flourishing Futures — AI for Human Possibility" class="site-nav__brand-img">
         </a>
         <ul class="site-nav__links">
           <li><a href="index.html">Home</a></li>
@@ -37,10 +40,10 @@
          object-fit:cover, so they stay aligned. DOM order = paint order:
          shapes behind, then rocket, pencil, planet in front. -->
     <div class="lab-hero__art" aria-hidden="true">
-      <img class="lab-hero__layer" src="img/lab-shapes.svg" alt="" data-depth="-10">
-      <img class="lab-hero__layer" src="img/lab-rocket.svg" alt="" data-depth="26">
-      <img class="lab-hero__layer" src="img/lab-pencil.svg" alt="" data-depth="-20">
-      <img class="lab-hero__layer" src="img/lab-planet.svg" alt="" data-depth="14">
+      <img class="lab-hero__layer" src="img/lab-shapes.svg" decoding="async" alt="" data-depth="-10">
+      <img class="lab-hero__layer" src="img/lab-rocket.svg" decoding="async" alt="" data-depth="26">
+      <img class="lab-hero__layer" src="img/lab-pencil.svg" decoding="async" alt="" data-depth="-20">
+      <img class="lab-hero__layer" src="img/lab-planet.svg" decoding="async" alt="" data-depth="14">
     </div>
     <div class="lab-hero__inner">
       <p class="lab-hero__label" data-reveal>Meet the Flourishing Futures AI Lab</p>
@@ -332,7 +335,11 @@
         assistant.style.bottom = Math.max(0, overlap - 8) + 'px';
       }
     }
-    window.addEventListener('scroll', dockFooter, { passive: true });
+    var _dockFooterTicking = false;
+    window.addEventListener('scroll', function () {
+      if (_dockFooterTicking) return; _dockFooterTicking = true;
+      requestAnimationFrame(function () { dockFooter(); _dockFooterTicking = false; });
+    }, { passive: true });
     dockFooter();
     // Defer two frames so the hidden start state paints before we flip to
     // visible — otherwise the CSS slide-up wouldn't animate. (Reduced motion

@@ -3,8 +3,6 @@
    Redesign — GT Maru + Newsreader + Atkinson Hyperlegible Next
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700&family=Atkinson+Hyperlegible+Next:wght@300;400;500&display=swap');
-
 /* --- GT Maru (display / subheaders / nav) --- */
 @font-face {
   font-family: 'GT Maru';
