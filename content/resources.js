@@ -59,7 +59,7 @@ window.SITE_CONTENT.resources = [
     ],
     "cta": { "text": "Read", "href": "https://impactbench.media.mit.edu/about" },
     "keywords": ["impactbench", "wellbeing", "evaluation", "nutrition label", "emotional dependence", "cognitive autonomy", "child safety", "multi-turn", "human impact", "mit media lab", "flourishing"],
-    "image": { "src": "photos/res-impactbench.png", "alt": "A radial wellbeing wheel scoring an AI across physical, psychological and societal categories, coloured from green to red" }
+    "image": { "src": "photos/res-impactbench.webp", "alt": "A radial wellbeing wheel scoring an AI across physical, psychological and societal categories, coloured from green to red" }
   },
   {
     "title": "Wait Until You're Forty",
@@ -73,6 +73,6 @@ window.SITE_CONTENT.resources = [
     ],
     "cta": { "text": "Read", "href": "https://www.nytimes.com/2026/07/27/opinion/teaching-kabbalah-ai.html" },
     "keywords": ["kabbalah", "opinion", "education", "writing", "learning", "struggle", "authorship", "language", "thinking", "students", "new york times"],
-    "image": { "src": "photos/res-nyt-kabbalah.png", "alt": "A cartoon of a small child on the floor with alphabet blocks while a large hand lowers blocks reading 'A' and 'I' toward them" }
+    "image": { "src": "photos/res-nyt-kabbalah.webp", "alt": "A cartoon of a small child on the floor with alphabet blocks while a large hand lowers blocks reading 'A' and 'I' toward them" }
   }
 ];

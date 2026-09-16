@@ -40,32 +40,32 @@ window.SITE_CONTENT.community = {
     "when": "21 Oct, 2026",
     "where": "TBD",
     "cta": { "text": "RSVP", "href": "#" },
-    "image": { "src": "photos/session3.jpg", "alt": "Conscious Builders Series 3 session" }
+    "image": { "src": "photos/session3.webp", "alt": "Conscious Builders Series 3 session" }
   },
 
   // Event photos, shown at a fixed height with natural (aspect-preserving)
   // width in the auto-scrolling ticker. Resized copies live in photos/up-to/.
   "gallery": [
-    { "src": "photos/up-to/up-01.jpg", "alt": "Conscious Builders community session" },
-    { "src": "photos/up-to/up-02.jpg", "alt": "Conscious Builders community session" },
-    { "src": "photos/up-to/up-03.jpg", "alt": "Conscious Builders community session" },
-    { "src": "photos/up-to/up-04.jpg", "alt": "Conscious Builders community session" },
-    { "src": "photos/up-to/up-06.jpg", "alt": "Conscious Builders community session" },
-    { "src": "photos/up-to/up-07.jpg", "alt": "Conscious Builders community session" },
-    { "src": "photos/up-to/up-08.jpg", "alt": "Conscious Builders community session" },
-    { "src": "photos/up-to/up-11.jpg", "alt": "Conscious Builders community session" },
-    { "src": "photos/up-to/up-12.jpg", "alt": "Conscious Builders community session" },
-    { "src": "photos/up-to/up-13.jpg", "alt": "Conscious Builders community session" },
-    { "src": "photos/up-to/up-14.jpg", "alt": "Conscious Builders community session" },
-    { "src": "photos/up-to/up-15.jpg", "alt": "Conscious Builders community session" }
+    { "src": "photos/up-to/up-01.webp", "alt": "Conscious Builders community session" },
+    { "src": "photos/up-to/up-02.webp", "alt": "Conscious Builders community session" },
+    { "src": "photos/up-to/up-03.webp", "alt": "Conscious Builders community session" },
+    { "src": "photos/up-to/up-04.webp", "alt": "Conscious Builders community session" },
+    { "src": "photos/up-to/up-06.webp", "alt": "Conscious Builders community session" },
+    { "src": "photos/up-to/up-07.webp", "alt": "Conscious Builders community session" },
+    { "src": "photos/up-to/up-08.webp", "alt": "Conscious Builders community session" },
+    { "src": "photos/up-to/up-11.webp", "alt": "Conscious Builders community session" },
+    { "src": "photos/up-to/up-12.webp", "alt": "Conscious Builders community session" },
+    { "src": "photos/up-to/up-13.webp", "alt": "Conscious Builders community session" },
+    { "src": "photos/up-to/up-14.webp", "alt": "Conscious Builders community session" },
+    { "src": "photos/up-to/up-15.webp", "alt": "Conscious Builders community session" }
   ],
 
   // Placeholder cards until real portraits are supplied. Add `img` per expert
   // as portraits arrive.
   "experts": [
-    { "img": "photos/experts/pat.jpg", "name": "Pat Pataranutaporn", "title": "Assistant Professor", "org": "MIT Media Labs" },
-    { "img": "photos/experts/kenny.jpg", "name": "Kenny Choo", "title": "Assistant Professor", "org": "SUTD" },
-    { "img": "photos/experts/renwen.jpg", "name": "Zhang Renwen", "title": "Assistant Professor", "org": "NTU, Wee Kim Wee School of Communication and Information" },
-    { "img": "photos/experts/rachel.jpg", "name": "Rachel Poonsiriwong", "title": "Graduate Researcher", "org": "MIT Media Labs" }
+    { "img": "photos/experts/pat.webp", "name": "Pat Pataranutaporn", "title": "Assistant Professor", "org": "MIT Media Labs" },
+    { "img": "photos/experts/kenny.webp", "name": "Kenny Choo", "title": "Assistant Professor", "org": "SUTD" },
+    { "img": "photos/experts/renwen.webp", "name": "Zhang Renwen", "title": "Assistant Professor", "org": "NTU, Wee Kim Wee School of Communication and Information" },
+    { "img": "photos/experts/rachel.webp", "name": "Rachel Poonsiriwong", "title": "Graduate Researcher", "org": "MIT Media Labs" }
   ]
 };
