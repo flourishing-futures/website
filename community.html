@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Community — Flourishing Futures</title>
-  <meta name="description" content="Community events, workshops, and the Conscious Builders programme from the Flourishing Futures initiative.">
-  <link rel="stylesheet" href="css/styles.css?v=20260908d">
+  <meta name="description" content="Join the Conscious Builder Community — events, workshops, and the experts we work with, from the Flourishing Futures initiative.">
+  <link rel="stylesheet" href="css/styles.css?v=20260915comm1">
   <link rel="stylesheet" href="css/transitions.css?v=20260914vt5">
   <script src="js/page-transitions.js?v=20260914vt5"></script>
 </head>
@@ -22,7 +22,7 @@
           <li><a href="index.html">Home</a></li>
           <li><a href="about.html">About</a></li>
           <li><a href="the-lab.html">Lab</a></li>
-          <li><a href="resource-centre.html">Resource hub</a></li>
+          <li><a href="resource-centre.html">Resource Hub</a></li>
           <li><a href="community.html" class="active">Community</a></li>
         </ul>
       </div>
@@ -30,141 +30,51 @@
   </nav>
 
   <!-- Hero -->
-  <section class="comm-hero">
-    <div class="comm-hero__noise"></div>
-    <div class="comm-hero__critters">
-      <img src="img/wormie-clean.svg" alt="" class="comm-hero__critter comm-hero__critter--left">
-      <img src="img/conie-clean.svg" alt="" class="comm-hero__critter comm-hero__critter--right">
+  <section class="cmty-hero">
+    <div class="cmty-hero__art" aria-hidden="true">
+      <img class="cmty-hero__layer" src="img/community-hero-3.svg" alt="" data-depth="26">
+      <img class="cmty-hero__layer" src="img/community-hero-2.svg" alt="" data-depth="-16">
+      <img class="cmty-hero__layer" src="img/community-hero-1.svg" alt="" data-depth="8">
     </div>
-    <h1 class="comm-hero__title">Conversations on AI<br>and human possibility</h1>
+    <div class="cmty-hero__inner">
+      <p class="cmty-hero__eyebrow" data-reveal><span class="cmty-hero__rotate">Design for humans</span><span class="cmty-hero__const">, together!</span></p>
+      <h1 class="cmty-hero__title" data-reveal>Join the Conscious<br>Builder Community</h1>
+      <p class="cmty-hero__intro" data-reveal>The Conscious Builders Community unites AI developers, designers, researchers, and ethicists to create better products. We share, debate, and design through sessions and co-creation workshops, helping members discuss risks, explore possibilities, and stay connected to AI's human impact.</p>
+    </div>
   </section>
 
-  <!-- Conscious Builders — Featured Card -->
-  <section class="comm-builders">
-    <p class="comm-builders__label">Conscious Builders Community</p>
-    <div class="lately__cards">
-      <div class="lately-card">
-        <div class="lately-card__content">
-          <h2 class="lately-card__heading">Building better products, together</h2>
-          <p class="lately-card__body">
-            The Conscious Builders Community is a programme developed to bring AI product developers, designers, researchers and ethicists together to build better products. Here, we share, debate, workshop and design.
-          </p>
-          <p class="lately-card__body">
-            Through inspiration sessions and hands-on product garages: we help builders to engage in critical conversations, identify potential risks, imagine better possibilities, and stay inspired and connected to the human impact of working with AI.
-          </p>
-          <div>
-            <a href="#" class="btn btn--green">Join the WhatsApp Community</a>
-          </div>
-        </div>
-        <div class="lately-card__image">
-          <img src="img/community-photo.png" alt="Conscious Builder Community gathering">
-        </div>
+  <!-- Upcoming -->
+  <section class="cmty-upcoming">
+    <img class="cmty-starburst" src="img/community-starburst.svg" alt="" aria-hidden="true">
+    <div class="cmty-upcoming__inner">
+      <p class="cmty-upcoming__label" data-reveal>Upcoming...</p>
+      <div class="lately__cards" id="cmtyUpcoming" data-reveal>
+        <!-- single .lately-card injected by renderCommunity() -->
       </div>
     </div>
   </section>
 
-  <!-- Work With Us -->
-  <section class="comm-collaborate">
-    <div class="comm-collaborate__noise"></div>
-    <div class="comm-collaborate__inner">
-      <h2 class="comm-collaborate__heading">Work with us</h2>
-      <p class="comm-collaborate__intro">This work requires good minds and hands. You can work with us on...</p>
-
-      <div class="about-why__cols">
-        <div class="about-why__col">
-          <div class="about-why__badge">
-            <img src="img/star-badge.svg" alt="" class="about-why__star">
-            <span class="about-why__num">1</span>
-          </div>
-          <h3 class="about-why__col-title">AI Accountability and Evaluation</h3>
-          <p class="about-why__col-body comm-collaborate__body">
-            If you're a business owner, policy leader, product owner, data analyst, or design researcher — we want to work with you on defining metrics and success-factors for AI evaluation, and tracking human impact across product deployments.
-          </p>
-        </div>
-
-        <div class="about-why__col">
-          <div class="about-why__badge">
-            <img src="img/star-badge.svg" alt="" class="about-why__star">
-            <span class="about-why__num">2</span>
-          </div>
-          <h3 class="about-why__col-title">Platform and Product Design</h3>
-          <p class="about-why__col-body comm-collaborate__body">
-            If you're a product owner, platform developer, or designer — we want to co-design hero platforms and products with human-possibility as a feature, and develop AI harnesses with human-centric principles baked in.
-          </p>
-        </div>
-
-        <div class="about-why__col">
-          <div class="about-why__badge">
-            <img src="img/star-badge.svg" alt="" class="about-why__star">
-            <span class="about-why__num">3</span>
-          </div>
-          <h3 class="about-why__col-title">Practices, Culture and Change</h3>
-          <p class="about-why__col-body comm-collaborate__body">
-            If you're a practice or team leader — we want to work with you on playbooks for human-centric AI development, upskilling programmes, and forming events, talks and gatherings that go beyond 'how to use' to why it matters.
-          </p>
-        </div>
+  <!-- What we've been up to -->
+  <section class="cmty-gallery">
+    <p class="cmty-gallery__label" data-reveal>What we've been up to...</p>
+    <div class="cmty-ticker" data-ticker="gallery">
+      <div class="cmty-ticker__track" id="cmtyGalleryTrack">
+        <!-- gallery cards injected by renderCommunity() -->
       </div>
     </div>
   </section>
 
-  <!-- Events -->
-  <section class="comm-events">
-    <div class="comm-events__noise"></div>
-    <div class="comm-events__content">
-      <p class="comm-events__label">Events</p>
-      <h2 class="comm-events__title">Where it happens</h2>
-
-      <div class="about-develop__card">
-        <div class="about-develop__item about-develop__item--expanded">
-          <div class="comm-events__meta">
-            <span class="comm-events__badge">Upcoming</span>
-            <span class="comm-events__date">18 Aug 2026</span>
-          </div>
-          <h3 class="about-develop__item-title">Conscious Builders Community — Session 2</h3>
-          <p class="about-develop__item-desc">
-            Join AI product developers, designers, researchers and ethicists for hands-on workshops, product design clinics and critical conversations about the human impact of the products we build.
-          </p>
-          <p class="comm-events__format">Workshop · AI product builders, designers, researchers</p>
-        </div>
-
-        <div class="about-develop__item about-develop__item--expanded">
-          <div class="comm-events__meta">
-            <span class="comm-events__badge comm-events__badge--past">Past</span>
-            <span class="comm-events__date">18 Jun 2026</span>
-          </div>
-          <h3 class="about-develop__item-title">Human-AI Flourishing Workshop: From Framework to Practice</h3>
-          <p class="about-develop__item-desc">
-            A hands-on workshop translating the Human Flourishing framework into practical design and evaluation methods for AI teams. Over 40 participants explored how the spectrum from Responsible AI to AI for Human Possibility applies to concrete product decisions.
-          </p>
-          <p class="comm-events__format">Workshop · AI product teams, designers, policymakers</p>
-          <a href="https://luma.com/bno690jc" target="_blank" rel="noopener" class="comm-events__link">View on Luma →</a>
-        </div>
-
-        <div class="about-develop__item about-develop__item--expanded about-develop__item--last">
-          <div class="comm-events__meta">
-            <span class="comm-events__badge comm-events__badge--past">Past</span>
-            <span class="comm-events__date">21 May 2026</span>
-          </div>
-          <h3 class="about-develop__item-title">Human-Centred AI: Intentions, Decisions, and Impact</h3>
-          <p class="about-develop__item-desc">
-            A seminar exploring how design intent shapes AI outcomes — drawing from MIT Media Lab research and the emerging Flourishing Futures framework. Speakers presented research on cognitive offloading, AI confidence signals, and early SG ImpactBench findings.
-          </p>
-          <p class="comm-events__format">Seminar · Researchers, public officers, AI practitioners</p>
-          <a href="https://luma.com/7ni74a2k" target="_blank" rel="noopener" class="comm-events__link">View on Luma →</a>
+  <!-- Experts -->
+  <section class="cmty-experts">
+    <img class="cmty-squiggle" src="img/community-squiggle.svg" alt="" aria-hidden="true">
+    <div class="cmty-experts__inner">
+      <p class="cmty-experts__label" data-reveal>Friends of the community</p>
+      <div class="cmty-ticker cmty-ticker--experts" data-ticker="experts">
+        <div class="cmty-ticker__track" id="cmtyExpertsTrack">
+          <!-- expert cards injected by renderCommunity() -->
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- Stay Updated CTA -->
-  <section class="comm-cta">
-    <div class="comm-cta__content">
-      <h2 class="comm-cta__title">Never miss<br>an event</h2>
-      <p class="comm-cta__body">Join our WhatsApp community to receive announcements when new events are confirmed. We run workshops, seminars, and practitioner sessions regularly.</p>
-      <a href="#" class="btn btn--pink">Join the Community</a>
-    </div>
-    <div class="comm-cta__critter">
-      <img src="img/smiley-critter.svg" alt="" class="comm-cta__smiley">
+      <p class="cmty-collab" data-reveal>Research or design in this space? <a href="#" class="cmty-collab__link">Let's collaborate.</a></p>
     </div>
   </section>
 
@@ -176,7 +86,7 @@
     <span class="site-footer__credit">An initiative by the GovTech Innovation Office (2026)</span>
   </footer>
 
-  <script src="content/events.js"></script>
+  <script src="content/community.js"></script>
   <script src="js/render-content.js"></script>
 
 </body>

@@ -543,7 +543,7 @@ a {
 
 .lately-card {
   background: var(--white);
-  border: 5px solid var(--black);
+  border: 1.5px solid var(--black);
   border-radius: 1.75rem;
   overflow: hidden;
   display: grid;
@@ -2405,5 +2405,500 @@ a {
   }
   .res-hero__rotate::after {
     animation: none !important;
+  }
+}
+
+/* ============================================================
+   COMMUNITY PAGE (community.html) — rebuilt hero/upcoming/gallery/
+   experts. Uses explicit hex (NOT --red/--yellow, which are tuned
+   for other pages) to match the wireframe's recolour scheme:
+   golden hero, red upcoming + gallery, blue experts. The older
+   .comm-* rules above are dead here (left in place — .comm-hero__
+   critters is still shared with the Lab page).
+   ============================================================ */
+
+/* --- Hero --- */
+.cmty-hero {
+  position: relative;
+  overflow: hidden;
+  background: #FFD400;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+}
+
+.cmty-hero__art {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Three stacked doodle layers, parallaxed at different depths
+   (data-depth on the <img>s). object-fit: cover matches the
+   wireframe's edge-bleeding brush art — same pattern as
+   .res-hero__layer. */
+.cmty-hero__layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1.04);
+  transition: transform 0.25s ease-out;
+  will-change: transform;
+}
+
+.cmty-hero__inner {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  text-align: center;
+}
+
+.cmty-hero__eyebrow {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1rem;
+  color: #1934BE;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+/* Typewriter caret on the rotating half — reuses .res-hero__rotate's
+   caret exactly (same keyframes) so both pages blink in sync. */
+.cmty-hero__rotate {
+  display: inline-block;
+  white-space: pre;
+}
+
+.cmty-hero__rotate::after {
+  content: '';
+  display: inline-block;
+  width: 0.07em;
+  height: 0.82em;
+  margin-left: 0.05em;
+  background: currentColor;
+  vertical-align: -0.04em;
+  animation: res-caret-blink 1s steps(1) infinite;
+}
+
+/* Constant tail (", together!") sits inline right after the caret. */
+.cmty-hero__const {
+  display: inline;
+}
+
+.cmty-hero__title {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  line-height: 1.05;
+  color: #1934BE;
+  text-align: center;
+}
+
+.cmty-hero__intro {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #1934BE;
+  max-width: 620px;
+  margin: 1.5rem auto 0;
+  text-align: center;
+}
+
+/* --- Upcoming --- */
+.cmty-upcoming {
+  position: relative;
+  overflow: hidden;
+  background: #E42600;
+  padding: 3.5rem 1.5rem 5rem;
+}
+
+/* Gold starburst radiating from behind the card. */
+.cmty-starburst {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 130%;
+  max-width: 1400px;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 1;
+}
+
+.cmty-upcoming__inner {
+  position: relative;
+  z-index: 1;
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+.cmty-upcoming__label {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1rem;
+  color: var(--white);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* Whole card is clickable (JS handles navigation) — hover treatment
+   matches .res-stream-card exactly. */
+.cmty-card {
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.34, 1.4, 0.5, 1), box-shadow 0.3s ease;
+}
+
+.cmty-card:hover {
+  transform: translateY(-8px) rotate(-0.5deg);
+  box-shadow: 9px 11px 0 var(--blue);
+}
+
+/* Event meta line ("When: … / Where: …") inside the reused .lately-card. */
+.cmty-card__meta {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.9rem;
+  line-height: 1.8;
+  color: var(--black);
+}
+
+.cmty-card__meta strong {
+  font-weight: 700;
+}
+
+/* Solid blue placeholder panel, used in place of an <img> when no
+   event photo exists yet. */
+.lately-card__image--blue {
+  background: #1466FF;
+}
+
+/* .lately-card__content is already a flex column (gap: 1.25rem);
+   pin the RSVP button's wrapper to the bottom of the column. */
+.cmty-card .lately-card__content > div:last-child {
+  margin-top: auto;
+}
+
+/* --- Gallery --- */
+.cmty-gallery {
+  position: relative;
+  overflow: hidden;
+  background: #E42600;
+  padding: 2rem 0 4rem;
+}
+
+.cmty-gallery__label {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1rem;
+  color: var(--white);
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+/* --- Ticker (shared: gallery photo strip + experts strip) --- */
+.cmty-ticker {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  cursor: grab;
+  user-select: none;
+}
+
+.cmty-ticker:active,
+.cmty-ticker.is-dragging {
+  cursor: grabbing;
+}
+
+.cmty-ticker__track {
+  display: flex;
+  gap: 1.5rem;
+  width: max-content;
+  will-change: transform;
+  padding: 3rem 1.5rem;
+  /* Don't stretch cards to the tallest item — each bordered tile hugs its own
+     image at its natural aspect ratio (otherwise the border encloses a gap). */
+  align-items: flex-start;
+}
+
+.cmty-ticker__card {
+  flex: 0 0 auto;
+  margin: 0;
+  transition: transform 0.3s cubic-bezier(0.34, 1.4, 0.5, 1), filter 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cmty-ticker__card:hover {
+  transform: scale(1.05);
+}
+
+/* Photo tiles (gallery) — sized by their image now (real photos of
+   varying aspect ratios), not a fixed box. */
+.cmty-ticker__card--photo {
+  display: block;
+  border-radius: 1rem;
+  border: 4px solid #1934BE;
+  overflow: hidden;
+}
+
+/* Hover emphasis: dim the other photo tiles while the ticker is
+   hovered, then punch the hovered one back up with a green offset
+   shadow (same green as the squiggle below, #00A744; same shadow
+   shape as .res-stream-card:hover). The nested :hover rule wins over
+   the dim rule via specificity; the plain fallback covers hover
+   without JS/touch support for :hover on the ticker itself. */
+.cmty-gallery .cmty-ticker:hover .cmty-ticker__card--photo {
+  filter: brightness(0.85);
+}
+
+.cmty-gallery .cmty-ticker:hover .cmty-ticker__card--photo:hover {
+  filter: brightness(1.05);
+  box-shadow: 9px 11px 0 #00A744;
+}
+
+.cmty-ticker__card--photo:hover {
+  filter: brightness(1.05);
+  box-shadow: 9px 11px 0 #00A744;
+}
+
+/* Fallback color-placeholder box, used only when an item has no photo. */
+.cmty-ticker__media {
+  width: 300px;
+  height: 230px;
+  display: block;
+  background-size: cover;
+  background-position: center;
+}
+
+.cmty-ticker__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Real gallery photo: fixed height, natural (aspect-preserving) width. */
+.cmty-ticker__img {
+  display: block;
+  height: 260px;
+  width: auto;
+  object-fit: cover;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+/* Alternate vertical offset via margin (not transform) so the tiles
+   don't sit on a perfectly flat line, without fighting the hover scale. */
+.cmty-ticker__card--photo:nth-child(2n) {
+  margin-top: 1rem;
+}
+
+.cmty-ticker__card--photo:nth-child(3n) {
+  margin-top: -0.75rem;
+}
+
+/* --- Experts --- */
+.cmty-experts {
+  position: relative;
+  overflow: hidden;
+  background: #1934BE;
+  padding: 3rem 0 4rem;
+}
+
+/* Green squiggle stringing the portraits together — behind the
+   track, in front of the blue background. */
+.cmty-squiggle {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 200%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.cmty-experts__inner {
+  position: relative;
+  z-index: 1;
+}
+
+.cmty-experts__label {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1rem;
+  color: var(--white);
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+/* Experts strip is static/drag-only with only ~4 cards, so centre the
+   track instead of the usual left-aligned ticker start. Auto margins
+   only take effect once the track (width: max-content) is narrower
+   than the ticker; on narrow screens where it overflows, drag still
+   works as before. */
+.cmty-ticker--experts .cmty-ticker__track {
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center;
+}
+
+.cmty-ticker__card--expert {
+  width: 230px;
+  text-align: center;
+  background: transparent;
+}
+
+/* Vertical 4:5 portrait frame — height derives from aspect-ratio. */
+.cmty-expert__photo {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  height: auto;
+  background: var(--white);
+  border-radius: 1.25rem;
+  overflow: hidden;
+}
+
+.cmty-expert__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cmty-expert__caption {
+  margin-top: 1rem;
+}
+
+.cmty-expert__name {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: 1.4rem;
+  line-height: 1.1;
+  color: var(--white);
+}
+
+.cmty-expert__title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 0.8rem;
+  color: var(--white);
+  margin-top: 0.5rem;
+}
+
+.cmty-expert__org {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 0.8rem;
+  color: var(--white);
+  opacity: 0.9;
+}
+
+.cmty-collab {
+  text-align: center;
+  margin: 3.5rem auto 0;
+  color: var(--white);
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1.2rem;
+}
+
+.cmty-collab__link {
+  color: var(--white);
+  text-decoration: underline;
+  transition: opacity 0.2s;
+}
+
+.cmty-collab__link:hover {
+  opacity: 0.75;
+}
+
+/* ============================================================
+   SHARED — scroll reveal primitive ([data-reveal])
+   Not previously defined in this stylesheet; added here since
+   the Community page is the first to use it.
+   ============================================================ */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--reveal-delay, 0s);
+}
+
+[data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* --- Community: responsive --- */
+@media (max-width: 768px) {
+  .cmty-hero__title {
+    font-size: clamp(2rem, 8vw, 3rem);
+  }
+
+  .cmty-ticker__img {
+    height: 190px;
+  }
+
+  .cmty-ticker__card--expert {
+    width: 170px;
+  }
+
+  .cmty-starburst {
+    width: 110%;
+  }
+
+  .cmty-squiggle {
+    width: 260%;
+  }
+}
+
+@media (max-width: 640px) {
+  .cmty-hero {
+    padding: 2rem 1.5rem;
+  }
+
+  .cmty-starburst {
+    width: 100%;
+  }
+
+  .cmty-squiggle {
+    width: 300%;
+  }
+}
+
+/* --- Community + reveals: reduced motion --- */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+
+  .cmty-hero__layer {
+    transition: none;
+    transform: none;
+  }
+
+  .cmty-ticker__card {
+    transition: none;
+  }
+
+  .cmty-ticker__card:hover {
+    transform: none;
+  }
+
+  .cmty-card {
+    transition: none;
+  }
+
+  .cmty-card:hover {
+    transform: none;
+    box-shadow: none;
   }
 }
