@@ -4,7 +4,6 @@
 
   if (data.lately) renderLately(data.lately);
   if (data.resources) renderResources(data.resources);
-  if (data.events) renderEvents(data.events);
   if (data.community) renderCommunity(data.community);
 
   /* --- Lately cards (index.html) ------------------------------------ */
@@ -519,67 +518,6 @@
     });
   }
 
-  /* --- Events (community.html) -------------------------------------- */
-  function renderEvents(items) {
-    var card = document.querySelector('.comm-events .about-develop__card');
-    if (!card) return;
-
-    items.sort(function (a, b) {
-      return new Date(b.date) - new Date(a.date);
-    });
-
-    var today = new Date();
-    today.setHours(0, 0, 0, 0);
-    var html = '';
-
-    for (var i = 0; i < items.length; i++) {
-      var ev = items[i];
-      var eventDate = new Date(ev.date);
-      var isUpcoming = eventDate >= today;
-      var isLast = i === items.length - 1;
-
-      var classes = 'about-develop__item about-develop__item--expanded';
-      if (isLast) classes += ' about-develop__item--last';
-
-      var badgeClass = isUpcoming ? 'comm-events__badge' : 'comm-events__badge comm-events__badge--past';
-      var badgeText = isUpcoming ? 'Upcoming' : 'Past';
-
-      var linkHtml = '';
-      if (ev.link) {
-        linkHtml = '<a href="' + ev.link + '" target="_blank" rel="noopener" class="comm-events__link">View on Luma →</a>';
-      }
-
-      var tagsHtml = '';
-      if (ev.tags && ev.tags.length) {
-        tagsHtml = '<p class="comm-events__format">' + ev.tags.join(' · ') + '</p>';
-      }
-
-      html +=
-        '<div class="' + classes + '">' +
-          '<div class="comm-events__meta">' +
-            '<span class="' + badgeClass + '">' + badgeText + '</span>' +
-            '<span class="comm-events__date">' + formatDate(ev.date) + '</span>' +
-          '</div>' +
-          '<h3 class="about-develop__item-title">' + ev.title + '</h3>' +
-          '<p class="about-develop__item-desc">' + ev.description + '</p>' +
-          tagsHtml +
-          linkHtml +
-        '</div>';
-    }
-
-    card.innerHTML = html;
-  }
-
-  function formatDate(iso) {
-    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    var parts = iso.split('-');
-    var day = parseInt(parts[2], 10);
-    var month = months[parseInt(parts[1], 10) - 1];
-    var year = parts[0];
-    return day + ' ' + month + ' ' + year;
-  }
-
   /* --- Community hub (community.html) -------------------------------- */
   /* Builds the "Upcoming" spotlight card, the gallery photo ticker, and
      the experts ticker from window.SITE_CONTENT.community, then wires up
@@ -888,11 +826,17 @@
       resizeTimer = window.setTimeout(recomputeHalf, 150);
     });
 
+    // Only do the work while the carousel is actually on screen (mirrors the
+    // "Things we do" doodle parallax gate on index.html).
+    var visible = false;
+    var io = new IntersectionObserver(function (es) { visible = es[0].isIntersecting; }, { threshold: 0 });
+    io.observe(container);
+
     // Three effective states, mutually exclusive: dragging (transform set
     // directly in pointermove, this loop no-ops), momentum (decaying mv),
     // auto (base speed). Auto never runs while dragging or gliding.
     function frame() {
-      if (!dragging) {
+      if (!dragging && visible) {
         if (momentum) {
           x += mv;
           mv *= 0.94;
