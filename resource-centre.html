@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Resource Hub — Flourishing Futures</title>
   <meta name="description" content="Articles, papers, frameworks and tools on AI and human possibility from the Flourishing Futures programme.">
-  <link rel="stylesheet" href="css/styles.css?v=20260914res5">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700&family=Atkinson+Hyperlegible+Next:wght@300;400;500&display=swap">
+  <link rel="stylesheet" href="css/styles.css?v=20260916opt">
   <link rel="stylesheet" href="css/transitions.css?v=20260914vt5">
   <script src="js/page-transitions.js?v=20260914vt5"></script>
 </head>
@@ -16,7 +19,7 @@
     <div class="container--wide">
       <div class="site-nav__inner">
         <a href="index.html" class="site-nav__brand" aria-label="Flourishing Futures — AI for Human Possibilities">
-          <img src="img/logo-wordmark.svg" alt="Flourishing Futures — AI for Human Possibility" class="site-nav__brand-img">
+          <img src="img/logo-wordmark.svg" decoding="async" alt="Flourishing Futures — AI for Human Possibility" class="site-nav__brand-img">
         </a>
         <ul class="site-nav__links">
           <li><a href="index.html">Home</a></li>
@@ -32,9 +35,9 @@
   <!-- Hero + featured deck share one blue field so the red art sits behind the cards -->
   <section class="res-hero">
     <div class="res-hero__art" aria-hidden="true">
-      <img class="res-hero__layer" src="img/resource-red-3.svg" alt="" data-depth="26">
-      <img class="res-hero__layer" src="img/resource-red-2.svg" alt="" data-depth="16">
-      <img class="res-hero__layer" src="img/resource-red-1.svg" alt="" data-depth="8">
+      <img class="res-hero__layer" src="img/resource-red-3.svg" decoding="async" alt="" data-depth="26">
+      <img class="res-hero__layer" src="img/resource-red-2.svg" decoding="async" alt="" data-depth="16">
+      <img class="res-hero__layer" src="img/resource-red-1.svg" decoding="async" alt="" data-depth="8">
     </div>
     <div class="res-hero__inner">
       <h1 class="res-hero__title"><span class="res-hero__rotate">Care about</span> <span class="res-hero__const">humans?</span><br>Dive into the latest thinking:</h1>
@@ -47,7 +50,7 @@
   <!-- Stream -->
   <section class="res-stream">
     <div class="res-stream__art" aria-hidden="true">
-      <img class="res-stream__layer" src="img/resource-green-illustration.svg" alt="">
+      <img class="res-stream__layer" src="img/resource-green-illustration.svg" loading="lazy" decoding="async" alt="">
     </div>
     <div class="res-stream__inner"><!-- search + tags + grid injected by renderResources --></div>
   </section>
@@ -56,12 +59,13 @@
   <footer class="site-footer site-footer--blue" role="contentinfo">
     <img class="site-footer__lockup"
          src="img/logo-wordmark.svg"
+         loading="lazy" decoding="async"
          alt="Flourishing Futures — AI for Human Possibilities">
     <span class="site-footer__credit">An initiative by the GovTech Innovation Office (2026)</span>
   </footer>
 
-  <script src="content/resources.js"></script>
-  <script src="js/render-content.js"></script>
+  <script src="content/resources.js?v=20260916opt"></script>
+  <script src="js/render-content.js?v=20260916opt"></script>
 
 </body>
 </html>
