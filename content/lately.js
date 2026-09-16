@@ -32,7 +32,7 @@ window.SITE_CONTENT.lately = [
       "another paragraph"
     ],
     "cta": { "text": "Find more events", "href": "community.html", "style": "green" },
-    "image": { "src": "photos/design_ai.jpg", "alt": "Design for AI" }
+    "image": { "src": "photos/design_ai.webp", "alt": "Design for AI" }
   },
   {
     "heading": "Conscious Builder Community:<br>Gathering #2",
