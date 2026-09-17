@@ -1311,7 +1311,10 @@ a {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 40%;
+  /* Anchor to the bottom edge: the tee graphics and captions live near the
+     bottom of each photo, so cropping should eat into the top, never the foot,
+     as the frame's aspect ratio changes across screen sizes. */
+  object-position: center bottom;
   opacity: 0;
   filter: blur(10px);
   transition: opacity 1.1s ease, filter 1.1s ease;
