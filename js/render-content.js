@@ -598,9 +598,29 @@
     initCmtyHeroParallax();
     initCmtyReveals();
     initCmtyRotator();
+    initCmtySwag();
 
     var tickers = document.querySelectorAll('[data-ticker]');
     for (var i = 0; i < tickers.length; i++) initTicker(tickers[i]);
+  }
+
+  // Swag teaser: gently cross-fade the stacked photos every 3s. Skipped under
+  // reduced-motion (the first photo stays put) and when there's only one.
+  function initCmtySwag() {
+    var wrap = document.getElementById('cmtySwagSlides');
+    if (!wrap || wrap.dataset.swagInit === '1') return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var slides = Array.prototype.slice.call(wrap.querySelectorAll('.cmty-swag__photo'));
+    if (slides.length < 2) return;
+    wrap.dataset.swagInit = '1';
+
+    var current = 0;
+    window.setInterval(function () {
+      slides[current].classList.remove('is-active');
+      current = (current + 1) % slides.length;
+      slides[current].classList.add('is-active');
+    }, 3000);
   }
 
   function renderCmtyUpcoming(item) {
