@@ -14,7 +14,7 @@
 :root {
   --red: #E42600;
   --yellow: #E4B103;
-  --green: #1D8949;
+  --green: #009D3C;
   --blue: #1934BE;
   --black: #1B1B1B;
   --white: #F3F3F3;
@@ -86,7 +86,7 @@ a {
    ============================================================ */
 .site-nav {
   background: var(--white);
-  border-top: 1px solid var(--black);
+  border-top: 1.5px solid var(--black);
   border-bottom: 1.5px solid var(--black);
   position: sticky;
   top: 0;
@@ -128,6 +128,15 @@ a {
   margin: 0;
 }
 
+/* Each nav item is themed to the key colour of the page it links to:
+   Home=blue, About=red, Lab=green, Resource Hub=blue, Community=yellow.
+   Drives the hover + active (selected) colour below. */
+.site-nav__links li:nth-child(1) { --nav-accent: var(--blue); }
+.site-nav__links li:nth-child(2) { --nav-accent: var(--red); }
+.site-nav__links li:nth-child(3) { --nav-accent: var(--green); }
+.site-nav__links li:nth-child(4) { --nav-accent: var(--blue); }
+.site-nav__links li:nth-child(5) { --nav-accent: var(--yellow); }
+
 .site-nav__links a {
   font-family: var(--font-serif);
   font-weight: 700;
@@ -142,11 +151,11 @@ a {
 
 .site-nav__links a:hover,
 .site-nav__links a.active {
-  color: var(--blue);
+  color: var(--nav-accent, var(--blue));
 }
 
 .site-nav__links a:hover {
-  transform: scale(1.09);
+  transform: scale(1.15);
 }
 
 /* ============================================================
@@ -171,8 +180,8 @@ a {
   opacity: 0.9;
   transform: translateY(-1px);
   text-decoration: none;
-  color: var(--blue);
-  background-image: linear-gradient(90deg, var(--green), var(--yellow), var(--red), var(--green));
+  color: var(--white);
+  background-image: linear-gradient(90deg, var(--red), var(--yellow), var(--green), var(--yellow), var(--red));
   background-size: 200% 100%;
   animation: btn-flow 2s linear infinite;
 }
@@ -309,7 +318,7 @@ a {
      section directly above it. */
   background: var(--footer-bg, var(--blue));
   position: relative;
-  border-top: 3px solid var(--white);
+  border-top: 1.5px solid var(--white);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -609,7 +618,7 @@ a {
   align-items: center;
   gap: 0.75rem;
   background: var(--white);
-  border: 2px solid var(--black);
+  border: 1.5px solid var(--black);
   border-radius: 100px;
   padding: 0.75rem 1.5rem;
   max-width: 560px;
@@ -680,7 +689,7 @@ a {
   font-size: 1rem;
   color: var(--black);
   background: transparent;
-  border: 2px solid transparent;
+  border: 1.5px solid transparent;
   border-radius: 100px;
   padding: 0.4rem 1.1rem;
   cursor: pointer;
@@ -731,7 +740,7 @@ a {
 
 .res-stream-card {
   background: var(--white);
-  border: 2px solid var(--black);
+  border: 1.5px solid var(--black);
   border-radius: 1.5rem;
   overflow: hidden;
   display: flex;
@@ -972,6 +981,12 @@ a {
   position: relative;
   overflow: hidden;
   background: var(--red);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-top: 1.5px solid var(--black);      /* dividers from the sections above + below */
+  border-bottom: 1.5px solid var(--black);
   padding: 3.5rem 1.5rem 5rem;
 }
 
@@ -1098,7 +1113,7 @@ a {
 .cmty-ticker__card--photo {
   display: block;
   border-radius: 1rem;
-  border: 4px solid var(--blue);
+  border: 1.5px solid var(--blue);
   overflow: hidden;
 }
 
