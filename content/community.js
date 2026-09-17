@@ -39,7 +39,7 @@ window.SITE_CONTENT.community = {
     ],
     "when": "21 Oct, 2026",
     "where": "TBD",
-    "cta": { "text": "RSVP", "href": "#" },
+    "cta": { "text": "RSVP", "href": "https://luma.com/user/usr-kAIM5FsLgmlSWBx" },
     "image": { "src": "photos/session3.webp", "alt": "Conscious Builders Series 3 session" }
   },
 

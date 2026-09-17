@@ -2,14 +2,21 @@
   var data = window.SITE_CONTENT;
   if (!data) return;
 
-  if (data.lately) renderLately(data.lately);
+  // The homepage "Lately..." deck is derived, not authored: its first card is
+  // the latest Upcoming event from the Community page, and the rest are the
+  // highlighted articles from the Resource Hub — each keeping its own CTA and
+  // link (RSVP for the event, Read for the articles).
+  if (document.querySelector('.lately__stack')) renderLately(data);
   if (data.resources) renderResources(data.resources);
   if (data.community) renderCommunity(data.community);
 
   /* --- Lately cards (index.html) ------------------------------------ */
-  function renderLately(items) {
+  function renderLately(data) {
     var stack = document.querySelector('.lately__stack');
-    if (!stack || items.length < 2) return;
+    if (!stack) return;
+
+    var items = buildLatelyItems(data);
+    if (items.length < 2) return;
 
     var html = '';
     for (var i = 0; i < items.length; i++) {
@@ -18,30 +25,84 @@
       for (var j = 0; j < item.body.length; j++) {
         bodyHtml += '<p class="lately-card__body">' + item.body[j] + '</p>';
       }
+      var imageHtml = (item.image && item.image.src)
+        ? '<div class="lately-card__image"><img src="' + item.image.src + '" alt="' + (item.image.alt || '') + '"></div>'
+        : '<div class="lately-card__image lately-card__image--blue"></div>';
       html +=
         '<article class="lately-card" data-pos="' + i + '">' +
           '<div class="lately-card__content">' +
             '<h2 class="lately-card__heading">' + item.heading + '</h2>' +
             bodyHtml +
-            '<div><a href="' + item.cta.href + '" class="btn btn--' + item.cta.style + '">' + item.cta.text + '</a></div>' +
+            '<div><a href="' + item.cta.href + '"' + extAttr(item.cta.href) + ' class="btn btn--' + item.cta.style + '">' + item.cta.text + '</a></div>' +
           '</div>' +
-          '<div class="lately-card__image">' +
-            '<img src="' + item.image.src + '" alt="' + item.image.alt + '">' +
-          '</div>' +
+          imageHtml +
         '</article>';
     }
     stack.innerHTML = html;
 
-    if (items.length > 3) injectLatelyPositionCSS(items.length);
+    injectLatelyPositionCSS(items.length);
   }
 
+  // Builds the Lately deck from the shared content: the Community page's
+  // Upcoming event first, then the Resource Hub's featured (3 newest) articles.
+  function buildLatelyItems(data) {
+    var items = [];
+
+    var up = data.community && data.community.upcoming;
+    if (up) {
+      items.push({
+        heading: up.title,
+        body: up.body || [],
+        cta: {
+          text: (up.cta && up.cta.text) || 'RSVP',
+          href: (up.cta && up.cta.href) || '#',
+          style: 'green'
+        },
+        image: up.image
+      });
+    }
+
+    if (data.resources && data.resources.length) {
+      var sorted = data.resources.slice().sort(function (a, b) {
+        if (a.date < b.date) return 1;
+        if (a.date > b.date) return -1;
+        return 0;
+      });
+      var styles = ['orange', 'pink', 'green'];
+      var featured = sorted.slice(0, 3);
+      for (var i = 0; i < featured.length; i++) {
+        var r = featured[i];
+        items.push({
+          heading: r.title,
+          body: r.body || [],
+          cta: {
+            text: (r.cta && r.cta.text) || 'Read',
+            href: (r.cta && r.cta.href) || '#',
+            style: styles[i % styles.length]
+          },
+          image: r.image
+        });
+      }
+    }
+
+    return items;
+  }
+
+  // Position the stacked back cards as a *diminishing* fan: each deeper card
+  // peeks a little less than the one in front of it, so the deck stays tidy at
+  // any count. (A linear step made the 4th card jut out past the others and
+  // over-rotate.) The front card (pos 0) keeps its transform from CSS so the
+  // .is-flipping lift still works — we only set its z-index here.
   function injectLatelyPositionCSS(count) {
     var style = document.createElement('style');
-    var rules = '';
-    for (var i = 3; i < count; i++) {
+    var rules = '.lately-card[data-pos="0"]{z-index:' + count + ';}';
+    var x = 0, y = 0, r = 0, stepX = 13, stepY = 17, stepR = 1.3, decay = 0.68;
+    for (var i = 1; i < count; i++) {
+      x += stepX; y += stepY; r += stepR;
+      stepX *= decay; stepY *= decay; stepR *= decay;
       rules +=
         '.lately-card[data-pos="' + i + '"]{' +
-          'transform:translate(' + (i * 16) + 'px,' + (i * 20) + 'px) rotate(' + (i * 1.6) + 'deg);' +
+          'transform:translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) rotate(' + r.toFixed(2) + 'deg);' +
           'z-index:' + (count - i) + ';' +
         '}';
     }
@@ -100,7 +161,7 @@
             '<p class="res-deck-card__eyebrow">' + eyebrow + '</p>' +
             '<h2 class="res-deck-card__title">' + item.title + '</h2>' +
             '<div class="res-deck-card__body">' + bodyHtml + '</div>' +
-            '<div><a class="btn btn--green" href="' + item.cta.href + '">' + item.cta.text + '</a></div>' +
+            '<div><a class="btn btn--green" href="' + item.cta.href + '"' + extAttr(item.cta.href) + '>' + item.cta.text + '</a></div>' +
           '</div>' +
           '<div class="' + imageClass + '">' + imageHtml + '</div>' +
         '</article>';
@@ -247,6 +308,12 @@
 
   function escAttr(s) {
     return String(s).replace(/"/g, '&quot;');
+  }
+
+  // Outbound (http/https) links open in a new tab; internal pages and mailto:
+  // links stay in the current tab.
+  function extAttr(href) {
+    return (href && href.indexOf('http') === 0) ? ' target="_blank" rel="noopener"' : '';
   }
 
   function wireResourceFilters(container) {
@@ -557,7 +624,7 @@
           '<h2 class="lately-card__heading">' + item.title + '</h2>' +
           bodyHtml +
           '<p class="cmty-card__meta"><strong>When:</strong> ' + item.when + '<br><strong>Where:</strong> ' + item.where + '</p>' +
-          '<div><a href="' + href + '" class="btn btn--green">' + item.cta.text + '</a></div>' +
+          '<div><a href="' + href + '"' + extAttr(href) + ' class="btn btn--green">' + item.cta.text + '</a></div>' +
         '</div>' +
         imageHtml +
       '</article>';
@@ -570,7 +637,9 @@
         if (e.target.closest('a') || e.target.closest('button')) return;
         var h = this.getAttribute('data-href');
         if (!h || h === '#') return;
-        window.location.href = h;
+        // Outbound links open in a new tab, mirroring the resource stream cards.
+        if (h.indexOf('http') === 0) window.open(h, '_blank', 'noopener');
+        else window.location.href = h;
       });
     }
   }
