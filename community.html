@@ -83,8 +83,15 @@
 
   <!-- Community Swag — full-height photo teaser -->
   <section class="cmty-swag" aria-labelledby="cmtySwagHeading">
-    <img class="cmty-swag__photo" src="img/community-merch.webp" loading="lazy" decoding="async"
-         alt="Three community members laughing together, wearing the Flourishing Futures merch tees.">
+    <!-- Photos gently cross-fade every 2s (see initCmtySwag in render-content.js).
+         The first carries the alt text; the rest are decorative variants. -->
+    <div class="cmty-swag__slides" id="cmtySwagSlides">
+      <img class="cmty-swag__photo is-active" src="img/community-merch.webp" loading="lazy" decoding="async"
+           alt="Community members laughing together, wearing the Flourishing Futures merch tees.">
+      <img class="cmty-swag__photo" src="img/community-merch-2.webp" loading="lazy" decoding="async" alt="">
+      <img class="cmty-swag__photo" src="img/community-merch-3.webp" loading="lazy" decoding="async" alt="">
+      <img class="cmty-swag__photo" src="img/community-merch-4.webp" loading="lazy" decoding="async" alt="">
+    </div>
     <div class="cmty-swag__overlay">
       <h2 class="cmty-swag__copy" id="cmtySwagHeading" data-reveal>
         Trendy goods that<br>
@@ -104,7 +111,7 @@
   </footer>
 
   <script src="content/community.js?v=20260917links"></script>
-  <script src="js/render-content.js?v=20260917links"></script>
+  <script src="js/render-content.js?v=20260917swag"></script>
 
 </body>
 </html>

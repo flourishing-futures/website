@@ -1298,6 +1298,13 @@ a {
   background: var(--yellow);
 }
 
+/* Cross-fading photo stack: all photos share the frame; only .is-active is
+   visible. Inactive photos fade out with a soft blur for a gentle transition. */
+.cmty-swag__slides {
+  position: absolute;
+  inset: 0;
+}
+
 .cmty-swag__photo {
   position: absolute;
   inset: 0;
@@ -1305,6 +1312,14 @@ a {
   height: 100%;
   object-fit: cover;
   object-position: center 40%;
+  opacity: 0;
+  filter: blur(10px);
+  transition: opacity 1.1s ease, filter 1.1s ease;
+}
+
+.cmty-swag__photo.is-active {
+  opacity: 1;
+  filter: blur(0);
 }
 
 /* Centred copy sits over the seated figure; a soft radial scrim keeps
@@ -1426,5 +1441,10 @@ a {
   .cmty-card:hover {
     transform: none;
     box-shadow: none;
+  }
+
+  /* No cross-fade: JS also skips the auto-cycle, so the first photo stays put. */
+  .cmty-swag__photo {
+    transition: none;
   }
 }
