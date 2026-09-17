@@ -297,10 +297,10 @@
 
     // Scene definitions — background, question text + colour, logo colour.
     var SCENES = [
-      { bg: '#1934BE', color: '#FFFFFF', logoDark: false, q: 'how can ai help different shapes work together?' },
-      { bg: '#E42600', color: '#FFFFFF', logoDark: false, q: 'how can ai help us be more reflective?' },
-      { bg: '#E4B103', color: '#FFFFFF', logoDark: true,  q: 'how can ai help us focus on the signal in the noise?' },
-      { bg: '#00A744', color: '#FFFFFF', logoDark: false, q: 'how can ai remove our language divide?' }
+      { bg: '#1934BE', color: '#F3F3F3', logoDark: false, q: 'how can ai help different shapes work together?' },
+      { bg: '#E42600', color: '#F3F3F3', logoDark: false, q: 'how can ai help us be more reflective?' },
+      { bg: '#E4B103', color: '#F3F3F3', logoDark: true,  q: 'how can ai help us focus on the signal in the noise?' },
+      { bg: '#1D8949', color: '#F3F3F3', logoDark: false, q: 'how can ai remove our language divide?' }
     ];
 
     var current = 0;
@@ -312,7 +312,7 @@
       hero.classList.toggle('logo-dark', !!s.logoDark);
       // Nav wears the same key-visual colour; dark text on light scenes.
       nav.style.setProperty('--nav-bg', s.bg);
-      nav.style.setProperty('--nav-fg', s.logoDark ? '#111111' : '#FFFFFF');
+      nav.style.setProperty('--nav-fg', s.logoDark ? '#1B1B1B' : '#F3F3F3');
     }
 
     // --- Title: per-letter blur/fade in & out --------------------------

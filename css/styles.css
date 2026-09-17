@@ -12,20 +12,13 @@
 
 /* --- Custom Properties --- */
 :root {
-  --red: #FF0000;
-  --yellow: #FFFF00;
-  --yellow-soft: #FDFF81;
-  --green: #5EFF24;
-  --blue: #0066FF;
-  --blue-dark: #003A91;
-  --pink-grad-start: #FD92FF;
-  --pink-grad-end: #00FFEA;
-  --orange-grad-start: #FF5900;
-  --orange-grad-end: #FDFF81;
-  --green-grad-start: #8BFF61;
-  --green-grad-end: #FDFF81;
-  --black: #000000;
-  --white: #FFFFFF;
+  --red: #E42600;
+  --yellow: #E4B103;
+  --green: #1D8949;
+  --blue: #1934BE;
+  --black: #1B1B1B;
+  --white: #F3F3F3;
+  --lime: #5FFF84;   /* button accent */
 
   --font-display: 'GT Maru', 'Nunito', 'Rounded Mplus 1c', system-ui, sans-serif;
   --font-serif: 'Newsreader', Georgia, 'Times New Roman', serif;
@@ -167,7 +160,8 @@ a {
   text-decoration: none;
   padding: 0.85rem 2.25rem;
   border: none;
-  color: var(--blue-dark);
+  color: var(--blue);
+  background: var(--lime);
   cursor: pointer;
   border-radius: 100px;
   transition: opacity 0.2s, transform 0.15s;
@@ -177,19 +171,14 @@ a {
   opacity: 0.9;
   transform: translateY(-1px);
   text-decoration: none;
-  color: var(--blue-dark);
+  color: var(--blue);
+  background-image: linear-gradient(90deg, var(--green), var(--yellow), var(--red), var(--green));
+  background-size: 200% 100%;
+  animation: btn-flow 2s linear infinite;
 }
 
-.btn--pink {
-  background: linear-gradient(90deg, var(--pink-grad-start), var(--pink-grad-end));
-}
-
-.btn--orange {
-  background: linear-gradient(90deg, var(--orange-grad-start), var(--orange-grad-end));
-}
-
-.btn--green {
-  background: linear-gradient(90deg, var(--green-grad-start), var(--green-grad-end));
+@keyframes btn-flow {
+  to { background-position: -200% 50%; }
 }
 
 /* ============================================================
@@ -349,14 +338,13 @@ a {
 /* Per-page footer bar colours (lockup stays white). */
 .site-footer--red   { --footer-bg: var(--red); }
 .site-footer--blue  { --footer-bg: var(--blue); }
-.site-footer--green { --footer-bg: #2EAC00; } /* mid green; brighter --green is too light under white */
+.site-footer--green { --footer-bg: var(--green); }
 
 /* ============================================================
    RESOURCE PAGE — HERO
    ============================================================ */
 .res-hero {
   position: relative;
-  background: #5C0037;
   overflow: hidden;
   padding: 4rem 1.5rem;
 }
@@ -421,7 +409,7 @@ a {
 /* --- Hero: blue field + red illustration spanning behind the title AND
        the featured flip-deck (they share this one section) ------------ */
 .res-hero {
-  background: #1934BE;
+  background: var(--blue);
   position: relative;
   overflow: hidden;
   isolation: isolate;
@@ -535,7 +523,7 @@ a {
   font-family: var(--font-display);
   font-weight: 900;
   font-size: 0.85rem;
-  color: #5C0037;
+  color: var(--black);
   text-transform: uppercase;
   letter-spacing: 0.02em;
 }
@@ -584,7 +572,7 @@ a {
 
 /* --- Stream: gold backdrop + green illustration, search + tags + grid --- */
 .res-stream {
-  background: #E4B103;
+  background: var(--yellow);
   position: relative;
   overflow: hidden;
   isolation: isolate;
@@ -763,7 +751,7 @@ a {
   margin: 0.5rem;
   border-radius: 1rem;
   overflow: hidden;
-  background: linear-gradient(180deg, var(--blue), var(--yellow-soft));
+  background: linear-gradient(180deg, var(--blue), var(--yellow));
 }
 
 .res-stream-card__image img {
@@ -808,7 +796,7 @@ a {
   font-family: var(--font-display);
   font-weight: 900;
   font-size: 0.8rem;
-  color: #8800FF;
+  color: var(--blue);
 }
 
 .res-stream-card__body {
@@ -886,7 +874,7 @@ a {
 .cmty-hero {
   position: relative;
   overflow: hidden;
-  background: #FFD400;
+  background: var(--yellow);
   min-height: 100vh;
   min-height: 100svh;
   display: flex;
@@ -931,7 +919,7 @@ a {
   font-family: var(--font-display);
   font-weight: 900;
   font-size: 1rem;
-  color: #1934BE;
+  color: var(--blue);
   text-align: center;
   margin-bottom: 1.5rem;
 }
@@ -964,7 +952,7 @@ a {
   font-weight: 500;
   font-size: clamp(2.5rem, 6vw, 4.5rem);
   line-height: 1.05;
-  color: #1934BE;
+  color: var(--blue);
   text-align: center;
 }
 
@@ -973,7 +961,7 @@ a {
   font-weight: 300;
   font-size: 1rem;
   line-height: 1.6;
-  color: #1934BE;
+  color: var(--blue);
   max-width: 620px;
   margin: 1.5rem auto 0;
   text-align: center;
@@ -983,7 +971,7 @@ a {
 .cmty-upcoming {
   position: relative;
   overflow: hidden;
-  background: #E42600;
+  background: var(--red);
   padding: 3.5rem 1.5rem 5rem;
 }
 
@@ -1044,7 +1032,7 @@ a {
 /* Solid blue placeholder panel, used in place of an <img> when no
    event photo exists yet. */
 .lately-card__image--blue {
-  background: #1466FF;
+  background: var(--blue);
 }
 
 /* .lately-card__content is already a flex column (gap: 1.25rem);
@@ -1057,7 +1045,7 @@ a {
 .cmty-gallery {
   position: relative;
   overflow: hidden;
-  background: #E42600;
+  background: var(--red);
   padding: 2rem 0 4rem;
 }
 
@@ -1110,13 +1098,13 @@ a {
 .cmty-ticker__card--photo {
   display: block;
   border-radius: 1rem;
-  border: 4px solid #1934BE;
+  border: 4px solid var(--blue);
   overflow: hidden;
 }
 
 /* Hover emphasis: dim the other photo tiles while the ticker is
    hovered, then punch the hovered one back up with a green offset
-   shadow (same green as the squiggle below, #00A744; same shadow
+   shadow (same green as the squiggle below, var(--green); same shadow
    shape as .res-stream-card:hover). The nested :hover rule wins over
    the dim rule via specificity; the plain fallback covers hover
    without JS/touch support for :hover on the ticker itself. */
@@ -1126,12 +1114,12 @@ a {
 
 .cmty-gallery .cmty-ticker:hover .cmty-ticker__card--photo:hover {
   filter: brightness(1.05);
-  box-shadow: 9px 11px 0 #00A744;
+  box-shadow: 9px 11px 0 var(--green);
 }
 
 .cmty-ticker__card--photo:hover {
   filter: brightness(1.05);
-  box-shadow: 9px 11px 0 #00A744;
+  box-shadow: 9px 11px 0 var(--green);
 }
 
 /* Fallback color-placeholder box, used only when an item has no photo. */
@@ -1174,7 +1162,7 @@ a {
 .cmty-experts {
   position: relative;
   overflow: hidden;
-  background: #1934BE;
+  background: var(--blue);
   padding: 3rem 0 4rem;
 }
 
