@@ -36,13 +36,15 @@
 
   <!-- 1. Hero — "What matters most to us" (red, pink/green brush frame) -->
   <section class="about-hero">
-    <!-- Single-colour art split into two planes (alternating brush strokes) so
-         they still parallax at their own depth/direction (data-depth px; mixed
-         signs slide the two planes against each other) as the old two-colour
-         version did. They share one viewBox and cover identically. -->
+    <!-- Single-colour art (About Illustration.svg) split into four layered
+         groups by spatial cluster, so each parallaxes at its own depth/direction
+         (data-depth px; mixed signs slide the groups against each other). All
+         four share one viewBox and cover identically. -->
     <div class="about-hero__art" aria-hidden="true">
-      <img class="about-hero__layer" src="img/about-hero-1.svg?v=20260911b" decoding="async" alt="" aria-hidden="true" data-depth="14">
-      <img class="about-hero__layer" src="img/about-hero-2.svg?v=20260911b" decoding="async" alt="" aria-hidden="true" data-depth="-24">
+      <img class="about-hero__layer" src="img/about-hero-1.svg?v=20260917" decoding="async" alt="" aria-hidden="true" data-depth="8">
+      <img class="about-hero__layer" src="img/about-hero-2.svg?v=20260917" decoding="async" alt="" aria-hidden="true" data-depth="-24">
+      <img class="about-hero__layer" src="img/about-hero-3.svg?v=20260917" decoding="async" alt="" aria-hidden="true" data-depth="16">
+      <img class="about-hero__layer" src="img/about-hero-4.svg?v=20260917" decoding="async" alt="" aria-hidden="true" data-depth="-14">
     </div>
     <div class="about-hero__inner">
       <p class="about-hero__label" data-reveal>What matters most to us</p>
@@ -110,24 +112,25 @@
     </div>
   </section>
 
-  <!-- 4. "A shift towards..." (gold, blue looping arrow spectrum) -->
+  <!-- 4. "A shift towards..." (gold; four aligned points over a brush arrow that
+       draws on left-to-right, points revealing one-by-one in sequence). -->
   <section class="about-shift">
     <h2 class="about-shift__title" data-reveal>A shift towards a more proactive approach to the design, development and deployment of AI</h2>
     <div class="about-shift__diagram">
-      <img class="about-shift__arrow" src="img/about-arrow.svg" loading="lazy" decoding="async" alt="" aria-hidden="true">
+      <img class="about-shift__arrow" src="img/about-arrow.svg?v=20260917" loading="lazy" decoding="async" alt="" aria-hidden="true">
       <div class="about-shift__item about-shift__item--1" data-reveal>
         <h3>Responsible AI</h3>
         <p>How do we make sure the use of AI is safe, secure, and fair?</p>
       </div>
-      <div class="about-shift__item about-shift__item--2" data-reveal style="--reveal-delay:0.1s">
+      <div class="about-shift__item about-shift__item--2" data-reveal style="--reveal-delay:0.15s">
         <h3>Human-Agent Work</h3>
         <p>How do we rethink work and workplaces so humans and AI collaborate well together?</p>
       </div>
-      <div class="about-shift__item about-shift__item--3" data-reveal style="--reveal-delay:0.2s">
+      <div class="about-shift__item about-shift__item--3" data-reveal style="--reveal-delay:0.3s">
         <h3>AI for Human Possibility</h3>
         <p>How do we build AI that expands human capability and agency?</p>
       </div>
-      <div class="about-shift__item about-shift__item--4" data-reveal style="--reveal-delay:0.3s">
+      <div class="about-shift__item about-shift__item--4" data-reveal style="--reveal-delay:0.45s">
         <h3>Flourishing Futures</h3>
         <p>How do we ensure AI strengthens societal wellbeing, resilience, and care?</p>
       </div>
@@ -345,9 +348,9 @@
     ].map(function (c) { c.node = document.querySelector(c.sel); return c; })
      .filter(function (c) { return c.node; });
 
-    // Hero art is a single colour split into two planes: each layer drifts by
-    // its OWN signed data-depth, relative to the hero's own centre, so the two
-    // planes slide against each other (mixed signs) rather than as one canvas.
+    // Hero art is a single colour split into layered groups (spatial clusters):
+    // each layer drifts by its OWN signed data-depth, relative to the hero's own
+    // centre, so the groups slide against each other (mixed signs), not as one canvas.
     Array.prototype.slice.call(document.querySelectorAll('.about-hero__layer'))
       .forEach(function (node) {
         views.push({ node: node, depth: parseFloat(node.getAttribute('data-depth')) || 0,
