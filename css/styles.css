@@ -1313,11 +1313,13 @@ a {
   position: absolute;
   inset: 0;
   display: flex;
-  align-items: center;
+  /* Sit the copy in the lower third so it clears the figure in the middle
+     of the photo. */
+  align-items: flex-end;
   justify-content: center;
-  padding: 2rem 1.5rem;
+  padding: 2rem 1.5rem 15vh;
   text-align: center;
-  background: radial-gradient(ellipse 60% 45% at 50% 55%, rgba(27, 27, 27, 0.4), transparent 75%);
+  background: radial-gradient(ellipse 55% 28% at 50% 80%, rgba(27, 27, 27, 0.4), transparent 75%);
 }
 
 .cmty-swag__copy {
@@ -1325,7 +1327,7 @@ a {
   color: var(--white);
   font-family: var(--font-display);
   font-weight: 900;
-  font-size: clamp(1.4rem, 3.2vw, 2.4rem);
+  font-size: 1.2rem;
   line-height: 1.35;
   text-shadow: 0 2px 18px rgba(27, 27, 27, 0.45);
 }
@@ -1388,11 +1390,11 @@ a {
   }
 
   .cmty-swag__overlay {
-    padding: 2rem 1rem;
+    padding: 2rem 1rem 15vh;
   }
 
   .cmty-swag__copy {
-    font-size: clamp(0.9rem, 4vw, 1.3rem);
+    font-size: 1.05rem;
     line-height: 1.45;
   }
 }
