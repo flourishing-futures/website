@@ -25,10 +25,10 @@
         </a>
         <ul class="site-nav__links">
           <li><a href="index.html">Home</a></li>
-          <li><a href="about.html" class="active">About</a></li>
-          <li><a href="the-lab.html">Lab</a></li>
-          <li><a href="resource-centre.html">Resource Hub</a></li>
-          <li><a href="community.html">Community</a></li>
+          <li><a href="about.html" class="active" data-quip="New number, who dis?">About</a></li>
+          <li><a href="the-lab.html" data-quip="What's cooking?">Lab</a></li>
+          <li><a href="resource-centre.html" data-quip="Read all about it!">Resource Hub</a></li>
+          <li><a href="community.html" data-quip="Together we can rule the galaxy.">Community</a></li>
         </ul>
       </div>
     </div>
@@ -742,11 +742,13 @@
       document.addEventListener('mouseover', function (e) {
         var t = e.target;
         if (!t || !t.closest) return;
-        var cue = t.closest('.flofu-cue');
-        var el = cue || t.closest('.btn');
+        // [data-quip] covers manifesto cue words AND nav links (each carries
+        // its own line); any other .btn gets a random nudge.
+        var quipEl = t.closest('[data-quip]');
+        var el = quipEl || t.closest('.btn');
         if (el === hoverActive) return;
         hoverActive = el || null;
-        if (el) sayQuip(cue ? cue.getAttribute('data-quip') : randomButtonQuote());
+        if (el) sayQuip(quipEl ? quipEl.getAttribute('data-quip') : randomButtonQuote());
         else endHover();
       }, { passive: true });
       document.addEventListener('mouseout', function (e) {
