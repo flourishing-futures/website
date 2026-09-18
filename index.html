@@ -9,11 +9,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700&family=Atkinson+Hyperlegible+Next:wght@300;400;500&display=swap">
-  <link rel="stylesheet" href="css/home.css?v=20260916opt">
+  <link rel="stylesheet" href="css/home.css?v=20260918mob">
   <link rel="stylesheet" href="css/transitions.css?v=20260914vt5">
   <script src="js/page-transitions.js?v=20260914vt5"></script>
 </head>
-<body>
+<body data-key="blue">
 
   <!-- Hero -->
   <section class="hero" id="hero">
@@ -83,9 +83,24 @@
           <li><a href="resource-centre.html" data-quip="Read all about it!">Resource Hub</a></li>
           <li><a href="community.html" data-quip="Together we can rule the galaxy.">Community</a></li>
         </ul>
+        <button class="nav-burger" id="navBurger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+          <img src="img/icon-menu.svg" alt="" aria-hidden="true" class="nav-burger__icon nav-burger__icon--menu">
+          <img src="img/icon-close.svg" alt="" aria-hidden="true" class="nav-burger__icon nav-burger__icon--close">
+        </button>
       </div>
     </div>
   </nav>
+
+  <!-- Mobile full-screen menu (liquid glass) -->
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <nav class="mobile-menu__links" aria-label="Site">
+      <a href="index.html" class="active">home</a>
+      <a href="about.html">about</a>
+      <a href="the-lab.html">lab</a>
+      <a href="resource-centre.html">resource hub</a>
+      <a href="community.html">community</a>
+    </nav>
+  </div>
 
   <!-- Vision -->
   <section class="vision">
@@ -276,6 +291,7 @@
   <script src="content/community.js?v=20260917links"></script>
   <script src="content/resources.js?v=20260917links"></script>
   <script src="js/render-content.js?v=20260917swag"></script>
+  <script src="js/mobile-nav.js?v=20260918mob"></script>
 
   <script>
   (function () {
@@ -519,9 +535,15 @@
         // scrolls into view Finch rides up to rest on it instead of covering it —
         // grounded a few px into the bar, which paints in front (see CSS z-index).
         // (overlap = how much of the footer is currently on screen.)
+        // Rest offset: on mobile he sits tucked just behind the fixed bottom bar;
+        // on desktop he's flush to the window edge. Either way, once the footer
+        // scrolls into view he lifts off and rides up to rest on top of it.
+        var restBottom = window.matchMedia('(max-width: 768px)').matches ? 50 : 0;
         if (siteFooter) {
           var overlap = window.innerHeight - siteFooter.getBoundingClientRect().top;
-          assistant.style.bottom = Math.max(0, overlap - 8) + 'px';
+          assistant.style.bottom = Math.max(restBottom, overlap - 8) + 'px';
+        } else {
+          assistant.style.bottom = restBottom + 'px';
         }
       }
     }
