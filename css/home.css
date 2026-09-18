@@ -2068,6 +2068,7 @@ a {
 .lab-hero {
   position: relative;
   min-height: 100vh;
+  min-height: 100svh;   /* full viewport (accounts for mobile browser chrome) */
   display: flex;
   flex-direction: column;
   background: var(--green);   /* calmer green field so the tonal doodles don't clash */
@@ -2160,15 +2161,20 @@ a {
 .site-footer--lab .site-footer__lockup { color: var(--lime); }
 .site-footer--lab .site-footer__credit { color: var(--lime); }
 
-@media (max-width: 640px) {
-  .lab-hero__inner { padding: 6rem 1.25rem 3rem; gap: 1.1rem; }
+@media (max-width: 768px) {
+  /* The fixed bar sits at the BOTTOM on mobile, so drop the big top padding that
+     was clearing a top nav — balanced padding lets the content centre properly
+     (fixes the awkward empty band up top). Title grows to fill the field. */
+  .lab-hero__inner { padding: 2.5rem 1.5rem; gap: 1.2rem; }
+  .lab-hero__title { font-size: clamp(2.6rem, 12vw, 3.4rem); }
   .site-footer--lab {
     flex-wrap: wrap;
     justify-content: center;
     text-align: center;
     padding: 1.4rem 1.5rem;
+    background: var(--blue);   /* distinct from the green hero + the white bottom bar */
   }
-  .site-footer--lab .site-footer__credit { text-align: center; }
+  .site-footer--lab .site-footer__credit { text-align: center; color: var(--white); }
 }
 
 /* ============================================================
