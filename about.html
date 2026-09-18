@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700&family=Atkinson+Hyperlegible+Next:wght@300;400;500&display=swap">
-  <link rel="stylesheet" href="css/home.css?v=20260918mob2">
+  <link rel="stylesheet" href="css/home.css?v=20260918mob3">
   <link rel="stylesheet" href="css/transitions.css?v=20260914vt5">
   <script src="js/page-transitions.js?v=20260914vt5"></script>
 </head>
@@ -409,8 +409,14 @@
     var diagram = document.querySelector('.about-shift__diagram');
     if (arrow && diagram) {
       function drawArrow() {
-        var r = diagram.getBoundingClientRect();
-        var start = window.innerHeight * 0.92;   // begins as the diagram enters
+        // On mobile the arrow is rotated vertical and sits well below the diagram
+        // top, so key the wipe to the arrow's OWN position — otherwise it's fully
+        // drawn before it even scrolls into view. Desktop keys off the diagram.
+        // The clip insets from the local right (arrowhead) and, once rotated 90deg,
+        // that reads as a top-to-bottom wipe toward the head.
+        var vertical = window.matchMedia('(max-width: 900px)').matches;
+        var r = (vertical ? arrow : diagram).getBoundingClientRect();
+        var start = window.innerHeight * 0.92;   // begins as it enters
         var end = window.innerHeight * 0.38;      // fully drawn once it's ~mid-view
         var p = (start - r.top) / (start - end);
         p = p < 0 ? 0 : p > 1 ? 1 : p;
