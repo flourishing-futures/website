@@ -60,6 +60,7 @@
      Home page's .things__heading ("Research & Measurement"). */
   --fs-title: clamp(2.9rem, 6vw, 3.4rem);   /* stays clearly above the subheader */
   --fs-subhead: 1.9rem;        /* == .things__heading; bumps to 2.3rem on mobile */
+  --fs-list: clamp(1.5rem, 2.2vw, 1.7rem);   /* dense lists (develop accordion) */
   --fs-body: 1rem;
   --fs-eyebrow: 1rem;
 
@@ -1588,7 +1589,8 @@ a {
   overflow: hidden;
   background: var(--red);
   color: var(--white);
-  min-height: 88vh;
+  min-height: 100vh;
+  min-height: 100svh;   /* full viewport (accounts for mobile browser chrome) */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1932,7 +1934,7 @@ a {
 .about-develop__item-title {
   font-family: var(--font-serif);
   font-weight: 400;
-  font-size: var(--fs-subhead);
+  font-size: var(--fs-list);
   line-height: 1.12;
   color: var(--black);
   transition: transform 0.25s ease, color 0.25s ease;
@@ -1951,7 +1953,7 @@ a {
   /* Height matches the title's first line box (font-size x line-height), and the
      trigger's flex-start alignment tops it with the title — so the cross sits
      centred on line 1 regardless of how many lines the title wraps to. */
-  font-size: var(--fs-subhead);
+  font-size: var(--fs-list);
   height: 1.12em;
   color: var(--black);
   transition: color 0.25s ease;
