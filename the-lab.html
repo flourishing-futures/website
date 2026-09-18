@@ -346,9 +346,14 @@
     // and simply stays, present from the top. We still ride up onto the footer
     // bar instead of covering it while scrolling.
     function dockFooter() {
+      // Rest tucked behind the fixed bottom bar on mobile (50px); flush to the
+      // window on desktop. Either way, ride up onto the footer when it appears.
+      var restBottom = window.matchMedia('(max-width: 768px)').matches ? 50 : 0;
       if (siteFooter) {
         var overlap = window.innerHeight - siteFooter.getBoundingClientRect().top;
-        assistant.style.bottom = Math.max(0, overlap - 8) + 'px';
+        assistant.style.bottom = Math.max(restBottom, overlap - 8) + 'px';
+      } else {
+        assistant.style.bottom = restBottom + 'px';
       }
     }
     var _dockFooterTicking = false;
