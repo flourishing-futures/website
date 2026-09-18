@@ -1561,6 +1561,13 @@ a {
 .site-footer--light .site-footer__lockup { filter: brightness(0); }
 .site-footer--light .site-footer__credit { color: var(--black); }
 
+/* On mobile the footer sits right above the white bottom bar, so give the light
+   footer a green fill to keep it distinct from the bar; credit flips to white. */
+@media (max-width: 768px) {
+  .site-footer--light { background: var(--green); border-top-color: var(--green); }
+  .site-footer--light .site-footer__credit { color: var(--white); }
+}
+
 /* ---- 1. Hero: "What matters most to us" (red) ---- */
 .about-hero {
   position: relative;
@@ -2001,9 +2008,27 @@ a {
   .about-why__cols { grid-template-columns: 1fr; gap: 3.5rem; }
   .about-why__col-body { max-width: 420px; }
 
-  /* Gold section: stack the row and float the arrow above the labels. */
-  .about-shift__diagram { flex-direction: column; align-items: stretch; max-width: 540px; padding: 0; gap: 2rem; }
-  .about-shift__arrow { position: static; width: 100%; height: auto; margin: 0 auto 2rem; transform: none; }
+  /* Gold section: stack the labels vertically and rotate the brush arrow so it
+     points DOWN behind the stack (it spans the row horizontally on desktop). The
+     draw-on clip then wipes top-to-bottom, toward the arrowhead. */
+  .about-shift__diagram {
+    flex-direction: column;
+    align-items: stretch;
+    max-width: 540px;
+    padding: 2.5rem 0;
+    gap: 2.75rem;
+    position: relative;
+  }
+  .about-shift__arrow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 64vh;                 /* pre-rotation width becomes the visual height */
+    height: auto;
+    margin: 0;
+    transform: translate(-50%, -50%) rotate(90deg);
+    transform-origin: center;
+  }
   .about-shift__item {
     text-align: center;
     margin: 0 auto 0.5rem;
