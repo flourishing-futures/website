@@ -35,6 +35,13 @@
     window.matchMedia &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // Touch / no-cursor devices have no pointer to iris from, so the aperture
+  // just flashed from a stale/degenerate point. On these, always iris from the
+  // centre of the screen (both the close on leave and the open on arrival).
+  var coarse =
+    window.matchMedia &&
+    window.matchMedia('(hover: none), (pointer: coarse)').matches;
+
   var root = document.documentElement;
 
   function keyColor() {
@@ -145,15 +152,25 @@
     function onMove(e) {
       open(e.clientX, e.clientY); // truest "where the mouse is now"
     }
-    document.addEventListener('pointermove', onMove, true);
-    document.addEventListener('mousemove', onMove, true); // older-browser safety
 
-    // No pointer movement (still mouse / touch / keyboard) → open from the
-    // last cursor position handed off by the page we came from.
-    var w0 = window.innerWidth, h0 = window.innerHeight;
-    var fx = (parseFloat(data.x) / 100) * w0;
-    var fy = (parseFloat(data.y) / 100) * h0;
-    var fallbackId = setTimeout(function () { open(fx, fy); }, OPEN_FALLBACK);
+    var fallbackId;
+    if (coarse) {
+      // No cursor: iris open from the centre once the closed field has painted.
+      var wc = window.innerWidth, hc = window.innerHeight;
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () { open(wc / 2, hc / 2); });
+      });
+    } else {
+      document.addEventListener('pointermove', onMove, true);
+      document.addEventListener('mousemove', onMove, true); // older-browser safety
+
+      // No pointer movement (still mouse / keyboard) → open from the last
+      // cursor position handed off by the page we came from.
+      var w0 = window.innerWidth, h0 = window.innerHeight;
+      var fx = (parseFloat(data.x) / 100) * w0;
+      var fy = (parseFloat(data.y) / 100) * h0;
+      fallbackId = setTimeout(function () { open(fx, fy); }, OPEN_FALLBACK);
+    }
 
     fill.addEventListener('animationend', function () { removeWrap(fill); });
     setTimeout(function () { removeWrap(fill); }, OPEN_FALLBACK + 2500); // safety
@@ -193,10 +210,14 @@
         var h = window.innerHeight;
         var color = keyColor();
 
-        // Close irises to the click point.
-        setVars(color, e.clientX, e.clientY, w, h);
-        // Seed the pointer with the click so a still mouse still hands off sanely.
-        if (lastX === null) { lastX = e.clientX; lastY = e.clientY; }
+        // Close irises to the click point on pointer devices; from the centre
+        // on touch (no cursor to aim at, and taps land wherever the link is).
+        var ox = coarse ? w / 2 : e.clientX;
+        var oy = coarse ? h / 2 : e.clientY;
+        setVars(color, ox, oy, w, h);
+        // Seed the handoff: centre on touch, else the click point if still.
+        if (coarse) { lastX = w / 2; lastY = h / 2; }
+        else if (lastX === null) { lastX = e.clientX; lastY = e.clientY; }
 
         var fill = buildCurtain('close');
         var navigated = false;
