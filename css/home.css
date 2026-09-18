@@ -2054,6 +2054,9 @@ a {
 @media (max-width: 768px) {
   .about-develop__box { padding: 0.5rem 1.5rem 1rem; }
   .about-develop__art { height: 102%; opacity: 0.85; }
+
+  /* Shrink the 1/2/3 brush numerals ~20% on mobile (118px -> 94px). */
+  .about-why__num-wrap { width: 94px; }
 }
 
 /* ============================================================
