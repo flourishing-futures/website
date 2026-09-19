@@ -52,7 +52,7 @@
 
   /* Mobile "liquid glass" menu — key colour resolved per page via body[data-key]. */
   --key: var(--blue);          /* default page key colour */
-  --glass-blur: 24px;
+  --glass-blur: 16px;          /* lighter blur = cheaper per-frame recompute on mobile */
   --glass-tint: 80%;           /* key-colour opacity over the blurred backdrop */
 
   /* Shared type scale (About page). Three tiers + eyebrow so every section
@@ -2237,13 +2237,18 @@ body[data-key="yellow"] { --key: var(--yellow); }
   background:
     linear-gradient(158deg, rgba(255,255,255,0.22), rgba(255,255,255,0.04) 42%, transparent 72%),
     color-mix(in srgb, var(--key) var(--glass-tint), transparent);
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%) brightness(1.06);
-  backdrop-filter: blur(var(--glass-blur)) saturate(180%) brightness(1.06);
-  /* Balloon out from the hamburger (bottom-right). */
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+  backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+  /* Balloon out from the hamburger (bottom-right). Pin to its own GPU layer and
+     flag the animated property, so the re-blur stays on one compositor layer
+     rather than re-rasterising (and flickering) the whole screen each frame. */
   clip-path: circle(0% at calc(100% - 2.7rem) calc(100% - 1.9rem));
   opacity: 0;
   pointer-events: none;
-  transition: clip-path 0.55s cubic-bezier(.22, 1, .36, 1), opacity 0.35s ease;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  will-change: clip-path;
+  transition: clip-path 0.55s cubic-bezier(.22, 1, .36, 1), opacity 0.3s ease;
 }
 .mobile-menu.is-open {
   clip-path: circle(150% at calc(100% - 2.7rem) calc(100% - 1.9rem));
@@ -2317,9 +2322,24 @@ body[data-key="yellow"] { --key: var(--yellow); }
   body { padding-bottom: 52px; }   /* fallback; mobile-nav.js sets the exact bar height */
   body.menu-open-lock { overflow: hidden; }
 
-  /* Open state: bar inverts to the full-opacity key colour, wordmark goes
-     light, and the hamburger crossfades into the X. */
-  .site-nav.menu-open { background: var(--key); }
+  /* Colour layer cross-faded via OPACITY (composited on the GPU) instead of a
+     background-color transition — that keeps the white->key change smooth even
+     while the main thread is busy compositing the menu's blur. Sits above the
+     white bar but below the content (the container is lifted to z-index 1). */
+  .site-nav > .container--wide { position: relative; z-index: 1; }
+  .site-nav::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--key);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateZ(0);
+    transition: opacity 0.4s ease;
+  }
+  .site-nav.menu-open::after { opacity: 1; }
+
+  /* Open state: wordmark goes light, hamburger crossfades into the X. */
   .site-nav.menu-open .site-nav__brand-img { filter: none; }  /* SVG is white */
   .site-nav.menu-open .nav-burger__icon--menu  { opacity: 0; transform: rotate(90deg) scale(0.6); }
   .site-nav.menu-open .nav-burger__icon--close { opacity: 1; transform: rotate(0deg)  scale(1); }
