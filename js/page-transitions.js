@@ -44,6 +44,12 @@
 
   var root = document.documentElement;
 
+  // Firefox can't interpolate the @property mask-radius iris (it jumps to the
+  // end value), so flag it for the plain colour-wipe fallback in transitions.css.
+  try {
+    if (/firefox/i.test(navigator.userAgent || '')) root.classList.add('vt-simple');
+  } catch (_) {}
+
   function keyColor() {
     var parts = location.pathname.split('/');
     var name = parts[parts.length - 1];
