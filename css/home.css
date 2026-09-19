@@ -1391,7 +1391,8 @@ a {
     padding: 1rem 1.5rem;
   }
   .site-footer__lockup { display: none; }
-  .site-footer__credit { text-align: center; }
+  /* Keep the credit on one line, shrinking with the viewport so it never wraps. */
+  .site-footer__credit { text-align: center; white-space: nowrap; font-size: clamp(0.6rem, 3.2vw, 1rem); }
 }
 
 @media (max-width: 480px) {
