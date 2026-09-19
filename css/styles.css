@@ -20,10 +20,8 @@
   --white: #F3F3F3;
   --lime: #5FFF84;   /* button accent */
 
-  /* Mobile "liquid glass" menu — key colour resolved per page via body[data-key]. */
+  /* Mobile menu key colour, resolved per page via body[data-key]. */
   --key: var(--blue);          /* default page key colour */
-  --glass-blur: 16px;          /* lighter blur = cheaper per-frame recompute on mobile */
-  --glass-tint: 80%;           /* key-colour opacity over the blurred backdrop */
 
   --font-display: 'GT Maru', 'Nunito', 'Rounded Mplus 1c', system-ui, sans-serif;
   --font-serif: 'Newsreader', Georgia, 'Times New Roman', serif;
@@ -1672,14 +1670,11 @@ body[data-key="yellow"] { --key: var(--yellow); }
   align-items: center;
   justify-content: center;
   padding: 2rem 1.5rem 96px;
-  background:
-    linear-gradient(158deg, rgba(255,255,255,0.22), rgba(255,255,255,0.04) 42%, transparent 72%),
-    color-mix(in srgb, var(--key) var(--glass-tint), transparent);
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
-  backdrop-filter: blur(var(--glass-blur)) saturate(140%);
-  /* Balloon out from the hamburger (bottom-right). Pin to its own GPU layer and
-     flag the animated property, so the re-blur stays on one compositor layer
-     rather than re-rasterising (and flickering) the whole screen each frame. */
+  /* Solid key-colour fill. The frosted backdrop-blur + translucency were dropped
+     — animating a clipped blur is too expensive on mobile (flickers) for what it
+     added. Clip-path alone (no filter) balloons cheaply and smoothly. */
+  background: var(--key);
+  /* Balloon out from the hamburger (bottom-right); own GPU layer for a steady raster. */
   clip-path: circle(0% at calc(100% - 2.7rem) calc(100% - 1.9rem));
   opacity: 0;
   pointer-events: none;
