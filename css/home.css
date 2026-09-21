@@ -651,10 +651,10 @@ a {
   object-fit: contain;
 }
 
-/* dxd already reads large at the base size — keep it as the reference */
+/* dxd is a wide wordmark; it's a transparent PNG (no white box to knock out),
+   so size it down a touch to sit visually in line with the other logos. */
 .partner-logo--dxd img {
-  height: 68px;
-  mix-blend-mode: multiply;   /* drops the logo's white box onto the off-white section */
+  height: 48px;
 }
 
 .partners-section__cta {
@@ -1341,7 +1341,7 @@ a {
     height: 42px;
   }
   .partner-logo--dxd img {
-    height: 30px;
+    height: 22px;
   }
 
   .lately-card__heading {
