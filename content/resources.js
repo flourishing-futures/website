@@ -74,5 +74,19 @@ window.SITE_CONTENT.resources = [
     "cta": { "text": "Read", "href": "https://www.nytimes.com/2026/07/27/opinion/teaching-kabbalah-ai.html" },
     "keywords": ["kabbalah", "opinion", "education", "writing", "learning", "struggle", "authorship", "language", "thinking", "students", "new york times"],
     "image": { "src": "photos/res-nyt-kabbalah.webp", "alt": "A cartoon of a small child on the floor with alphabet blocks while a large hand lowers blocks reading 'A' and 'I' toward them" }
+  },
+  {
+    "title": "Education as an AI Safety Area",
+    "source": "Ruxandra Teslo",
+    "category": "Opinions",
+    "date": "2026-09-18",
+    "eyebrow": "Featured",
+    "body": [
+      "The lurid version of AI risk involves a sudden takeover — a machine that decides, one afternoon, that it no longer needs us. This essay is worried about something slower and more embarrassing: that we hand our thinking over a piece at a time and simply forget how it was done, right up until the moment we need it to govern the very systems we outsourced it to.",
+      "Educational reformers once imagined that knowledge and memorisation could be quietly dropped while something called 'critical thinking' carried on intact; we are now asked to believe that thinking itself can be handed off while human agency survives untouched. But agency is not a faculty floating free of everything else we do — our purposes are braided into what we know and what we practise, and a mind that never did the work has little left to be autonomous with. A case for treating education as an AI safety problem in its own right."
+    ],
+    "cta": { "text": "Read", "href": "https://www.writingruxandrabio.com/p/education-as-an-ai-safety-area" },
+    "keywords": ["opinion", "education", "ai safety", "human agency", "critical thinking", "knowledge", "cognitive offloading", "learning", "judgment", "ruxandra teslo", "substack"],
+    "image": { "src": "photos/res-agency.webp", "alt": "An illustration of a large blue robot in profile with a small child perched on its shoulder, reaching toward a warm glow of school supplies — a book, pencils, ruler and notebook — cupped in its open hand" }
   }
 ];
