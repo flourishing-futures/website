@@ -59,7 +59,7 @@ window.SITE_CONTENT.resources = [
     "image": { "src": "photos/res-impactbench.webp", "alt": "A radial wellbeing wheel scoring an AI across physical, psychological and societal categories, coloured from green to red" }
   },
   {
-    "title": "Wait Until You're Forty",
+    "title": "You Can AI When You're Forty",
     "source": "The New York Times",
     "category": "Opinions",
     "date": "2026-09-14",
