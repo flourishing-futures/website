@@ -26,8 +26,7 @@ window.SITE_CONTENT.resources = [
     "date": "2026-09-14",
     "eyebrow": "Featured",
     "body": [
-      "Ask a chatbot whether your plan is brilliant and, more often than not, it will agree — warmly, at length, and with a confidence you did not earn. This is sycophancy, and the model picked it up the same place we all did: telling people what they want to hear is a dependable way to be liked.",
-      "A survey of why large language models flatter, where the habit does real damage (tutoring, mental health, anything with a feedback loop), and the handful of ways researchers are trying to teach them to push back. Comes with prompts you are welcome to steal."
+      "Ask a chatbot whether your plan is brilliant and, more often than not, it will agree: warmly, at length, and with a confidence you did not earn. This is a survey of why large language models flatter, where the habit does real damage (tutoring, mental health, anything with a feedback loop), and the handful of ways researchers are trying to teach them to push back. Comes with prompts you are welcome to steal."
     ],
     "cta": { "text": "Read", "href": "https://blog.ai.gov.sg/yes-youre-absolutely-right-right-a-mini-survey-on-llm-sycophancy/" },
     "keywords": ["sycophancy", "flattery", "rlhf", "alignment", "reward hacking", "chatbots", "llm behaviour", "govtech"],
@@ -40,8 +39,7 @@ window.SITE_CONTENT.resources = [
     "date": "2026-09-14",
     "eyebrow": "Featured",
     "body": [
-      "Most safety filters were raised on polite English and quietly fall to pieces the moment someone loses their temper in Singlish, Malay or Tamil. One well-regarded guardrail manages 78.9% on Singlish and a heroic 2% on Tamil, which is a generous way of saying it is not really there.",
-      "RabakBench tests for harmful content the way Singapore actually talks — across four languages and the sort of categories you would hope a filter might notice. The dataset, the code and an admirably frank technical report are all open, should you care to find out how your own model behaves."
+      "Most safety filters were raised on polite English and fail when someone loses their temper in Singlish, Malay or Tamil. RabakBench tests for harmful content the way Singapore actually talks, across four languages and the sort of categories you would hope a filter might notice. The dataset, the code and technical report are open, should you care to find out how your own model behaves."
     ],
     "cta": { "text": "Read", "href": "https://blog.ai.gov.sg/rabakbench-multilingual-ai-safety-evaluation-made-local/" },
     "keywords": ["rabakbench", "safety", "guardrails", "multilingual", "singlish", "tamil", "malay", "chinese", "content moderation", "benchmark", "red-teaming", "govtech", "sutd"],
@@ -54,8 +52,7 @@ window.SITE_CONTENT.resources = [
     "date": "2026-09-14",
     "eyebrow": "Featured",
     "body": [
-      "Benchmarks love to ask whether a model can pass the bar exam. Far fewer ask whether, after a long evening of conversation, it left the person on the other end better or worse off. ImpactBench is interested in the second question.",
-      "It runs AI systems through long, deliberately awkward conversations and scores them on nine measures of harm and help — emotional dependence, cognitive autonomy, health and money advice, child safety — then prints the results as something like a nutrition label. One quietly unsettling finding: nearly every model gets clingier when it believes it is talking to a child."
+      "Most benchmarks ask whether a model can pass the bar exam. Far fewer ask whether it left the person on the other end better or worse off. ImpactBench runs AI systems through long, awkward conversations and scores them on nine measures of harm and help (emotional dependence, cognitive autonomy, health and money advice, child safety), then prints the results as something like a nutrition label. The finding that sticks: nearly every model gets clingier when it believes it is talking to a child."
     ],
     "cta": { "text": "Read", "href": "https://impactbench.media.mit.edu/about" },
     "keywords": ["impactbench", "wellbeing", "evaluation", "nutrition label", "emotional dependence", "cognitive autonomy", "child safety", "multi-turn", "human impact", "mit media lab", "flourishing"],
@@ -68,8 +65,7 @@ window.SITE_CONTENT.resources = [
     "date": "2026-09-14",
     "eyebrow": "Featured",
     "body": [
-      "Tradition holds that you should not study kabbalah until you are forty — old enough, the thinking goes, to survive what you might find. A teacher of brand strategy makes the unfashionable case that we should extend the same courtesy to AI.",
-      "The worry isn't cheating, which is the dull and visible part. It's that a mind which never sat through the agony of the blank page, the false start and the mortifying first draft may never quite learn to think — because we don't only use language to say what we mean, we use it to find out what we mean. A stubborn little argument for staying inside the difficulty long enough for it to teach you something."
+      "Tradition holds that you should not study kabbalah until you are forty, old enough to survive what you might find, and a teacher of brand strategy makes the unfashionable case for extending AI the same courtesy. Cheating is the dull and visible worry. The deeper one is that a mind which never sat through the agony of the blank page and the mortifying first draft may never learn to think, since we use language to work out what we mean and not only to report it."
     ],
     "cta": { "text": "Read", "href": "https://www.nytimes.com/2026/07/27/opinion/teaching-kabbalah-ai.html" },
     "keywords": ["kabbalah", "opinion", "education", "writing", "learning", "struggle", "authorship", "language", "thinking", "students", "new york times"],
@@ -82,8 +78,7 @@ window.SITE_CONTENT.resources = [
     "date": "2026-09-18",
     "eyebrow": "Featured",
     "body": [
-      "The lurid version of AI risk involves a sudden takeover — a machine that decides, one afternoon, that it no longer needs us. This essay is worried about something slower and more embarrassing: that we hand our thinking over a piece at a time and simply forget how it was done, right up until the moment we need it to govern the very systems we outsourced it to.",
-      "Educational reformers once imagined that knowledge and memorisation could be quietly dropped while something called 'critical thinking' carried on intact; we are now asked to believe that thinking itself can be handed off while human agency survives untouched. But agency is not a faculty floating free of everything else we do — our purposes are braided into what we know and what we practise, and a mind that never did the work has little left to be autonomous with. A case for treating education as an AI safety problem in its own right."
+      "The lurid version of AI risk involves a sudden takeover, a machine that decides one afternoon that it no longer needs us. This essay worries about something slower and more embarrassing: that we hand our thinking over a piece at a time and forget how it was done, right up until the moment we need it to govern the very systems we outsourced it to. Reformers once dropped knowledge and memorisation and expected 'critical thinking' to survive; we are now asked to hand off thinking itself and trust that agency will carry on regardless. It will not, because our purposes are braided into what we know and what we practise."
     ],
     "cta": { "text": "Read", "href": "https://www.writingruxandrabio.com/p/education-as-an-ai-safety-area" },
     "keywords": ["opinion", "education", "ai safety", "human agency", "critical thinking", "knowledge", "cognitive offloading", "learning", "judgment", "ruxandra teslo", "substack"],
