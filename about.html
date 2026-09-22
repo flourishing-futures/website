@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About — Flourishing Futures</title>
-  <link rel="preload" as="image" href="img/about-hero-1.svg?v=20260911b">
-  <link rel="preload" as="image" href="img/about-hero-2.svg?v=20260911b">
+  <link rel="preload" as="image" href="img/about-illustration-back.svg?v=20260922">
+  <link rel="preload" as="image" href="img/about-illustration-front.svg?v=20260922">
   <meta name="description" content="Flourishing Futures — designing AI that expands human agency, judgement and possibility in public service.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -51,10 +51,13 @@
 
   <!-- 1. Hero — "What matters most to us" (red, pink/green brush frame) -->
   <section class="about-hero">
-    <!-- Full-bleed brush illustration (About_Illustration.svg); drifts gently
-         with the cursor via the shared hero parallax (data-depth px). -->
+    <!-- Full-bleed brush illustration (About_Illustration.svg), split by its two
+         brush colours into stacked layers that share one viewBox so they overlay
+         pixel-perfect. Opposing signed data-depths make the burnt-red base and the
+         bright-red highlights slide against each other under the cursor. -->
     <div class="about-hero__art" aria-hidden="true">
-      <img class="about-hero__layer" src="img/about-illustration.svg?v=20260919" decoding="async" alt="" aria-hidden="true" data-depth="10">
+      <img class="about-hero__layer" src="img/about-illustration-back.svg?v=20260922" decoding="async" alt="" aria-hidden="true" data-depth="-12">
+      <img class="about-hero__layer" src="img/about-illustration-front.svg?v=20260922" decoding="async" alt="" aria-hidden="true" data-depth="18">
     </div>
     <div class="about-hero__inner">
       <p class="about-hero__label" data-reveal>What matters most to us</p>
