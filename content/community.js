@@ -37,8 +37,8 @@ window.SITE_CONTENT.community = {
     "body": [
       "What is the role human should play in AI systems? Are we becoming a reviewer and approval while AI does the job? How do we retain human judgement, creativity and autonomy in professional context?"
     ],
-    "when": "21 Oct, 2026",
-    "where": "TBD",
+    "when": "Early November",
+    "where": "Stay tuned 👀",
     "cta": { "text": "RSVP", "href": "https://luma.com/user/usr-kAIM5FsLgmlSWBx" },
     "image": { "src": "photos/session3.webp", "alt": "Conscious Builders Series 3 session" }
   },
