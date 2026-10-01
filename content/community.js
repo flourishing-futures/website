@@ -63,9 +63,9 @@ window.SITE_CONTENT.community = {
   // Placeholder cards until real portraits are supplied. Add `img` per expert
   // as portraits arrive.
   "experts": [
-    { "img": "photos/experts/pat.webp", "name": "Pat Pataranutaporn", "title": "Assistant Professor", "org": "MIT Media Labs" },
+    { "img": "photos/experts/pat.webp", "name": "Pat Pataranutaporn", "title": "Assistant Professor", "org": "MIT Media Lab" },
     { "img": "photos/experts/kenny.webp", "name": "Kenny Choo", "title": "Assistant Professor", "org": "SUTD" },
     { "img": "photos/experts/renwen.webp", "name": "Zhang Renwen", "title": "Assistant Professor", "org": "NTU, Wee Kim Wee School of Communication and Information" },
-    { "img": "photos/experts/rachel.webp", "name": "Rachel Poonsiriwong", "title": "Graduate Researcher", "org": "MIT Media Labs" }
+    { "img": "photos/experts/rachel.webp", "name": "Rachel Poonsiriwong", "title": "Graduate Researcher", "org": "MIT Media Lab" }
   ]
 };
