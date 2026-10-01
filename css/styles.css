@@ -726,6 +726,19 @@ a {
   transform: scale(1.06);
 }
 
+/* A category with no articles yet: shown for consistency but dimmed and
+   inert, so it reads as "nothing here yet" rather than filtering to nothing. */
+.res-stream__tag--empty {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.res-stream__tag--empty:hover {
+  border-color: transparent;   /* no interactive affordance */
+}
+.res-stream__tag--empty:active {
+  transform: none;
+}
+
 /* Springy pop each time a tag toggles on */
 .res-stream__tag--pop {
   animation: res-tag-pop 0.34s cubic-bezier(0.34, 1.5, 0.5, 1);

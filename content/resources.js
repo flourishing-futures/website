@@ -22,7 +22,7 @@ window.SITE_CONTENT.resources = [
   {
     "title": "Yes, You're Absolutely Right, Right?",
     "source": "ai@govtech",
-    "category": "Inspiration",
+    "category": "Research",
     "date": "2026-09-14",
     "eyebrow": "Featured",
     "body": [
@@ -35,7 +35,7 @@ window.SITE_CONTENT.resources = [
   {
     "title": "RabakBench: Safety, Made Local",
     "source": "ai@govtech",
-    "category": "Inspiration",
+    "category": "Research",
     "date": "2026-09-14",
     "eyebrow": "Featured",
     "body": [
@@ -147,7 +147,7 @@ window.SITE_CONTENT.resources = [
   {
     "title": "What It's Like to Brainstorm with a Bot",
     "source": "The New Yorker",
-    "category": "Inspiration",
+    "category": "Opinions",
     "date": "2025-08-09",
     "body": [
       "A more optimistic picture of AI: not a machine that gives you the answer, but something you can genuinely think alongside. Following researchers using AI at the edges of problems they don't yet know how to solve, the piece asks what new forms of creativity might emerge when the machine becomes a provocateur rather than an oracle."

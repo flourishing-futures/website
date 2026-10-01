@@ -257,8 +257,19 @@
               '<button class="res-stream__tag res-stream__tag--clear">✕ Clear all</button>' +
             '</span>';
     var cats = ['Research', 'Opinions', 'Guides', 'Inspiration'];
+    // Count what each category actually holds so empty ones can be dimmed and
+    // made unclickable (the chip stays in the row for consistency, but reads as
+    // "nothing here yet" rather than filtering to an empty grid).
+    var counts = {};
+    for (var c = 0; c < items.length; c++) {
+      counts[items[c].category] = (counts[items[c].category] || 0) + 1;
+    }
     for (var i = 0; i < cats.length; i++) {
-      html += '<button class="res-stream__tag" data-cat="' + cats[i] + '">' + cats[i] + '</button>';
+      var isEmpty = !counts[cats[i]];
+      html += '<button class="res-stream__tag' + (isEmpty ? ' res-stream__tag--empty' : '') +
+              '" data-cat="' + cats[i] + '"' +
+              (isEmpty ? ' disabled aria-disabled="true" title="Nothing here yet"' : '') +
+              '>' + cats[i] + '</button>';
     }
     html += '</div>';
 
