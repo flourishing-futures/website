@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Theme pre-paint: apply the saved colour theme before CSS loads (no flash).
+       First-ever visit = Default (OS light/dark preference is ignored). -->
+  <script>(function(){try{var t=localStorage.getItem('ff-theme');if(t==='dark')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
   <title>Flourishing Futures: AI for Human Possibility</title>
   <link rel="preload" as="image" href="img/hero-a-1.svg">
   <meta name="description" content="Flourishing Futures — designing AI that expands human agency, judgement and possibility in public service.">
@@ -29,9 +32,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700&family=Atkinson+Hyperlegible+Next:wght@300;400;500&display=swap">
-  <link rel="stylesheet" href="css/home.css?v=20260918mob10">
-  <link rel="stylesheet" href="css/transitions.css?v=20260919ff2">
-  <script src="js/page-transitions.js?v=20260919ff2"></script>
+  <link rel="stylesheet" href="css/home.css?v=20260102theme10">
+  <link rel="stylesheet" href="css/transitions.css?v=20260102theme10">
+  <script src="js/page-transitions.js?v=20260102theme10"></script>
 </head>
 <body data-key="blue">
 
@@ -314,6 +317,7 @@
   <script src="content/resources.js?v=20260917links"></script>
   <script src="js/render-content.js?v=20260917swag"></script>
   <script src="js/mobile-nav.js?v=20260918mob"></script>
+  <script src="js/theme.js?v=20260102theme10"></script>
 
   <script>
   (function () {
@@ -340,15 +344,41 @@
 
     var current = 0;
 
+    // Theme-aware hero fields. The hero bg is written as an INLINE style (which
+    // beats the CSS [data-theme] token overrides), so paint() must resolve each
+    // scene through the active theme itself. Default = today's saturated hues;
+    // Dark = warm deep browns sampled from References/DarkMode.jpg (the rotation
+    // reads as a subtle tonal shift rather than a colour carousel).
+    var THEME_FIELDS = {
+      'default': ['#1934BE', '#E42600', '#E4B103', '#009D3C'],
+      'dark':    ['#1A1111', '#1F1414', '#231717', '#150F0F']
+    };
+    // Hero title ink: dusty rose in Dark (the one coloured ink in the mockup).
+    var THEME_INK = { 'default': '#F3F3F3', 'dark': '#A96666' };
+
+    function currentTheme() {
+      return document.documentElement.getAttribute('data-theme') || 'default';
+    }
+
     function paint(i) {
       var s = SCENES[i];
-      hero.style.background = s.bg;
-      hero.style.setProperty('--title-color', s.color);
-      hero.classList.toggle('logo-dark', !!s.logoDark);
-      // Nav wears the same key-visual colour; dark text on light scenes.
-      nav.style.setProperty('--nav-bg', s.bg);
-      nav.style.setProperty('--nav-fg', s.logoDark ? '#1B1B1B' : '#F3F3F3');
+      var theme = currentTheme();
+      var fields = THEME_FIELDS[theme] || THEME_FIELDS['default'];
+      var bg = fields[i % fields.length];
+      var ink = THEME_INK[theme] || THEME_INK['default'];
+      hero.style.background = bg;
+      hero.style.setProperty('--title-color', ink);
+      // Logo stays light on the dark-brown fields; in Default keep the scene hint.
+      var logoDark = theme === 'dark' ? false : !!s.logoDark;
+      hero.classList.toggle('logo-dark', logoDark);
+      // Nav wears the same key-visual colour; text follows the hero ink.
+      nav.style.setProperty('--nav-bg', bg);
+      nav.style.setProperty('--nav-fg', ink);
     }
+
+    // Let js/theme.js repaint the hero when the theme changes mid-session
+    // (without restarting the scene-rotation timer).
+    window.__ffRepaintHero = function () { paint(current); };
 
     // --- Title: per-letter blur/fade in & out --------------------------
     var LTR_STAGGER = 22;   // ms between letters on the way in

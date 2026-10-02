@@ -30,6 +30,9 @@
     'community.html': '#FFFF00',
   };
   var DEFAULT_COLOR = '#14110F';
+  // In dark mode every page's wipe curtain is the same light brown, so the
+  // transition reads as one calm colour (no blue/red/yellow flashes).
+  var DARK_CURTAIN = '#3D2222';
 
   var reduced =
     window.matchMedia &&
@@ -51,6 +54,7 @@
   } catch (_) {}
 
   function keyColor() {
+    if (root.getAttribute('data-theme') === 'dark') return DARK_CURTAIN;
     var parts = location.pathname.split('/');
     var name = parts[parts.length - 1];
     return PAGE_COLORS.hasOwnProperty(name) ? PAGE_COLORS[name] : DEFAULT_COLOR;

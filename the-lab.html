@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Theme pre-paint: apply the saved colour theme before CSS loads (no flash).
+       First-ever visit = Default (OS light/dark preference is ignored). -->
+  <script>(function(){try{var t=localStorage.getItem('ff-theme');if(t==='dark')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
   <title>The Lab — Flourishing Futures</title>
   <meta name="description" content="Meet the Flourishing Futures AI Lab — a space for discovering, designing and propagating a better relationship between human and machine. Coming soon.">
   <link rel="icon" type="image/png" href="img/favicon.png">
@@ -28,9 +31,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700&family=Atkinson+Hyperlegible+Next:wght@300;400;500&display=swap">
-  <link rel="stylesheet" href="css/home.css?v=20260918mob10">
-  <link rel="stylesheet" href="css/transitions.css?v=20260919ff2">
-  <script src="js/page-transitions.js?v=20260919ff2"></script>
+  <link rel="stylesheet" href="css/home.css?v=20260102theme10">
+  <link rel="stylesheet" href="css/transitions.css?v=20260102theme10">
+  <script src="js/page-transitions.js?v=20260102theme10"></script>
 </head>
 <body data-key="green">
 
@@ -171,6 +174,7 @@
   </div>
 
   <script src="js/mobile-nav.js?v=20260918mob"></script>
+  <script src="js/theme.js?v=20260102theme10"></script>
   <script>
   // --- Hero layer parallax, mirrors the About hero's cursor-parallax
   //     convention: each layer drifts by its OWN signed data-depth, relative

@@ -20,6 +20,13 @@
   --white: #F3F3F3;
   --lime: #5FFF84;   /* button accent */
 
+  /* Theme semantic tokens — default to today's values so the Default theme is
+     visually unchanged. Overridden under html[data-theme="light|dark"] below.
+     --field-ink  = text that sits ON a coloured field (not on a white card).
+     --section-accent = the single dark-maroon accent band used in Dark mode. */
+  --field-ink: var(--white);
+  --section-accent: var(--black);
+
   /* Mobile menu key colour, resolved per page via body[data-key]. */
   --key: var(--blue);          /* default page key colour */
 
@@ -81,7 +88,7 @@ a {
   font-size: 1.2rem;
   text-align: center;
   line-height: 1.3;
-  color: var(--white);
+  color: var(--field-ink);
 }
 
 /* ============================================================
@@ -234,7 +241,7 @@ a {
   font-family: var(--font-display);
   font-weight: 900;
   font-size: 1rem;
-  color: var(--white);
+  color: var(--field-ink);
   text-align: center;
   margin-bottom: 2rem;
   position: relative;
@@ -345,7 +352,7 @@ a {
   font-weight: 400;
   font-size: 1rem;
   line-height: 1.2;
-  color: var(--white);
+  color: var(--field-ink);
   text-align: right;
 }
 
@@ -1048,7 +1055,7 @@ a {
   font-family: var(--font-display);
   font-weight: 900;
   font-size: 1rem;
-  color: var(--white);
+  color: var(--field-ink);
   text-align: center;
   margin-bottom: 2rem;
 }
@@ -1102,7 +1109,7 @@ a {
   font-family: var(--font-display);
   font-weight: 900;
   font-size: 1rem;
-  color: var(--white);
+  color: var(--field-ink);
   text-align: center;
   margin-bottom: 2.5rem;
 }
@@ -1236,7 +1243,7 @@ a {
   font-family: var(--font-display);
   font-weight: 900;
   font-size: 1rem;
-  color: var(--white);
+  color: var(--field-ink);
   text-align: center;
   margin-bottom: 2.5rem;
 }
@@ -1283,14 +1290,14 @@ a {
   font-weight: 500;
   font-size: 1.4rem;
   line-height: 1.1;
-  color: var(--white);
+  color: var(--field-ink);
 }
 
 .cmty-expert__title {
   font-family: var(--font-display);
   font-weight: 900;
   font-size: 0.8rem;
-  color: var(--white);
+  color: var(--field-ink);
   margin-top: 0.5rem;
 }
 
@@ -1298,21 +1305,21 @@ a {
   font-family: var(--font-body);
   font-weight: 300;
   font-size: 0.8rem;
-  color: var(--white);
+  color: var(--field-ink);
   opacity: 0.9;
 }
 
 .cmty-collab {
   text-align: center;
   margin: 3.5rem auto 0;
-  color: var(--white);
+  color: var(--field-ink);
   font-family: var(--font-display);
   font-weight: 900;
   font-size: 1.2rem;
 }
 
 .cmty-collab__link {
-  color: var(--white);
+  color: var(--field-ink);
   text-decoration: underline;
   transition: opacity 0.2s;
 }
@@ -1376,7 +1383,7 @@ a {
 
 .cmty-swag__copy {
   margin: 0;
-  color: var(--white);
+  color: var(--field-ink);
   font-family: var(--font-display);
   font-weight: 900;
   font-size: 1.2rem;
@@ -1792,4 +1799,248 @@ body[data-key="yellow"] { --key: var(--yellow); }
   .mobile-menu { clip-path: none; }
   .mobile-menu.is-open { clip-path: none; }
   .mobile-menu.is-open .mobile-menu__links a { transition-delay: 0s; transform: none; }
+}
+
+/* ============================================================
+   THEME MODE — DARK  (warm deep-brown)  — community / resource-centre
+   Mirrors css/home.css. Only the full-bleed hue FIELDS darken to browns;
+   white cards, the partners/joint-effort band, nav and footer stay light,
+   so there is NO black↔white flip. See css/home.css for the full rationale
+   and the sampled palette.
+   ============================================================ */
+
+html[data-theme="dark"] {
+  --red:    #1F1414;   /* .cmty-upcoming / .cmty-gallery fields */
+  --yellow: #231717;   /* .res-stream / .cmty-hero / .cmty-swag fields */
+  --green:  #1A1111;   /* .lately field */
+  --blue:   #171011;   /* .res-hero / .cmty-experts / blue card images */
+  --black:  #1B1B1B;   /* unchanged — ink + borders on white cards */
+  --white:  #F3F3F3;   /* unchanged — cards / partners / nav / footer stay light */
+  --lime:   #5FFF84;   /* unchanged */
+  --title-color:   #A96666;   /* dusty rose */
+  --field-ink:     #F7F6F6;   /* warm off-white on the dark fields */
+  --section-accent:#371919;
+}
+
+/* The cmty-hero headings were blue INK on a yellow field; on the browned field
+   they read as off-white like the other field text. */
+html[data-theme="dark"] .cmty-hero__eyebrow,
+html[data-theme="dark"] .cmty-hero__title,
+html[data-theme="dark"] .cmty-hero__intro { color: var(--field-ink); }
+
+/* Resource Hub filter chips sit on the browned .res-stream field with --black
+   text (illegible). Light them to rose; the chosen chip keeps its light label. */
+html[data-theme="dark"] .res-stream__tags-label,
+html[data-theme="dark"] .res-stream__tag { color: #A96666; }
+html[data-theme="dark"] .res-stream__tag:hover { border-color: #A96666; }
+html[data-theme="dark"] .res-stream__tag--clear { border-color: #A96666; }
+/* Active chip: a filled rose pill so the selection stands out on the dark field. */
+html[data-theme="dark"] .res-stream__tag--active {
+  background: #A96666;
+  border-color: #A96666;
+  color: #1A1111;
+}
+html[data-theme="dark"] .res-stream__tag--clear:hover { background: #A96666; color: #1A1111; }
+
+/* Buttons stay a colourful lime pill in Dark (see css/home.css). */
+html[data-theme="dark"] a.btn { color: #1934BE; background: #5FFF84; }
+html[data-theme="dark"] a.btn:hover {
+  color: #F3F3F3;
+  background-image: linear-gradient(90deg, #E42600, #E4B103, #009D3C, #E4B103, #E42600);
+}
+
+/* Doodle recolour — faint warm brown (same filter chain as css/home.css). */
+html[data-theme="dark"] .cmty-hero__layer,
+html[data-theme="dark"] .cmty-hero__art,
+html[data-theme="dark"] .cmty-starburst,
+html[data-theme="dark"] .cmty-squiggle,
+html[data-theme="dark"] .res-hero__layer,
+html[data-theme="dark"] .res-hero__art,
+html[data-theme="dark"] .res-stream__layer,
+html[data-theme="dark"] .res-stream__art {
+  filter: brightness(0) invert(0.1) sepia(1) saturate(2) hue-rotate(-45deg);
+}
+
+/* Flofu: remap its baked fills to the dark palette (see css/home.css). */
+html[data-theme="dark"] .assistant-svg path[fill="#E4B103"] { fill: #B7592D; }
+html[data-theme="dark"] .assistant-svg path[fill="#00A744"] { fill: #4AA670; }
+html[data-theme="dark"] .assistant-svg path[fill="#CCCCCC"] { fill: #A96666; }
+html[data-theme="dark"] .assistant-svg path[fill="#0066FF"] { fill: #270D0D; }
+html[data-theme="dark"] .assistant-svg path[fill="#1934BE"] { fill: #5A2F2F; }
+html[data-theme="dark"] .assistant-svg path[fill="#1D8949"] { fill: #E6C697; }
+
+/* ---- Dark navbar on ALL pages (see css/home.css): deep-brown bar that
+   BRIGHTENS TO OFF-WHITE on hover; links/wordmark/icon flip dark when it does. */
+html[data-theme="dark"] .site-nav,
+html[data-theme="dark"] .site-nav--solid {
+  background: #150F0F !important;
+  border-top-color: #3D2222;
+  border-bottom-color: #3D2222;
+}
+html[data-theme="dark"] .site-nav:hover { background: var(--white) !important; }
+
+/* Inverted emphasis (see css/home.css): current/active page = off-white, others
+   recede to brown; hover lifts to off-white. On the brightened (hover) bar it all
+   flips dark/rose for legibility. */
+html[data-theme="dark"] .site-nav__links a { color: #A96666; }
+html[data-theme="dark"] .site-nav__links a.active,
+html[data-theme="dark"] .site-nav__links a:hover { color: #F7F6F6; }
+html[data-theme="dark"] .site-nav:hover .site-nav__links a { color: #1B1B1B; }
+html[data-theme="dark"] .site-nav:hover .site-nav__links a.active,
+html[data-theme="dark"] .site-nav:hover .site-nav__links a:hover { color: #A96666; }
+
+html[data-theme="dark"] .site-nav__brand-img { filter: none; }
+html[data-theme="dark"] .site-nav:hover .site-nav__brand-img { filter: brightness(0); }
+
+/* Theme icon docked in the nav: off-white on the dark bar, dark on the off-white. */
+html[data-theme="dark"] .theme-switch--nav .theme-switch__btn {
+  border-color: #F7F6F6;
+  color: #F7F6F6;
+}
+html[data-theme="dark"] .site-nav:hover .theme-switch--nav .theme-switch__btn {
+  border-color: #1B1B1B;
+  color: #1B1B1B;
+}
+
+/* ---- Dark footer on ALL pages: one dark bar with light text. ---- */
+html[data-theme="dark"] .site-footer {
+  background: #150F0F;
+  border-top-color: #3D2222;
+}
+html[data-theme="dark"] .site-footer__lockup { filter: none; color: #F7F6F6; }
+html[data-theme="dark"] .site-footer__credit { color: #F7F6F6; }
+
+/* ============================================================
+   THEME SWITCHER CONTROL (top-right of nav)
+   ============================================================ */
+.theme-switch {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+}
+.theme-switch__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 1.5px solid var(--nav-fg, var(--black));
+  border-radius: 100px;
+  background: transparent;
+  color: var(--nav-fg, var(--black));
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease,
+              transform 0.25s cubic-bezier(0.34, 1.4, 0.5, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+/* Playful hover: flowing-rainbow fill + springy scale, matching the buttons. */
+.theme-switch__btn:hover {
+  transform: scale(1.1);
+  border-color: transparent;
+  color: #F3F3F3 !important;
+  background-image: linear-gradient(90deg, #E42600, #E4B103, #009D3C, #E4B103, #E42600);
+  background-size: 200% 100%;
+  animation: btn-flow 2s linear infinite;
+}
+.theme-switch__btn svg { width: 24px; height: 24px; display: block; }
+.theme-switch__btn svg path { stroke: currentColor; }
+
+/* Popover menu — animated bubbly elastic pop (see css/home.css). */
+.theme-switch__menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 10px);
+  min-width: 190px;
+  padding: 0.4rem;
+  border: 1.5px solid var(--black);
+  border-radius: 14px;
+  background: var(--white);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  transform-origin: top right;
+  opacity: 0;
+  transform: scale(0.6) translateY(-8px);
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+.theme-switch.is-open .theme-switch__menu {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1) translateY(0);
+  transition: transform 0.42s cubic-bezier(0.34, 1.56, 0.5, 1), opacity 0.16s ease;
+}
+.theme-switch__opt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.6rem 0.85rem;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--black);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  text-align: left;
+  cursor: pointer;
+  white-space: nowrap;
+  opacity: 0;
+  transform: scale(0.8) translateY(6px);
+  transition: background 0.15s ease, transform 0.2s ease, opacity 0.2s ease;
+}
+.theme-switch.is-open .theme-switch__opt {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  transition: background 0.15s ease,
+              transform 0.5s cubic-bezier(0.34, 1.7, 0.5, 1),
+              opacity 0.2s ease;
+}
+.theme-switch.is-open .theme-switch__opt:nth-child(1) { transition-delay: 0.06s; }
+.theme-switch.is-open .theme-switch__opt:nth-child(2) { transition-delay: 0.13s; }
+.theme-switch.is-open .theme-switch__opt:nth-child(3) { transition-delay: 0.20s; }
+/* Each option's hover fill previews its theme (see css/home.css). */
+.theme-switch__opt:hover {
+  transform: scale(1.04);
+  background-size: 200% 100%;
+  animation: btn-flow 2s linear infinite;
+}
+.theme-switch__opt[data-theme="default"]:hover {
+  color: #F3F3F3;
+  background-image: linear-gradient(90deg, #E42600, #E4B103, #009D3C, #E4B103, #E42600);
+}
+.theme-switch__opt[data-theme="dark"]:hover {
+  color: #E6C697;   /* light beige text — reads like the actual dark theme */
+  background-image: linear-gradient(90deg, #1A1111, #3D2222, #4A2A2A, #3D2222, #1A1111);
+}
+.theme-switch__opt[data-theme="default"]:hover::after { color: #F3F3F3 !important; }
+.theme-switch__opt[data-theme="dark"]:hover::after { color: #E6C697 !important; }
+.theme-switch__opt[aria-checked="true"] { font-weight: 700; }
+.theme-switch__opt[aria-checked="true"]::after { content: "✓"; color: var(--blue); }
+.theme-switch__opt[aria-checked="false"]::after { content: ""; }
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-switch__menu,
+  .theme-switch.is-open .theme-switch__menu,
+  .theme-switch__opt,
+  .theme-switch.is-open .theme-switch__opt {
+    transition: opacity 0.12s ease;
+    transform: none;
+  }
+}
+@media (max-width: 768px) {
+  .theme-switch { right: 88px; }   /* clear gap from the burger */
+  .theme-switch__menu { bottom: calc(100% + 10px); top: auto; }
+}
+
+/* Dark mode mobile: invert the black burger icon so it reads on the dark bar
+   (flips back when the bar brightens on tap/hover). See css/home.css. */
+@media (max-width: 768px) {
+  html[data-theme="dark"] .nav-burger__icon { filter: invert(1) brightness(1.4); }
+  html[data-theme="dark"] .site-nav:hover .nav-burger__icon { filter: none; }
 }
