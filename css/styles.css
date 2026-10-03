@@ -2050,8 +2050,30 @@ html[data-theme="dark"] .site-footer__credit { color: #F7F6F6; }
   }
 }
 @media (max-width: 768px) {
-  .theme-switch { right: 88px; }   /* clear gap from the burger */
   .theme-switch__menu { bottom: calc(100% + 10px); top: auto; }
+  /* In the flex row (not absolute) so it can never sit on the wordmark:
+     wordmark | switch (pushed right) | burger. See css/home.css. */
+  .site-nav .theme-switch--nav {
+    position: relative;
+    top: auto;
+    right: auto;
+    transform: none;
+    order: 1;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+  .site-nav .nav-burger { order: 2; }
+  .site-nav__brand { min-width: 0; }
+  .site-nav__brand-img { height: auto; width: min(203px, calc(100vw - 208px)); }
+}
+/* Thin phones: tighten the padding and icons so the wordmark keeps its size. */
+@media (max-width: 420px) {
+  .site-nav > .container--wide { padding: 0 1rem; }
+  .site-nav__inner { padding: 0.55rem 0.25rem; gap: 0.625rem; }
+  .site-nav .theme-switch--nav .theme-switch__btn { width: 36px; height: 36px; }
+  .site-nav .theme-switch--nav .theme-switch__btn svg { width: 20px; height: 20px; }
+  .site-nav .nav-burger { width: 40px; height: 33px; }
+  .site-nav__brand-img { width: min(203px, calc(100vw - 136px)); }
 }
 
 /* Dark mode mobile: invert the black burger icon so it reads on the dark bar

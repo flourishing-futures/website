@@ -2761,10 +2761,36 @@ html:not([data-theme]) .site-nav.is-white .theme-switch--nav .theme-switch__btn 
    (with a clear gap between the two icons), and drop the hero-corner copy
    (the hero logo is hidden on mobile too). */
 @media (max-width: 768px) {
-  .theme-switch { right: 88px; }   /* 46px burger + ~1.25rem pad + breathing room */
   .theme-switch__menu { bottom: calc(100% + 10px); top: auto; }
   .theme-switch-corner { display: none; }
-  .site-nav .theme-switch--nav { opacity: 1; pointer-events: auto; }
+  /* In the flex row (not absolute) so it can never sit on the wordmark:
+     wordmark | switch (pushed right) | burger. */
+  .site-nav .theme-switch--nav {
+    opacity: 1;
+    pointer-events: auto;
+    position: relative;
+    top: auto;
+    right: auto;
+    transform: none;
+    order: 1;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+  .site-nav .nav-burger { order: 2; }
+  /* The wordmark shrinks to whatever the icons leave (208px = container +
+     bar padding, two gaps, switch and burger). */
+  .site-nav__brand { min-width: 0; }
+  .site-nav__brand-img { height: auto; width: min(203px, calc(100vw - 208px)); }
+}
+/* Thin phones: tighten the padding and icons so the wordmark keeps its size
+   for longer (136px = the same sum at these smaller sizes). */
+@media (max-width: 420px) {
+  .site-nav > .container--wide { padding: 0 1rem; }
+  .site-nav__inner { padding: 0.55rem 0.25rem; gap: 0.625rem; }
+  .site-nav .theme-switch--nav .theme-switch__btn { width: 36px; height: 36px; }
+  .site-nav .theme-switch--nav .theme-switch__btn svg { width: 20px; height: 20px; }
+  .site-nav .nav-burger { width: 40px; height: 33px; }
+  .site-nav__brand-img { width: min(203px, calc(100vw - 136px)); }
 }
 
 /* Dark mode mobile: the burger icon SVG is black and would vanish on the dark
