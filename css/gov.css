@@ -300,6 +300,13 @@ html[data-theme="gov"] {
 .gov-view .theme-switch__btn svg { width: 20px; height: 20px; }
 .gov-view .theme-switch__menu,
 .gov-view .theme-switch.is-open .theme-switch__menu {
+  /* Always drop DOWN: the playful mobile nav is a bottom bar, so home.css /
+     styles.css flip every menu upward at ≤768px — but the gov header sits at
+     the top of the screen, where an upward menu opens off-screen. */
+  top: calc(100% + 8px);
+  bottom: auto;
+  right: 0;
+  max-width: calc(100vw - 2.5rem);
   min-width: 210px;
   border: 1px solid var(--gov-line);
   border-radius: 8px;
