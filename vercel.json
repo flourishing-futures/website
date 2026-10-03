@@ -1,16 +1,4 @@
 {
-  "redirects": [
-    {
-      "source": "/:theme(gov|dark)/:page(about|the-lab|community|resource-centre)",
-      "destination": "/:page?style=:theme",
-      "permanent": false
-    },
-    {
-      "source": "/:theme(gov|dark)/:path*",
-      "destination": "/:path*?style=:theme",
-      "permanent": false
-    }
-  ],
   "rewrites": [
     {
       "source": "/:page(about|the-lab|community|resource-centre)",
