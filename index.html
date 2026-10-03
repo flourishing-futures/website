@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Theme pre-paint: apply the saved colour theme before CSS loads (no flash).
+       Government also starts fetching Inter here.
        First-ever visit = Default (OS light/dark preference is ignored). -->
-  <script>(function(){try{var t=localStorage.getItem('ff-theme');if(t==='dark')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+  <script>(function(){try{var t=localStorage.getItem('ff-theme');if(t==='dark'||t==='gov')document.documentElement.setAttribute('data-theme',t);if(t==='gov'){var l=document.createElement('link');l.id='gov-font';l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,600&display=swap';document.head.appendChild(l);}}catch(e){}})();</script>
   <title>Flourishing Futures: AI for Human Possibility</title>
   <link rel="preload" as="image" href="img/hero-a-1.svg">
   <meta name="description" content="Flourishing Futures — designing AI that expands human agency, judgement and possibility in public service.">
@@ -32,9 +33,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700&family=Atkinson+Hyperlegible+Next:wght@300;400;500&display=swap">
-  <link rel="stylesheet" href="css/home.css?v=20260102theme10">
+  <link rel="stylesheet" href="css/home.css?v=20261003names">
   <link rel="stylesheet" href="css/transitions.css?v=20260102theme10">
-  <script src="js/page-transitions.js?v=20260102theme10"></script>
+  <link rel="stylesheet" href="css/gov.css?v=20261003names">
+  <script src="js/page-transitions.js?v=20261002gov"></script>
 </head>
 <body data-key="blue">
 
@@ -237,7 +239,7 @@
     <span class="site-footer__credit">An initiative by the GovTech Innovation Office (2026)</span>
   </footer>
 
-  <!-- Floating "Finch" assistant: an FF-Eelie character that slides up from the
+  <!-- Floating "Flofu" assistant: an FF-Eelie character that slides up from the
        bottom-right once the user scrolls past the landing hero, and stays fixed
        on top of the content. Its one eye tracks the cursor (reusing the hero
        pupil logic); the speech bubble is hidden until the character is tapped.
@@ -317,7 +319,8 @@
   <script src="content/resources.js?v=20260917links"></script>
   <script src="js/render-content.js?v=20260917swag"></script>
   <script src="js/mobile-nav.js?v=20260918mob"></script>
-  <script src="js/theme.js?v=20260102theme10"></script>
+  <script src="js/gov.js?v=20261003gov4"></script>
+  <script src="js/theme.js?v=20261003names3"></script>
 
   <script>
   (function () {
@@ -328,7 +331,7 @@
     var scenes = Array.prototype.slice.call(stage.querySelectorAll('.hero__scene'));
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // Floating assistant ("Finch") — revealed on scroll; its eye tracks the cursor.
+    // Floating assistant ("Flofu") — revealed on scroll; its eye tracks the cursor.
     var assistant = document.getElementById('siteAssistant');
     var assistantChar = document.getElementById('assistantChar');
     var assistantBubble = document.getElementById('assistantBubble');
@@ -526,7 +529,7 @@
         raf = null;
         moveEyes(lastX, lastY);
         moveDoodle(lastX, lastY);                             // hero doodle parallax
-        if (assistant) placeScene(assistant, lastX, lastY);   // Finch's eye tracks the cursor too
+        if (assistant) placeScene(assistant, lastX, lastY);   // Flofu's eye tracks the cursor too
       });
     });
     if (assistant) resetPupils(assistant);   // settle at rest until the mouse moves
@@ -578,13 +581,13 @@
       nav.classList.toggle('is-white', window.scrollY > 8);
       var past = window.scrollY > (hero.offsetHeight - nav.offsetHeight - 40);
       nav.classList.toggle('is-scrolled', past);
-      // Finch appears once the user scrolls off the landing hero, and stays.
+      // Flofu appears once the user scrolls off the landing hero, and stays.
       if (assistant) {
         var show = window.scrollY > window.innerHeight * 0.6;
         assistant.classList.toggle('is-visible', show);
         assistant.setAttribute('aria-hidden', show ? 'false' : 'true');
         // Pinned to the viewport bottom while scrolling, but once the footer bar
-        // scrolls into view Finch rides up to rest on it instead of covering it —
+        // scrolls into view Flofu rides up to rest on it instead of covering it —
         // grounded a few px into the bar, which paints in front (see CSS z-index).
         // (overlap = how much of the footer is currently on screen.)
         // Rest offset: on mobile he sits tucked just behind the fixed bottom bar;
@@ -607,7 +610,7 @@
     onScroll();
 
     // Speech bubble: a random quote each time it appears. The FIRST hover after
-    // page-load pops it once (so people notice Finch is there); after that it
+    // page-load pops it once (so people notice Flofu is there); after that it
     // opens on click. Every appearance also bobs both eels once for a bit of
     // responsiveness. It auto-tucks away again after 2s so it's never persistent.
     if (assistantChar) {
@@ -682,7 +685,7 @@
         bobBoth();
       }
       function popBubble() { hoverQuipOpen = false; showBubble(randomQuote(), true); }
-      // React to page content: only while Finch is actually out on screen.
+      // React to page content: only while Flofu is actually out on screen.
       function sayQuip(text) {
         if (!assistant.classList.contains('is-visible')) return;
         introShown = true;      // a page-driven quip counts as "discovered"

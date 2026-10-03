@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Theme pre-paint: apply the saved colour theme before CSS loads (no flash).
+       Government also starts fetching Inter here.
        First-ever visit = Default (OS light/dark preference is ignored). -->
-  <script>(function(){try{var t=localStorage.getItem('ff-theme');if(t==='dark')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+  <script>(function(){try{var t=localStorage.getItem('ff-theme');if(t==='dark'||t==='gov')document.documentElement.setAttribute('data-theme',t);if(t==='gov'){var l=document.createElement('link');l.id='gov-font';l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,600&display=swap';document.head.appendChild(l);}}catch(e){}})();</script>
   <title>About — Flourishing Futures</title>
   <link rel="preload" as="image" href="img/about-illustration-back.svg?v=20260922">
   <link rel="preload" as="image" href="img/about-illustration-front.svg?v=20260922">
@@ -33,9 +34,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700&family=Atkinson+Hyperlegible+Next:wght@300;400;500&display=swap">
-  <link rel="stylesheet" href="css/home.css?v=20260102theme10">
+  <link rel="stylesheet" href="css/home.css?v=20261003names">
   <link rel="stylesheet" href="css/transitions.css?v=20260102theme10">
-  <script src="js/page-transitions.js?v=20260102theme10"></script>
+  <link rel="stylesheet" href="css/gov.css?v=20261003names">
+  <script src="js/page-transitions.js?v=20261002gov"></script>
 </head>
 <body data-key="red">
 
@@ -296,7 +298,7 @@
     <span class="site-footer__credit">An initiative by the GovTech Innovation Office (2026)</span>
   </footer>
 
-  <!-- Floating "Finch" assistant (shared with the home page). -->
+  <!-- Floating "Flofu" assistant (shared with the home page). -->
   <div class="site-assistant" id="siteAssistant" aria-hidden="true">
     <div class="site-assistant__bubble" id="assistantBubble" role="status" aria-live="polite"></div>
     <button class="site-assistant__char" id="assistantChar" type="button"
@@ -367,7 +369,8 @@
   </div>
 
   <script src="js/mobile-nav.js?v=20260918mob"></script>
-  <script src="js/theme.js?v=20260102theme10"></script>
+  <script src="js/gov.js?v=20261003gov4"></script>
+  <script src="js/theme.js?v=20261003names3"></script>
   <script>
   // --- Cursor parallax, per section. Each illustration reacts to the cursor's
   //     position relative to ITS OWN centre (not one shared viewport vector), and
@@ -591,7 +594,7 @@
     document.addEventListener('mouseleave', function () { if (active) { active = false; centre(); } });
   })();
 
-  // --- Floating "Finch" assistant: slides up on scroll; its eye tracks the
+  // --- Floating "Flofu" assistant: slides up on scroll; its eye tracks the
   //     cursor; a random quip pops on hover/tap. (Trimmed from index.html.) ---
   (function () {
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

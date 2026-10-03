@@ -67,7 +67,7 @@ Per-page hero recolours layered on top of these bases (from recent commits): Res
 - **Full-width colour blocks**: sections use bold background colours (or the palette gradients) spanning the full viewport width
 - **Brush-doodle backdrops**: illustration layers sit behind text/cards rather than as isolated images, with subtle parallax on scroll
 - **Generous whitespace**: large padding around vision statements and hero text
-- **Playful elements**: hand-drawn eye/critter motifs (currently scoped to the Finch character) used as interactive, cursor-following details rather than a generic smiley motif
+- **Playful elements**: hand-drawn eye/critter motifs (currently scoped to the Flofu character) used as interactive, cursor-following details rather than a generic smiley motif
 
 ## Tone & Feel
 

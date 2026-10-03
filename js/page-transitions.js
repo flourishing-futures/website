@@ -33,6 +33,8 @@
   // In dark mode every page's wipe curtain is the same light brown, so the
   // transition reads as one calm colour (no blue/red/yellow flashes).
   var DARK_CURTAIN = '#3D2222';
+  // Government mode: one flat government blue.
+  var GOV_CURTAIN = '#386FEF';
 
   var reduced =
     window.matchMedia &&
@@ -55,6 +57,7 @@
 
   function keyColor() {
     if (root.getAttribute('data-theme') === 'dark') return DARK_CURTAIN;
+    if (root.getAttribute('data-theme') === 'gov') return GOV_CURTAIN;
     var parts = location.pathname.split('/');
     var name = parts[parts.length - 1];
     return PAGE_COLORS.hasOwnProperty(name) ? PAGE_COLORS[name] : DEFAULT_COLOR;
