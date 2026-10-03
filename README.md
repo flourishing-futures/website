@@ -13,11 +13,8 @@ It's colourful and hand-drawn on purpose. Big flat colour, wobbly brush doodles,
 - Two of them whose eyes follow your cursor around the green section
 - An outcomes list on the About page that opens like an accordion
 - Flofu, the creature in the corner, who watches your cursor and pops up now and then
-- A style picker (the palette icon, top right) that re-dresses the whole site in one of three looks. It changes how things look, not what they say:
-  - **Very Vibrant**: the default. All of the above.
-  - **Very Dark**: the same site, dimmed to warm browns for the evening.
-  - **Very Official**: the site played completely straight, as a black-on-white government page with tables, numbered rows and not a single doodle. Flofu takes the day off.
-
+- A style picker (the palette icon, top right) that re-dresses the whole site in one of three looks: Very Vibrant, Very Dark, and Very Official (Government mode. No doodles. Flofu takes the day off). This changes how things look, not what the pages say.
+ 
 None of these quirks are strictly essential. That's sort of the point.
 
 ## The pages
