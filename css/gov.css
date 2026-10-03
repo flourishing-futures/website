@@ -1097,7 +1097,10 @@ html[data-theme="gov"] {
 }
 
 @media (max-width: 640px) {
-  .gov-wrap { padding: 0 1.25rem; }
+  /* Sides only: a shorthand here would also zero the vertical padding that
+     .gov-band__inner (same specificity, earlier) sets, gluing the CTA band's
+     button to the footer. */
+  .gov-wrap { padding-left: 1.25rem; padding-right: 1.25rem; }
   .gov-view { --gov-banner-h: 65px; --gov-nav-h: 50px; }
   .gov-header__inner { gap: 0.6rem; }
   .gov-brand { font-size: 0.975rem; }
