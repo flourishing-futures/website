@@ -12,7 +12,11 @@ It's colourful and hand-drawn on purpose. Big flat colour, wobbly brush doodles,
 - Characters that bob a little when you hover them
 - Two of them whose eyes follow your cursor around the green section
 - An outcomes list on the About page that opens like an accordion
-- Finch, the bird in the corner, who watches your cursor and pops up now and then
+- Flofu, the creature in the corner, who watches your cursor and pops up now and then
+- A style picker (the palette icon, top right) that re-dresses the whole site in one of three looks. It changes how things look, not what they say:
+  - **Very Vibrant**: the default. All of the above.
+  - **Very Dark**: the same site, dimmed to warm browns for the evening.
+  - **Very Official**: the site played completely straight, as a black-on-white government page with tables, numbered rows and not a single doodle. Flofu takes the day off.
 
 None of it is essential. That's sort of the point.
 
@@ -31,6 +35,7 @@ None of it is essential. That's sort of the point.
 Plainly. It's HTML, CSS, and vanilla JavaScript. No framework, no bundler, no build step, nothing to `npm install`.
 
 - CSS lives in `css/`. `home.css` runs the home and about pages; `styles.css` covers the rest.
+- The style picker lives in `js/theme.js`. Very Dark is a colour swap inside the two stylesheets. Very Official is its own page layout: `js/gov.js` builds it from the same copy as the normal pages, and `css/gov.css` styles it, so editing a page's text updates both.
 - Each page's JavaScript sits in a `<script>` tag at the bottom, in small chunks that behave themselves and respect `prefers-reduced-motion`.
 - Illustrations are SVGs in `img/`. A couple are pasted straight into the page so their eyes can move.
 

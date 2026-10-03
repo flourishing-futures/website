@@ -827,7 +827,7 @@ a {
   background: var(--footer-bg, var(--red));
   position: relative;
   isolation: isolate;
-  z-index: 600;   /* paints in front of Finch (z-index 500) so he tucks behind it */
+  z-index: 600;   /* paints in front of Flofu (z-index 500) so he tucks behind it */
   border-top: 1.5px solid var(--white);
   display: flex;
   align-items: center;
@@ -1418,7 +1418,7 @@ a {
 }
 
 /* ============================================================
-   FLOATING ASSISTANT ("Finch")
+   FLOATING ASSISTANT ("Flofu")
    Fixed bottom-right, above the content. Hidden until the user
    scrolls off the landing hero, then slides up and stays put.
    ============================================================ */
@@ -1718,7 +1718,7 @@ a {
 .about-drive__char--3 { left: 51.28%; top: -2.19%; width: 49.32%; }
 /* The text column sits above the characters; make it transparent to the pointer
    so hovers reach the blob layers behind it, then re-enable only the genuinely
-   interactive bits (the button + Finch cue words). */
+   interactive bits (the button + Flofu cue words). */
 .about-drive__inner { position: relative; z-index: 1; pointer-events: none; }
 .about-drive__inner .btn,
 .about-drive__inner .flofu-cue { pointer-events: auto; }
@@ -2235,7 +2235,7 @@ body[data-key="yellow"] { --key: var(--yellow); }
 .mobile-menu {
   position: fixed;
   inset: 0;
-  z-index: 900;                 /* above footer (600) + Finch (500); bar sits above this */
+  z-index: 900;                 /* above footer (600) + Flofu (500); bar sits above this */
   align-items: center;
   justify-content: center;
   padding: 2rem 1.5rem 96px;    /* bottom pad clears the fixed bar */
@@ -2626,6 +2626,22 @@ html:not([data-theme]) .site-nav.is-white .theme-switch--nav .theme-switch__btn 
   transform: scale(1) translateY(0);
   transition: transform 0.42s cubic-bezier(0.34, 1.56, 0.5, 1), opacity 0.16s ease;
 }
+/* "Pick a style!" heading at the top of the menu: small, muted and set apart
+   by a rule, so it reads as a hint rather than another option. */
+.theme-switch__label {
+  margin: 0 0 0.2rem;
+  padding: 0.35rem 0.85rem 0.55rem;
+  border-bottom: 1px dashed rgba(27, 27, 27, 0.2);
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(27, 27, 27, 0.55);
+  white-space: nowrap;
+  cursor: default;
+  user-select: none;
+}
 .theme-switch__opt {
   display: flex;
   align-items: center;
@@ -2654,10 +2670,10 @@ html:not([data-theme]) .site-nav.is-white .theme-switch--nav .theme-switch__btn 
               transform 0.5s cubic-bezier(0.34, 1.7, 0.5, 1),
               opacity 0.2s ease;
 }
-/* staggered bubble-up, in order */
-.theme-switch.is-open .theme-switch__opt:nth-child(1) { transition-delay: 0.06s; }
-.theme-switch.is-open .theme-switch__opt:nth-child(2) { transition-delay: 0.13s; }
-.theme-switch.is-open .theme-switch__opt:nth-child(3) { transition-delay: 0.20s; }
+/* staggered bubble-up, in order (of-type: the menu's first child is its label) */
+.theme-switch.is-open .theme-switch__opt:nth-of-type(1) { transition-delay: 0.06s; }
+.theme-switch.is-open .theme-switch__opt:nth-of-type(2) { transition-delay: 0.13s; }
+.theme-switch.is-open .theme-switch__opt:nth-of-type(3) { transition-delay: 0.20s; }
 /* hovering an option gives it the same flowing-rainbow fill as the buttons */
 /* Each option's hover fill previews the theme it switches to: "Trendy (Default)"
    flows the brand rainbow; "Grownup (Dark)" flows a light-brown → light-beige. */

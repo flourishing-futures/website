@@ -1,5 +1,5 @@
 /* ------------------------------------------------------------------ *
- * Theme switcher — Default / Dark.
+ * Theme switcher — Default / Dark / Government.
  *
  * A top-right control opens a small popover; picking a theme sets
  * html[data-theme], persists it to localStorage, and plays the site's
@@ -10,6 +10,8 @@
  * On the home page two switches are built: one in the hero's top-right
  * corner (scrolls away) and one docked in the nav (fades in on scroll),
  * mirroring the wordmark logo. Other pages get just the nav-docked one.
+ * Government mode swaps in a whole separate view (js/gov.js); its header
+ * gets its own switch so the way back out is always visible.
  *
  * The pre-paint snippet in each page's <head> applies the stored theme
  * before CSS loads (no flash); this file only runs the UI + swap.
@@ -18,12 +20,14 @@
   'use strict';
 
   var STORE_KEY = 'ff-theme';
-  var THEMES = ['default', 'dark'];
-  var LABELS = { 'default': 'Trendy (Default)', 'dark': 'Grownup (Dark)' };
+  var THEMES = ['default', 'dark', 'gov'];
+  var LABELS = { 'default': 'Very Vibrant (Default)', 'dark': 'Very Dark', 'gov': 'Very Official' };
+  // Menu heading: makes clear the options restyle the page, not its content.
+  var MENU_TITLE = 'Pick a style!';
 
   // Curtain colour per theme = that theme's hero tone, so the wipe reads as
   // the new palette flooding in.
-  var CURTAIN = { 'default': '#E42600', 'dark': '#3D2222' };
+  var CURTAIN = { 'default': '#E42600', 'dark': '#3D2222', 'gov': '#386FEF' };
 
   var root = document.documentElement;
 
@@ -42,9 +46,24 @@
 
   /* ---------- Apply a theme (optionally with the wipe) ---------- */
   function applyTheme(theme) {
+    var prev = current();
     if (theme === 'default') root.removeAttribute('data-theme');
     else root.setAttribute('data-theme', theme);
     store(theme);
+    // Gov and the playful views have unrelated layouts, so a scroll position
+    // in one means nothing in the other — start the new view at the top.
+    if (prev !== theme && (prev === 'gov' || theme === 'gov')) {
+      window.scrollTo(0, 0);
+      // The playful page's scroll/resize-driven layout (e.g. the home page
+      // docking Flofu above the footer) was measured while it was hidden under
+      // gov, where the footer reads as top:0 — leaving an invisible, clickable
+      // Flofu over the theme menu. Make everything re-measure now it's back.
+      window.dispatchEvent(new Event('resize'));
+      window.dispatchEvent(new Event('scroll'));
+    }
+    try {
+      document.dispatchEvent(new CustomEvent('ff:themechange', { detail: { theme: theme } }));
+    } catch (_) {}
     // Home page hero paints its field via inline JS — ask it to repaint.
     if (typeof window.__ffRepaintHero === 'function') {
       try { window.__ffRepaintHero(); } catch (_) {}
@@ -203,6 +222,13 @@
     var m = document.createElement('div');
     m.className = 'theme-switch__menu';
     m.setAttribute('role', 'menu');
+    var title = document.createElement('p');
+    title.className = 'theme-switch__label';
+    title.id = 'theme-switch-label-' + (switches.length + 1);
+    title.setAttribute('role', 'presentation');
+    title.textContent = MENU_TITLE;
+    m.setAttribute('aria-labelledby', title.id);
+    m.appendChild(title);
     THEMES.forEach(function (t) {
       var opt = document.createElement('button');
       opt.type = 'button';
@@ -247,6 +273,10 @@
       heroLogo.parentNode.insertBefore(corner, heroLogo.nextSibling);
       makeSwitch(corner, 'corner');
     }
+
+    // Government view header (built by js/gov.js, which loads first).
+    var govTools = document.querySelector('.gov-header__tools');
+    if (govTools) makeSwitch(govTools, 'gov');
 
     document.addEventListener('click', function (e) {
       var inside = false;
