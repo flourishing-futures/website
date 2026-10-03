@@ -18,7 +18,7 @@ It's colourful and hand-drawn on purpose. Big flat colour, wobbly brush doodles,
   - **Very Dark**: the same site, dimmed to warm browns for the evening.
   - **Very Official**: the site played completely straight, as a black-on-white government page with tables, numbered rows and not a single doodle. Flofu takes the day off.
 
-None of it is essential. That's sort of the point.
+None of these quirks are strictly essential. That's sort of the point.
 
 ## The pages
 
