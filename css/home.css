@@ -2721,7 +2721,12 @@ html:not([data-theme]) .site-nav.is-white .theme-switch--nav .theme-switch__btn 
   position: absolute;
   top: 0;
   right: 2.5rem;
-  z-index: 10;
+  /* Above the hero headline (z-index 10, later in the DOM): on short laptop
+     screens the headline's box rises into the open menu's bottom option, but
+     only for the taller questions, so "Very Official" went dead and came back
+     as the scenes rotated. The closed menu is pointer-events:none, so this
+     never blocks the headline. */
+  z-index: 11;
   /* Box spans from the hero top (0) down past the wordmark by an equal margin:
      2 × 1.75rem top-pad + the wordmark's render height. Centring the button in
      this box puts its centre at the box's half-height = 1.75rem + half the
@@ -2729,8 +2734,7 @@ html:not([data-theme]) .site-nav.is-white .theme-switch--nav .theme-switch__btn 
   height: calc(1.75rem * 2 + 268px * 69 / 467);
   display: flex;
   align-items: center;
-}
-/* Undo the base .theme-switch absolute/translate centring inside this wrapper
+}/* Undo the base .theme-switch absolute/translate centring inside this wrapper
    (that box is zero-height in the nav; here the flex wrapper does the centring). */
 .theme-switch--corner {
   position: static;
