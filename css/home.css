@@ -259,6 +259,270 @@ a {
   animation: char-bob 0.6s cubic-bezier(0.34, 1.25, 0.5, 1);
 }
 
+/* ---- Split human | machine hero (prototype) ----
+   Each question gets its own scene: a human (left) and machine (right) half
+   that paint over the hero's own field and clip their art (the divider is a
+   hard edge). Scenes crossfade on rotation. Each scene sets its own
+   --split-human / --split-machine. On portrait screens the halves stack
+   top | bottom (keep the aspect-ratio query in sync with PORTRAIT in
+   js/hero-magnet.js). */
+.hero-split .hero__scene {
+  display: flex;
+  transition: opacity 0.9s ease;
+}
+.split__half {
+  position: relative;
+  flex: 1 1 50%;
+  overflow: hidden;
+  container-type: size;   /* lets scenes size art against the half (cqh) */
+  background: var(--split-human);
+}
+.split__half--machine { background: var(--split-machine); }
+
+/* iOS only: tilt needs a tap to ask permission (js/hero-tilt.js). A small pill
+   sat on the divider seam, out of the way of the question. */
+.hero-tilt {
+  position: absolute;
+  z-index: 11;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  padding: 0.55em 1em;
+  border: 1.5px solid var(--black);
+  border-radius: 999px;
+  background: var(--lime);
+  color: var(--blue);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  animation: hero-tilt-nudge 2.6s ease-in-out infinite;
+}
+.hero-tilt__icon {
+  width: 0.7em;
+  height: 1.1em;
+  border: 1.5px solid currentColor;
+  border-radius: 0.18em;
+}
+@keyframes hero-tilt-nudge {
+  0%, 60%, 100% { transform: translate(-50%, -50%) rotate(0); }
+  70% { transform: translate(-50%, -50%) rotate(-7deg); }
+  85% { transform: translate(-50%, -50%) rotate(7deg); }
+}
+
+/* ---- Interaction 1: magnetic shapes (References/Hero_Interaction_1.jpg) ----
+   js/hero-magnet.js drives each .magnet__shape's transform. */
+.hero-scene--magnet {
+  --split-human:   #A7E307;   /* eyedropped from the design */
+  --split-machine: #001FE4;
+}
+
+.magnet__shape {
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform;
+}
+.magnet__shape > img,
+.magnet__shape > svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.5s ease, transform 0.8s cubic-bezier(0.34, 1.56, 0.5, 1);
+}
+.hero-scene--magnet.is-in .magnet__shape > * {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .magnet__shape > * { transition: none; }
+}
+
+/* The pill blinks (JS toggles .is-blinking every few seconds + on click). */
+.magnet__eye {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.is-blinking .magnet__eye { animation: magnet-blink 0.24s ease-in-out; }
+@keyframes magnet-blink {
+  0%, 100% { transform: none; }
+  45%, 55% { transform: scaleY(0.08); }
+}
+
+/* The question sits on one half (human by default; .hero--title-right moves
+   it to the machine half, swapped while the title is faded out), left-aligned
+   and vertically centred. */
+.hero--split .hero__headline {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 50%;
+  margin: 0;
+  padding: 0 2rem 0 2.5rem;
+  display: flex;
+  align-items: center;
+  text-align: left;
+  pointer-events: none;
+}
+.hero--split.hero--title-right .hero__headline { left: 50%; padding-left: 3rem; }
+.hero--split .hero__title {
+  font-size: clamp(2.2rem, 5.6vw, 7rem);   /* a touch under the design's ~6.7vw */
+  line-height: 1;
+  max-width: none;
+  margin: 0;
+}
+
+@media (max-aspect-ratio: 1/1) {
+  .hero-split .hero__scene { flex-direction: column; }
+  .hero--split .hero__headline {
+    bottom: 50%;
+    width: auto;
+    right: 0;
+    padding: 4.5rem 1.5rem 1.5rem;   /* clear the corner theme button */
+  }
+  .hero--split.hero--title-right .hero__headline { left: 0; top: 50%; bottom: 0; padding: 1.5rem; }
+  .hero--split .hero__title { font-size: clamp(2.2rem, 9vw, 4.2rem); }
+}
+
+/* Dark: brown halves, shapes take the shared doodle tint (one step lighter so
+   the moving shapes still read). */
+html[data-theme="dark"] .hero-scene--magnet {
+  --split-human:   #1A1111;
+  --split-machine: #231717;
+}
+html[data-theme="dark"] .magnet__shape:not(.has-eyes) {
+  filter: brightness(0) invert(0.16) sepia(1) saturate(2) hue-rotate(-45deg);   /* → #492B29 */
+}
+/* The two faces are inline SVG, so recolour their paint directly instead: body
+   in the same #492B29 as the filtered shapes, eyes in their half's background
+   brown so they read as cut-outs and the whole set stays in the browns. */
+html[data-theme="dark"] .magnet__shape .magnet__body { fill: #492B29; }
+html[data-theme="dark"] .split__half--human .magnet__ink   { stroke: var(--split-human); }
+html[data-theme="dark"] .split__half--machine .magnet__ink { stroke: var(--split-machine); }
+html[data-theme="dark"] .split__half--machine .magnet__ink-fill { fill: var(--split-machine); }
+
+/* ---- Interaction 3: language reels (References/Hero_Interaction_3.jpg) ----
+   Each half is a vertical reel of speech bubbles, positioned + spun by
+   js/hero-lang.js. Bubbles are <use>s of fill-less <symbol>s, so `color`
+   paints them; .is-flipped mirrors one so its tail points outward. */
+.hero-scene--lang {
+  --split-human:   #08D21C;   /* eyedropped from the design */
+  --split-machine: #FF976A;
+}
+.lang__sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+.lang__reel { position: absolute; inset: 0; }
+.lang__bubble {
+  position: absolute;
+  top: 0;
+  will-change: transform;
+  transition: filter 0.4s ease;
+}
+.lang__art { display: block; width: 100%; height: auto; overflow: visible; }
+.lang__art.is-flipped { transform: scaleX(-1); }
+.lang__art use { fill: currentColor; }   /* the symbol's paths have no fill, so they inherit this */
+
+/* A matched bubble says hello in its side's language (text sits on the body). */
+.lang__say {
+  position: absolute;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%) scale(0.85);
+  font-family: var(--font-serif);
+  font-weight: 500;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  color: var(--field-ink, var(--white));   /* hollow bubbles: ink on the field */
+  opacity: 0;
+  transition: opacity 0.35s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.5, 1);
+  pointer-events: none;
+}
+.lang__bubble.is-matched .lang__say {
+  opacity: 1;
+  transform: translateY(-50%) scale(1);
+  transition-delay: 0.15s;
+}
+/* While a match holds, the other bubbles step back a little. */
+.hero-scene--lang.is-match .lang__bubble:not(.is-matched) { filter: saturate(0.5) opacity(0.6); }
+
+/* Dark: brown halves and brown bubbles (two tones, so shapes still read). */
+html[data-theme="dark"] .hero-scene--lang {
+  --split-human:   #1A1111;
+  --split-machine: #231717;
+}
+html[data-theme="dark"] .lang__bubble { color: #492B29 !important; }   /* beats the inline per-bubble colour */
+html[data-theme="dark"] .lang__bubble[data-colour="yellow"],
+html[data-theme="dark"] .lang__bubble[data-colour="white"],
+html[data-theme="dark"] .lang__bubble[data-colour="pink"] { color: #5C3634 !important; }
+html[data-theme="dark"] .lang__say { color: #F7F6F6 !important; }
+
+/* ---- Interaction 2: reflective ripples (References/Hero_Interaction_2.jpg) ----
+   Each half holds a 1000×1264 artboard (the design's half-frame) that COVERS
+   the half and is anchored to the divider, so the two cloud halves always meet
+   there. Everything inside is %-placed by js/hero-reflect.js. */
+.hero-scene--reflect {
+  --split-human:   #0166FF;   /* eyedropped from the design */
+  --split-machine: #FF2AA0;
+}
+.reflect__art {
+  position: absolute;
+  top: 50%;
+  width: max(100%, 100cqh * 1000 / 1264);
+  aspect-ratio: 1000 / 1264;
+  transform: translateY(-50%);
+}
+.split__half--human .reflect__art   { right: 0; }
+.split__half--machine .reflect__art { left: 0; }
+@supports not (width: 1cqh) {
+  .reflect__art { width: 100%; }
+}
+.reflect__waves { position: absolute; inset: 0; }
+.reflect__ring,
+.reflect__piece {
+  position: absolute;
+  display: block;
+  height: auto;
+  will-change: transform;
+}
+.reflect__piece > img,
+.reflect__piece > svg { display: block; width: 100%; height: auto; }
+.reflect__piece--cloud { transform-origin: 100% 50%; }   /* breathes from the divider */
+.reflect__piece--drawn { transform-origin: 0 50%; }
+
+/* Arrival: the cloud halves slide in from the divider, then the rings bloom. */
+.reflect__piece,
+.reflect__waves {
+  opacity: 0;
+  transition: opacity 1.2s ease 0.15s;
+}
+.hero-scene--reflect.is-active .reflect__piece,
+.hero-scene--reflect.is-active .reflect__waves { opacity: 1; }
+.hero-scene--reflect.is-active .reflect__waves { transition-delay: 0.45s; }
+
+/* Dark: brown halves; the cloud, drawn half and rings take browns, the smile
+   cuts out in the field colour (like Interaction 1's faces). */
+html[data-theme="dark"] .hero-scene--reflect {
+  --split-human:   #1A1111;
+  --split-machine: #231717;
+}
+html[data-theme="dark"] .reflect__body { fill: #492B29; }
+html[data-theme="dark"] .reflect__smile { stroke: var(--split-human); }
+html[data-theme="dark"] .reflect__piece--drawn:not(.reflect__piece--eye) {
+  filter: brightness(0) invert(0.16) sepia(1) saturate(2) hue-rotate(-45deg);   /* → #492B29 */
+}
+html[data-theme="dark"] .reflect__ring {
+  filter: brightness(0) invert(0.1) sepia(1) saturate(2) hue-rotate(-45deg);    /* fainter #2E1B1A */
+}
+html[data-theme="dark"] .reflect__piece--eye {
+  filter: brightness(0) invert(0.06) sepia(1) saturate(2) hue-rotate(-45deg);   /* → #1C1010, cut-out */
+}
+
 
 /* ============================================================
    NAVIGATION
