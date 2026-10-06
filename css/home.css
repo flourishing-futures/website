@@ -6,28 +6,28 @@
 /* --- GT Maru (display / subheaders / nav) --- */
 @font-face {
   font-family: 'GT Maru';
-  src: url('../fonts/GTMaruRegular.ttf') format('truetype');
+  src: url('../fonts/GTMaruRegular.woff2') format('woff2'), url('../fonts/GTMaruRegular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'GT Maru';
-  src: url('../fonts/GTMaruMedium.ttf') format('truetype');
+  src: url('../fonts/GTMaruMedium.woff2') format('woff2'), url('../fonts/GTMaruMedium.ttf') format('truetype');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'GT Maru';
-  src: url('../fonts/GTMaruBold.ttf') format('truetype');
+  src: url('../fonts/GTMaruBold.woff2') format('woff2'), url('../fonts/GTMaruBold.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'GT Maru';
-  src: url('../fonts/GTMaruBlack.ttf') format('truetype');
+  src: url('../fonts/GTMaruBlack.woff2') format('woff2'), url('../fonts/GTMaruBlack.ttf') format('truetype');
   font-weight: 900;
   font-style: normal;
   font-display: swap;
@@ -187,7 +187,8 @@ a {
   filter: blur(12px);
   transform: translateY(0.12em);
   transition: opacity 0.5s ease, filter 0.5s ease, transform 0.5s ease;
-  will-change: opacity, filter, transform;
+  /* (no will-change: ~50 letters each holding a GPU layer is heavy on phones,
+     and the browser promotes them during the transition anyway) */
 }
 .hero__title .ltr.is-in {
   opacity: 1;
@@ -1078,7 +1079,7 @@ html[data-theme="dark"] .things__doodle--dark { display: block; }
 /* ============================================================
    SITE FOOTER (brand lockup)
    Replaces the old redundant footer nav bar. The "AI for Human
-   Possibilities" lockup is a single-colour SVG (img/footer.svg)
+   Possibilities" lockup is a single-colour SVG (img/footer.svg?v=20261006)
    painted via mask, so its ink can be recoloured per page for
    contrast against the footer's background colour.
    ============================================================ */
@@ -1973,7 +1974,7 @@ html[data-theme="dark"] .things__doodle--dark { display: block; }
   overflow: visible;
   will-change: transform;
 }
-.succ__part { will-change: transform, opacity; }
+/* Petals are SVG <g>s: will-change on them doesn't buy compositing, so leave it off. */
 @media (max-width: 768px) {
   /* Tall, narrow section: size off the width so the rosette still frames the text. */
   .about-drive__bloom { width: max(230vw, 120vh); }
@@ -2376,23 +2377,64 @@ html[data-theme="dark"] .things__doodle--dark { display: block; }
   background: var(--green);   /* calmer green field so the tonal doodles don't clash */
   overflow: hidden;
 }
-.lab-hero__art {
+/* The workbench (js/lab-toys.js): shapes are absolutely placed by the physics
+   loop (transform per frame). The stage itself never takes the pointer, so
+   links and text stay usable; the hero handles grab / drop. */
+.lab-toys {
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
 }
-/* Mirrors .about-hero__layer: full-bleed colour plane, overscanned so the
-   cursor parallax never exposes the field edge. */
-.lab-hero__layer {
+.lab-toy {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transform: scale(1.06);
-  transition: transform 0.3s ease-out;
+  top: 0;
+  left: 0;
   will-change: transform;
+  transition: opacity 0.6s ease, filter 0.2s ease;
 }
+.lab-toy > img { display: block; width: 100%; height: 100%; object-fit: contain; pointer-events: none; user-select: none; }
+.lab-toy.is-leaving { opacity: 0; }
+/* A freshly merged shape pops in (on the inner art, so it doesn't fight the
+   physics transform on .lab-toy). */
+.lab-toy.is-born > * { animation: lab-born 0.55s cubic-bezier(0.34, 1.56, 0.5, 1); }
+@keyframes lab-born { 0% { transform: scale(0.6); } 100% { transform: scale(1); } }
+.lab-toy > svg { display: block; width: 100%; height: 100%; overflow: visible; }
+/* Faces: eyes blink about their own centres. */
+.lab-eye__lid { transform-box: fill-box; transform-origin: center; }
+.lab-toy.is-blinking .lab-eye__lid { animation: lab-blink 0.24s ease-in-out; }
+@keyframes lab-blink { 0%, 100% { transform: none; } 45%, 55% { transform: scaleY(0.08); } }
+/* The burst where two ideas combine: 8 dots fly out and fade. */
+.lab-burst { position: absolute; width: 0; height: 0; pointer-events: none; z-index: 2; }
+.lab-burst > i {
+  position: absolute;
+  left: -7px; top: -7px;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--lime);
+  animation: lab-burst 0.8s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+}
+.lab-burst > i:nth-child(even) { background: var(--yellow); width: 10px; height: 10px; left: -5px; top: -5px; }
+@keyframes lab-burst {
+  0%   { transform: rotate(var(--a)) translateX(0) scale(1); opacity: 1; }
+  100% { transform: rotate(var(--a)) translateX(calc(var(--s) * 0.6)) scale(0.3); opacity: 0; }
+}
+.lab-hero__hint {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--lime);
+  opacity: 0.85;
+  margin: -0.4rem 0 0;
+}
+/* Reduced motion: a still line-up along the floor. */
+.lab-toy.is-static { top: auto; bottom: -2%; }
+.lab-toy.is-static > img { height: auto; }
+.lab-hero { cursor: crosshair; touch-action: pan-y; }   /* click empty space = drop an idea */
+.lab-hero.is-over-toy { cursor: grab; }
+.lab-hero.is-grabbing, .lab-hero.is-grabbing * { cursor: grabbing; }
+.lab-hero a, .lab-hero button { cursor: pointer; }
 .lab-hero__inner {
   position: relative;
   z-index: 2;
@@ -2406,7 +2448,22 @@ html[data-theme="dark"] .things__doodle--dark { display: block; }
   max-width: var(--container-wide);
   margin: 0 auto;
   padding: 8rem 1.5rem 4rem;   /* top padding clears the fixed nav */
+  pointer-events: none;        /* shapes can be grabbed through the gaps … */
 }
+.lab-hero__inner > * { pointer-events: auto; }   /* … but the copy and links still work */
+/* Narrow screens: shapes fall BEHIND the copy (no glass shelf), so the copy
+   gets a soft green halo to stay readable over them. */
+/* Copy that shapes can drift over (all of it on narrow screens; on wide ones
+   everything but the headline, which has the glass) gets a soft green halo. */
+.lab-hero__inner > *:not(.lab-hero__title),
+.lab-hero.is-narrow-bench .lab-hero__inner > * {
+  text-shadow: 0 0 18px var(--green), 0 0 6px var(--green);
+}
+html[data-theme="dark"] .lab-hero__inner > *:not(.lab-hero__title),
+html[data-theme="dark"] .lab-hero.is-narrow-bench .lab-hero__inner > * {
+  text-shadow: 0 0 18px var(--green), 0 0 6px var(--green);   /* --green is the dark field here */
+}
+.lab-hero__title { cursor: text; }
 .lab-hero__label {
   font-family: var(--font-display);
   font-weight: 900;
@@ -2733,10 +2790,16 @@ html[data-theme="dark"] .lately__doodle,
 html[data-theme="dark"] .about-hero__sun-disc,
 html[data-theme="dark"] .about-develop__art,
 html[data-theme="dark"] .about-shift__arrow,
-html[data-theme="dark"] .about-why__num,
-html[data-theme="dark"] .lab-hero__layer,
-html[data-theme="dark"] .lab-hero__art {
+html[data-theme="dark"] .about-why__num {
   filter: brightness(0) invert(0.1) sepia(1) saturate(2) hue-rotate(-45deg);
+}
+/* Lab toys: a tint that KEEPS each shape's own light/dark detail (eyes, brush
+   lines, highlights) instead of flattening it, mapped into the warm browns. */
+html[data-theme="dark"] .lab-toy > * {
+  filter: grayscale(1) sepia(1) saturate(1.5) hue-rotate(-28deg) brightness(0.48) contrast(1.15);
+}
+html[data-theme="dark"] .lab-toy.is-held > * {
+  filter: grayscale(1) sepia(1) saturate(1.5) hue-rotate(-28deg) brightness(0.6) contrast(1.15);
 }
 /* About succulent: each ring its own brown (like the "What we do" art) so the
    petals stay legible as a plant, with the scribbled outline in rose. */

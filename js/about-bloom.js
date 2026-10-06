@@ -66,10 +66,13 @@
       p.lean += (goal - p.lean) * k;
       p.lift += (face * r.lift - p.lift) * k;
       var dx = Math.cos(p.ang) * p.lean * 5182, dy = Math.sin(p.ang) * p.lean * 5182;
-      p.g.setAttribute('transform',
-        'translate(' + (CX + dx).toFixed(1) + ' ' + (CY + dy).toFixed(1) + ') rotate(' + tw.toFixed(2) + ') scale(' +
-        (sc * (1 + p.lift)).toFixed(4) + ') translate(' + (-CX) + ' ' + (-CY) + ')');
-      p.g.style.opacity = Math.min(1, open * 1.6).toFixed(3);
+      var tf = 'translate(' + (CX + dx).toFixed(1) + ' ' + (CY + dy).toFixed(1) + ') rotate(' + tw.toFixed(2) + ') scale(' +
+        (sc * (1 + p.lift)).toFixed(4) + ') translate(' + (-CX) + ' ' + (-CY) + ')';
+      var op = Math.min(1, open * 1.6).toFixed(3);
+      // Only touch the DOM when a petal actually changed (once open and still,
+      // that's none of them, so the frame costs almost nothing).
+      if (tf !== p.tf) { p.g.setAttribute('transform', tf); p.tf = tf; }
+      if (op !== p.op) { p.g.style.opacity = op; p.op = op; }
     });
   }
 

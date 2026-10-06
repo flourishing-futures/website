@@ -81,7 +81,7 @@
     (RINGS[side] || []).forEach(function (d) {
       var el = document.createElement('img');
       el.className = 'reflect__ring';
-      el.src = 'img/hero-reflect-wave-' + d.src + '.svg';
+      el.src = 'img/hero-reflect-wave-' + d.src + '.svg?v=20261006';
       el.alt = '';
       el.decoding = 'async';
       place(el, d);

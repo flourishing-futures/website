@@ -318,7 +318,7 @@ a {
    SITE FOOTER (brand lockup)
    Replaces both the old redundant footer nav bar and the older
    brand/links footer on Lab subpages. The "AI for Human
-   Possibilities" lockup is a single-colour SVG (img/footer.svg)
+   Possibilities" lockup is a single-colour SVG (img/footer.svg?v=20261006)
    painted via mask, so its ink can be recoloured per page for
    contrast against the footer's background colour.
    ============================================================ */
@@ -409,28 +409,28 @@ a {
    eyebrows and tag buttons on this page render in the display face --- */
 @font-face {
   font-family: 'GT Maru';
-  src: url('../fonts/GTMaruRegular.ttf') format('truetype');
+  src: url('../fonts/GTMaruRegular.woff2') format('woff2'), url('../fonts/GTMaruRegular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'GT Maru';
-  src: url('../fonts/GTMaruMedium.ttf') format('truetype');
+  src: url('../fonts/GTMaruMedium.woff2') format('woff2'), url('../fonts/GTMaruMedium.ttf') format('truetype');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'GT Maru';
-  src: url('../fonts/GTMaruBold.ttf') format('truetype');
+  src: url('../fonts/GTMaruBold.woff2') format('woff2'), url('../fonts/GTMaruBold.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'GT Maru';
-  src: url('../fonts/GTMaruBlack.ttf') format('truetype');
+  src: url('../fonts/GTMaruBlack.woff2') format('woff2'), url('../fonts/GTMaruBlack.ttf') format('truetype');
   font-weight: 900;
   font-style: normal;
   font-display: swap;
