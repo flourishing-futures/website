@@ -54,6 +54,9 @@
   var INTRO_LINE = 'Match the shapes!';   // Flofu explains the game as the shapes land
   var INTRO_AT = 3;      // … once this many shapes have dropped in
   var INTRO_HOLD = 4000; // ms the instruction stays up
+  var HINT_LINE = 'Psst: drag two alike together!';   // short: the bubble is one line
+  var HINT_AFTER = 10;   // s on screen without a merge before Flofu drops the hint
+  var HINT_HOLD = 5000;  // ms the hint stays up
   var SCALE    = 0.24;   // overall size, × the stage's short side × each shape's w
   var GROW     = 1.32;   // size step per merge level
   var MAX_LVL  = 3;      // a level-3 shape is fully grown and won't merge again
@@ -237,6 +240,7 @@
       // A fresh idea tops the bench back up.
       setTimeout(function () { drop(nextName(), lane(), -unit * 0.8); }, 450);
       if (window.__ffSayQuip) window.__ffSayQuip(MERGE_QUIPS[mergeCount++ % MERGE_QUIPS.length]);
+      stopHint();
     }
   }
   var mergeCount = 0;
@@ -470,6 +474,21 @@
     });
     setTimeout(function () {
       if (window.__ffSayQuip) window.__ffSayQuip(INTRO_LINE, INTRO_HOLD);
+      startHint();
     }, 500 + INTRO_AT * DROP_GAP);
   }, { threshold: 0.2 }).observe(hero);
+
+  // --- Hint: no match yet after a while? Flofu whispers how, once. ----------
+  // Only counts seconds while the hero is on screen and the tab is visible.
+  var hintTimer = null, hintSecs = 0;
+  function startHint() {
+    if (mergeCount || hintTimer) return;
+    hintTimer = setInterval(function () {
+      if (!on || document.hidden) return;
+      if (++hintSecs < HINT_AFTER) return;
+      stopHint();
+      if (window.__ffSayQuip) window.__ffSayQuip(HINT_LINE, HINT_HOLD);
+    }, 1000);
+  }
+  function stopHint() { clearInterval(hintTimer); hintTimer = -1; }
 })();

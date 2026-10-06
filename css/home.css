@@ -2449,14 +2449,6 @@ html[data-theme="dark"] .things__doodle--dark { display: block; }
   0%   { transform: rotate(var(--a)) translateX(0) scale(1); opacity: 1; }
   100% { transform: rotate(var(--a)) translateX(calc(var(--s) * 0.6)) scale(0.3); opacity: 0; }
 }
-.lab-hero__hint {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 0.85rem;
-  color: var(--lime);
-  opacity: 0.85;
-  margin: -0.4rem 0 0;
-}
 /* Reduced motion: a still line-up along the floor. */
 .lab-toy.is-static { top: auto; bottom: -2%; }
 .lab-toy.is-static > img { height: auto; }
