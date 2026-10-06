@@ -560,7 +560,8 @@
     });
   }
 
-  /* Ripple parallax: the three red slices drift by different amounts (and
+  /* Ripple parallax: the three pink doodle slices (behind the js/res-book.js
+     book) drift by different amounts (and
      alternating directions) as the cursor moves across the hero, so the
      strokes shear against each other like water. */
   function initHeroParallax() {

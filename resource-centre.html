@@ -33,7 +33,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700&family=Atkinson+Hyperlegible+Next:wght@300;400;500&display=swap">
-  <link rel="stylesheet" href="css/styles.css?v=20261006perf">
+  <link rel="stylesheet" href="css/styles.css?v=20261006book">
   <link rel="stylesheet" href="css/transitions.css?v=20260102theme10">
   <link rel="stylesheet" href="css/gov.css?v=20261003band">
   <script src="js/page-transitions.js?v=20261002gov"></script>
@@ -74,12 +74,19 @@
   </div>
 
   <!-- Hero + featured deck share one blue field so the red art sits behind the cards -->
-  <section class="res-hero">
+  <section class="res-hero" data-tilt>
     <div class="res-hero__art" aria-hidden="true">
-      <img class="res-hero__layer" src="img/resource-red-3.svg?v=20261006" decoding="async" alt="" data-depth="26">
-      <img class="res-hero__layer" src="img/resource-red-2.svg?v=20261006" decoding="async" alt="" data-depth="16">
-      <img class="res-hero__layer" src="img/resource-red-1.svg?v=20261006" decoding="async" alt="" data-depth="8">
+      <img class="res-hero__layer" src="img/resource-doodle-3.svg?v=20261006book" decoding="async" alt="" data-depth="26">
+      <img class="res-hero__layer" src="img/resource-doodle-2.svg?v=20261006book" decoding="async" alt="" data-depth="16">
+      <img class="res-hero__layer" src="img/resource-doodle-1.svg?v=20261006book" decoding="async" alt="" data-depth="8">
     </div>
+    <!-- The open book: pages are drawn and fanned by js/res-book.js -->
+    <svg class="res-book" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="resBookR" x1="1" y1="0" x2="0" y2="0"><stop class="res-book__edge" offset="0"/><stop class="res-book__spine" offset="0.98"/></linearGradient>
+        <linearGradient id="resBookL" x1="0" y1="0" x2="1" y2="0"><stop class="res-book__edge" offset="0"/><stop class="res-book__spine" offset="0.98"/></linearGradient>
+      </defs>
+    </svg>
     <div class="res-hero__inner">
       <h1 class="res-hero__title"><span class="res-hero__rotate">Care about</span> <span class="res-hero__const">humans?</span><br>Dive into the latest thinking:</h1>
       <div class="res-deck__deck" id="resDeck">
@@ -110,6 +117,8 @@
   <script src="js/mobile-nav.js?v=20260918mob"></script>
   <script src="js/gov.js?v=20261003gov4"></script>
   <script src="js/theme.js?v=20261003names3"></script>
+  <script src="js/hero-tilt.js?v=20261006noios"></script>
+  <script src="js/res-book.js?v=20261006book"></script>
 
 </body>
 </html>

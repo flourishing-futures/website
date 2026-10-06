@@ -473,6 +473,30 @@ a {
   z-index: 1;
 }
 
+/* The open book behind the deck (js/res-book.js draws and fans the pages).
+   The viewBox is the hero's own pixel size, so pages are laid out in px. */
+.res-book {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.res-book__page {
+  stroke: #FF477B;
+  stroke-width: 1;
+  stroke-linejoin: round;
+}
+.res-book__edge  { stop-color: #8BC600; }   /* lockup gradient: green at the page's outer edge … */
+.res-book__spine { stop-color: #0066FF; }   /* … to blue at the spine */
+
+/* The headline sits over the top of the book; a soft halo in the field colour keeps it crisp. */
+.res-hero__title {
+  text-shadow: 0 0 16px var(--blue), 0 0 5px var(--blue);
+}
+
 .res-hero__title {
   margin-bottom: 2.5rem;
 }
@@ -1860,6 +1884,11 @@ html[data-theme="dark"] .res-stream__layer,
 html[data-theme="dark"] .res-stream__art {
   filter: brightness(0) invert(0.1) sepia(1) saturate(2) hue-rotate(-45deg);
 }
+
+/* Resource Hub book: each paint gets its own brown so the pages stay distinct. */
+html[data-theme="dark"] .res-book__edge  { stop-color: #5C3634; }
+html[data-theme="dark"] .res-book__spine { stop-color: #2E1B1A; }
+html[data-theme="dark"] .res-book__page  { stroke: #8A514E; }
 
 /* Flofu: remap its baked fills to the dark palette (see css/home.css). */
 html[data-theme="dark"] .assistant-svg path[fill="#E4B103"] { fill: #B7592D; }
