@@ -33,7 +33,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700&family=Atkinson+Hyperlegible+Next:wght@300;400;500&display=swap">
-  <link rel="stylesheet" href="css/home.css?v=20261006perf">
+  <link rel="stylesheet" href="css/home.css?v=20261006sun">
   <link rel="stylesheet" href="css/transitions.css?v=20260102theme10">
   <link rel="stylesheet" href="css/gov.css?v=20261003band">
   <script src="js/page-transitions.js?v=20261002gov"></script>
@@ -199,11 +199,17 @@
   <section class="vision" data-tilt>
     <!-- The sun (References/Sun.svg), split into layers that turn independently
          (js/home-sections.js): disc, inner spiral, outer brush rays. Its centre
-         is offset in the art, so the layers share one square, sun-centred box. -->
+         is offset in the art, so the layers share one square, sun-centred box.
+         The rays are a pre-flattened WebP: ~8,000 brush curves are too heavy
+         for phones to redraw as an SVG while they turn and swell. The disc is
+         plain CSS; the spiral + rays each hold a light and a dark copy (Dark
+         mode swaps them in CSS rather than filtering a turning layer). -->
     <div class="vision__sun" aria-hidden="true">
-      <img class="vision__sun-layer vision__sun-disc" src="img/vision-sun-disc.svg" loading="lazy" decoding="async" alt="">
-      <img class="vision__sun-layer vision__sun-spiral" src="img/vision-sun-spiral.svg" loading="lazy" decoding="async" alt="">
-      <img class="vision__sun-layer vision__sun-rays" src="img/vision-sun-rays.svg" loading="lazy" decoding="async" alt="">
+      <div class="vision__sun-disc"></div>
+      <img class="vision__sun-layer vision__sun-spiral sun-light" src="img/vision-sun-spiral.svg?v=20261006sun" width="2221" height="2273" loading="lazy" decoding="async" alt="">
+      <img class="vision__sun-layer vision__sun-spiral sun-dark" src="img/vision-sun-spiral-dark.svg?v=20261006sun" width="2221" height="2273" loading="lazy" decoding="async" alt="">
+      <img class="vision__sun-layer vision__sun-rays sun-light" src="img/vision-sun-rays.webp?v=20261006sun" width="2000" height="2192" loading="lazy" decoding="async" alt="">
+      <img class="vision__sun-layer vision__sun-rays sun-dark" src="img/vision-sun-rays-dark.webp?v=20261006sun" width="2000" height="2192" loading="lazy" decoding="async" alt="">
     </div>
     <div class="container">
       <p class="vision__label" data-reveal>We work to drive...</p>
@@ -400,7 +406,7 @@
   <script src="js/hero-reflect.js?v=20261006perf"></script>
   <script src="js/hero-lang.js?v=20261006assist"></script>
   <script src="js/hero-tilt.js?v=20261006noios"></script>
-  <script src="js/home-sections.js?v=20261006brake"></script>
+  <script src="js/home-sections.js?v=20261006sun"></script>
 
   <script>
   (function () {

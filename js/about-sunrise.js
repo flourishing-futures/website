@@ -16,13 +16,21 @@
  *
  * The loop only runs while the section is on screen. Reduced motion: the sun
  * just sits in its risen pose.
+ *
+ * Perf (phones): the rays are a pre-flattened WebP, the disc is plain CSS, and
+ * every per-frame write is a transform/opacity on its own layer. The sky glow
+ * is faded on its own element rather than via a custom property on the
+ * section (which restyled the whole hero every frame).
  */
 (function () {
   var section = document.querySelector('.about-hero');
   var sun = section && section.querySelector('.about-hero__sun');
   if (!sun) return;
-  var rays = sun.querySelector('.about-hero__sun-rays');
-  var spiral = sun.querySelector('.about-hero__sun-spiral');
+  var glow = section.querySelector('.about-hero__glow');
+  // Light + dark copies of each layer (one is display:none); move both.
+  var rays = sun.querySelectorAll('.about-hero__sun-rays');
+  var spiral = sun.querySelectorAll('.about-hero__sun-spiral');
+  function setAll(list, tf) { for (var i = 0; i < list.length; i++) list[i].style.transform = tf; }
 
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     section.classList.add('is-risen');
@@ -36,7 +44,11 @@
   var SWAY    = 0.02;   // and sideways
   var DRIFT   = 1;      // deg/s: the rays' slow resting turn
 
-  var t0 = null, angle = 0, ox = 0, oy = 0, scrollSet = 0;
+  var t0 = null, angle = 0, ox = 0, oy = 0, scrollSet = 0, lastGlow = '';
+  // The sun's size only changes on resize; reading offsetWidth every frame
+  // could force a layout mid-scroll.
+  var size = sun.offsetWidth;
+  window.addEventListener('resize', function () { size = sun.offsetWidth; }, { passive: true });
   var mouse = null, tilt = null;
   document.addEventListener('mousemove', function (e) { mouse = { x: e.clientX, y: e.clientY }; }, { passive: true });
   document.addEventListener('mouseout', function (e) { if (!e.relatedTarget) mouse = null; });
@@ -56,7 +68,6 @@
     last = nowMs;
     if (t0 === null) t0 = now + 0.35;   // a beat for the arrival curtain to clear
 
-    var size = sun.offsetWidth;
     var rise = easeOut(Math.max(0, Math.min(1, (now - t0) / RISE_S)));   // 0 → 1 once
 
     // Scroll: 0 with the section at the top of the window → 1 as it leaves.
@@ -83,11 +94,12 @@
     // Rays fan open as it climbs (and fold a little as it sets).
     var fan = 0.82 + 0.18 * rise - 0.06 * scrollSet;
     angle = (angle + DRIFT * dt) % 360;
-    rays.style.transform = 'rotate(' + (angle - (1 - rise) * 24).toFixed(2) + 'deg) scale(' + fan.toFixed(4) + ')';
-    spiral.style.transform = 'rotate(' + (-angle * 0.6).toFixed(2) + 'deg)';
+    setAll(rays, 'rotate(' + (angle - (1 - rise) * 24).toFixed(2) + 'deg) scale(' + fan.toFixed(4) + ')');
+    setAll(spiral, 'rotate(' + (-angle * 0.6).toFixed(2) + 'deg)');
 
-    // The sky warms as the sun comes up (CSS reads --rise).
-    section.style.setProperty('--rise', (rise * (1 - scrollSet * 0.6)).toFixed(3));
+    // The sky warms as the sun comes up (only written when it changes).
+    var g = (rise * (1 - scrollSet * 0.6)).toFixed(3);
+    if (glow && g !== lastGlow) { glow.style.opacity = g; lastGlow = g; }
 
     requestAnimationFrame(loop);
   }

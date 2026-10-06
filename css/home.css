@@ -627,10 +627,14 @@ html[data-theme="dark"] .reflect__piece--eye {
 
 /* The sun behind the vision statement (References/Sun.svg), turned by
    js/home-sections.js. .vision__sun is a square box the size of the sun's
-   DISC, centred on the section; each layer is the full artboard (3393×3719,
-   disc r=1386 at 1749,1782), offset so the disc fills the box and rotating
-   about the disc's centre. The rays spill past the box and get clipped by the
-   section. Child combinator keeps it under the later `.vision > *` rule. */
+   DISC, centred on the section. The disc itself is plain CSS (it was only a
+   gradient circle). The rays are the full artboard (3393×3719, disc r=1386 at
+   1749,1782), offset so the disc fills the box and rotating about the disc's
+   centre; they spill past the box and get clipped by the section. The rays are
+   a pre-flattened WebP (img/vision-sun-rays.webp, built from the SVG at 2000px):
+   as an SVG its ~8,000 brush curves made phones lag while it turned and swelled.
+   The spiral stays an SVG, cropped to its own bounds.
+   Child combinator keeps it under the later `.vision > *` rule. */
 .vision > .vision__sun {
   position: absolute;
   left: 50%;
@@ -641,16 +645,38 @@ html[data-theme="dark"] .reflect__piece--eye {
   z-index: 0;
   pointer-events: none;
 }
-.vision__sun-layer {
+.vision__sun-disc,
+.about-hero__sun-disc {
   position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: linear-gradient(#FF9500, #FE2A00);
+}
+.vision__sun-layer,
+.about-hero__sun-layer {
+  position: absolute;
+  max-width: none;
+  height: auto;
+  will-change: transform;
+}
+.vision__sun-rays,
+.about-hero__sun-rays {
   left: -13.086%;            /* 50% − 1749.14 / 2772.66 */
   top: -14.257%;             /* 50% − 1781.64 / 2772.66 */
   width: 122.37%;            /* 3393 / 2772.66 */
-  max-width: none;
-  height: auto;
   transform-origin: 51.552% 47.906%;   /* the disc's centre within the art */
-  will-change: transform;
 }
+/* The spiral SVG's viewBox is cropped to the drawing (588.7,656.5 2220.7×2273.3). */
+.vision__sun-spiral,
+.about-hero__sun-spiral {
+  left: 8.147%;              /* (588.7 − 362.81) / 2772.66 */
+  top: 9.420%;               /* (656.5 − 395.31) / 2772.66 */
+  width: 80.093%;            /* 2220.7 / 2772.66 */
+  transform-origin: 52.256% 49.494%;
+}
+/* Each turning layer has a light and a dark copy; Dark mode swaps them (see
+   the theme block) instead of filtering a layer that's moving every frame. */
+.sun-dark { display: none; }
 
 .vision > *,
 .lately > *,
@@ -1884,26 +1910,17 @@ html[data-theme="dark"] .things__doodle--dark { display: block; }
   pointer-events: none;
 }
 .about-hero.is-risen .about-hero__sun { transform: translate(-50%, 0); }
-.about-hero__sun-layer {
-  position: absolute;
-  left: -13.086%;
-  top: -14.257%;
-  width: 122.37%;
-  max-width: none;
-  height: auto;
-  transform-origin: 51.552% 47.906%;
-  will-change: transform;
-}
-/* The sky warms as the sun comes up: a soft orange glow behind it, its
-   strength driven by --rise (0 → 1). */
-.about-hero::before {
-  content: "";
+/* (The layers share the home Vision sun's rules above.) */
+/* The sky warms as the sun comes up: a soft orange glow behind it. JS fades
+   its opacity in with the rise (on this element only, so the rest of the hero
+   isn't restyled every frame). */
+.about-hero__glow {
   position: absolute;
   inset: 0;
   z-index: 0;
   pointer-events: none;
   background: radial-gradient(ellipse 80% 70% at 50% 85%, rgba(255, 149, 0, 0.45), rgba(255, 149, 0, 0) 70%);
-  opacity: var(--rise, 1);
+  will-change: opacity;
 }
 .about-hero__inner {
   position: relative;
@@ -2788,9 +2805,7 @@ html[data-theme="dark"] .dev-critter__eye { fill: #1A1111; }
    just above the field. Covers <img> doodles AND the inline about-page blobs.
    (Flofu is handled separately — it swaps to its own dark artwork, below.) */
 html[data-theme="dark"] .hero__layer,
-html[data-theme="dark"] .vision__sun-disc,
 html[data-theme="dark"] .lately__doodle,
-html[data-theme="dark"] .about-hero__sun-disc,
 html[data-theme="dark"] .about-develop__art,
 html[data-theme="dark"] .about-shift__arrow,
 html[data-theme="dark"] .about-why__num {
@@ -2819,16 +2834,16 @@ html[data-theme="dark"] .about-drive__body { color: var(--field-ink); }
 /* About sunrise: back to the dark red-brown field, and a faint ember glow
    instead of the bright orange sky. */
 html[data-theme="dark"] .about-hero { background: var(--red); }
-html[data-theme="dark"] .about-hero::before {
+html[data-theme="dark"] .about-hero__glow {
   background: radial-gradient(ellipse 80% 70% at 50% 85%, rgba(183, 89, 45, 0.18), rgba(183, 89, 45, 0) 70%);
 }
-/* The sun's spiral + rays sit a step lighter than its disc so they still read. */
-html[data-theme="dark"] .vision__sun-spiral,
-html[data-theme="dark"] .vision__sun-rays,
-html[data-theme="dark"] .about-hero__sun-spiral,
-html[data-theme="dark"] .about-hero__sun-rays {
-  filter: brightness(0) invert(0.16) sepia(1) saturate(2) hue-rotate(-45deg);   /* → #492B29 */
-}
+/* The sun: the disc in the faint doodle brown, and the spiral + rays a step
+   lighter (#492B29, pre-tinted *-dark copies) so they still read. These used
+   to be CSS filters, which phones re-ran on every frame of the spin. */
+html[data-theme="dark"] .vision__sun-disc,
+html[data-theme="dark"] .about-hero__sun-disc { background: #2E1B1A; }
+html[data-theme="dark"] .sun-light { display: none; }
+html[data-theme="dark"] .sun-dark { display: block; }
 /* About page: the "Why here, why now" 1-2-3 number badges, the "We work to drive…"
    blob characters/art, and the "A shift towards…" squiggly arrow were hard to see
    at the general faint tone but overpowering at the full rose — lift them to a

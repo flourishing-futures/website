@@ -63,8 +63,11 @@
     var section = document.querySelector('.vision');
     var sun = section && section.querySelector('.vision__sun');
     if (!sun) return;
-    var rays = sun.querySelector('.vision__sun-rays');
-    var spiral = sun.querySelector('.vision__sun-spiral');
+    // Each layer has a light and a dark copy (one is display:none); move both
+    // so a mid-session theme switch picks up where the other left off.
+    var rays = sun.querySelectorAll('.vision__sun-rays');
+    var spiral = sun.querySelectorAll('.vision__sun-spiral');
+    function setAll(list, tf) { for (var i = 0; i < list.length; i++) list[i].style.transform = tf; }
 
     var IDLE    = 1.5;    // deg/s at rest (rays: a lap in 4 minutes)
     var SCROLL  = 0.06;   // deg/s added per px/s of scroll speed
@@ -74,7 +77,7 @@
     var BRAKE   = 70;     // deg/s², a firm brake on top, so it settles clearly rather than drifting down
     var NUDGE   = 14;     // px the sun leans toward the cursor / tilt
 
-    var speed = IDLE, angle = 0, spin2 = 0, ox = 0, oy = 0;
+    var speed = IDLE, angle = 0, spin2 = 0, ox = 0, oy = 0, lastSun = '';
     var lastY = window.scrollY, scrollV = 0;
 
     whileVisible(section, function (dt) {
@@ -102,9 +105,10 @@
 
       // Rays swell a touch as it spins faster, like heat coming off it.
       var swell = 1 + Math.min(0.05, (speed - IDLE) / MAX * 0.05);
-      sun.style.transform = 'translate(-50%, -50%) translate3d(' + ox.toFixed(1) + 'px,' + oy.toFixed(1) + 'px,0)';
-      rays.style.transform = 'rotate(' + angle.toFixed(2) + 'deg) scale(' + swell.toFixed(4) + ')';
-      spiral.style.transform = 'rotate(' + spin2.toFixed(2) + 'deg)';
+      var sunTf = 'translate(-50%, -50%) translate3d(' + ox.toFixed(1) + 'px,' + oy.toFixed(1) + 'px,0)';
+      if (sunTf !== lastSun) { sun.style.transform = sunTf; lastSun = sunTf; }   // still most of the time
+      setAll(rays, 'rotate(' + angle.toFixed(2) + 'deg) scale(' + swell.toFixed(4) + ')');
+      setAll(spiral, 'rotate(' + spin2.toFixed(2) + 'deg)');
     });
   })();
 
