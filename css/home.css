@@ -2370,8 +2370,10 @@ html[data-theme="dark"] .things__doodle--dark { display: block; }
    ============================================================ */
 .lab-hero {
   position: relative;
-  min-height: 100vh;
-  min-height: 100svh;   /* full viewport (accounts for mobile browser chrome) */
+  /* Fill the window under the sticky top nav (~62px, in the page flow), so
+     the whole workbench fits without scrolling. */
+  min-height: calc(100vh - 62px);
+  min-height: calc(100svh - 62px);
   display: flex;
   flex-direction: column;
   background: var(--green);   /* calmer green field so the tonal doodles don't clash */
@@ -2447,7 +2449,7 @@ html[data-theme="dark"] .things__doodle--dark { display: block; }
   gap: 1.4rem;
   max-width: var(--container-wide);
   margin: 0 auto;
-  padding: 8rem 1.5rem 4rem;   /* top padding clears the fixed nav */
+  padding: 4rem 1.5rem 3.5rem;   /* the nav is in the flow above, so no big clearance needed */
   pointer-events: none;        /* shapes can be grabbed through the gaps … */
 }
 .lab-hero__inner > * { pointer-events: auto; }   /* … but the copy and links still work */
@@ -2524,6 +2526,7 @@ html[data-theme="dark"] .lab-hero.is-narrow-bench .lab-hero__inner > * {
   /* The fixed bar sits at the BOTTOM on mobile, so drop the big top padding that
      was clearing a top nav — balanced padding lets the content centre properly
      (fixes the awkward empty band up top). Title grows to fill the field. */
+  .lab-hero { min-height: 100vh; min-height: 100svh; }   /* nav is a fixed bottom bar here */
   .lab-hero__inner { padding: 2.5rem 1.5rem; gap: 1.2rem; }
   .lab-hero__title { font-size: clamp(2.6rem, 12vw, 3.4rem); }
   .site-footer--lab {

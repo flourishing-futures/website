@@ -33,7 +33,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700&family=Atkinson+Hyperlegible+Next:wght@300;400;500&display=swap">
-  <link rel="stylesheet" href="css/home.css?v=20261006perf">
+  <link rel="stylesheet" href="css/home.css?v=20261006flofu">
   <link rel="stylesheet" href="css/transitions.css?v=20260102theme10">
   <link rel="stylesheet" href="css/gov.css?v=20261003band">
   <script src="js/page-transitions.js?v=20261002gov"></script>
@@ -181,7 +181,7 @@
   <script src="js/theme.js?v=20261003names3"></script>
   <script src="js/hero-tilt.js?v=20261006noios"></script>
   <script src="js/vendor/matter-0.20.0.min.js"></script>
-  <script src="js/lab-toys.js?v=20261006perf"></script>
+  <script src="js/lab-toys.js?v=20261006flofu"></script>
   <script>
   // --- On-scroll reveals: blocks fade/rise, statements reveal line-by-line. ---
   (function () {
@@ -423,7 +423,8 @@
         assistantBubble.style.animation = 'none';
         void assistantBubble.offsetWidth;
         assistantBubble.style.animation = '';
-        bubbleTimer = autoHide ? window.setTimeout(closeBubble, 2000) : null;
+        // autoHide: true = the usual 2s, or a number of ms for longer lines.
+        bubbleTimer = autoHide ? window.setTimeout(closeBubble, autoHide === true ? 2000 : autoHide) : null;
         bobBoth();
       }
       function popBubble() { hoverQuipOpen = false; showBubble(randomQuote(), true); }
@@ -432,11 +433,12 @@
         introShown = true; hoverQuipOpen = true; showBubble(text, false);
       }
       function endHover() { if (hoverQuipOpen) closeBubble(); }
-      // The Lab's toy box (js/lab-toys.js) cheers merges through Flofu: a quick
-      // quip that tucks away again by itself.
-      window.__ffSayQuip = function (text) {
+      // The Lab's toy box (js/lab-toys.js) talks through Flofu (the game
+      // instructions, merge cheers): a quip that tucks away again by itself,
+      // after 2s or `ms` if given.
+      window.__ffSayQuip = function (text, ms) {
         if (!assistant.classList.contains('is-visible')) return;
-        introShown = true; hoverQuipOpen = false; showBubble(text, true);
+        introShown = true; hoverQuipOpen = false; showBubble(text, ms || true);
       };
 
       assistantChar.addEventListener('mouseenter', function () {

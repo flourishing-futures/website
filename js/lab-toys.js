@@ -51,6 +51,9 @@
     (navigator.connection && navigator.connection.saveData) || (navigator.hardwareConcurrency || 8) <= 4;
   var MAX_TOYS = LITE ? 11 : 18;   // beyond this, the oldest fades out as new ones drop
   var DROP_GAP = 300;    // ms between shapes in the opening drop
+  var INTRO_LINE = 'Match the shapes!';   // Flofu explains the game as the shapes land
+  var INTRO_AT = 3;      // … once this many shapes have dropped in
+  var INTRO_HOLD = 4000; // ms the instruction stays up
   var SCALE    = 0.24;   // overall size, × the stage's short side × each shape's w
   var GROW     = 1.32;   // size step per merge level
   var MAX_LVL  = 3;      // a level-3 shape is fully grown and won't merge again
@@ -465,5 +468,8 @@
         drop(name, lane(), -unit * (0.8 + Math.random() * 0.8));
       }, 500 + i * DROP_GAP + Math.random() * 120);
     });
+    setTimeout(function () {
+      if (window.__ffSayQuip) window.__ffSayQuip(INTRO_LINE, INTRO_HOLD);
+    }, 500 + INTRO_AT * DROP_GAP);
   }, { threshold: 0.2 }).observe(hero);
 })();
