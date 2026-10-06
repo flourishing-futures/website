@@ -12,6 +12,9 @@
  *     from the divider), the faster. Hold still or move off and it slows and
  *     lands on the next bubble with a little overshoot, like a slot reel.
  *   - Click/tap a side to step it on by one.
+ *   - It's forgiving (the scene is only up ~6s): a reel landing within a
+ *     couple of bubbles of a match gets drawn onto it, and if nothing has
+ *     matched ~2.6s in, both reels glide to a shared shape on their own.
  *   - Tails point outward on both sides (as in the design), so the bubbles
  *     read as two people facing each other across the divider.
  *
@@ -39,14 +42,16 @@
     brush:   { id: 'lang-brush',   ar: 662 / 1480, w: 0.90, cy: 0.39, tail: 'l' },
     outline: { id: 'lang-outline', ar: 724 / 1396, w: 0.84, cy: 0.40, tail: 'l', hollow: true }
   };
-  // Bubble colours (the design's hues) + the ink for text on them.
+  // Bubble colours (the design's hues) + the ink for the greeting on them.
+  // Inks come from the same illustration palette (never white: that's the
+  // title's), each picked for contrast on its bubble.
   var COLOURS = {
-    purple: { fill: '#7E5BFF', ink: '#F3F3F3' },
-    yellow: { fill: '#EBF900', ink: '#1B1B1B' },
-    white:  { fill: '#FFFFFF', ink: '#1B1B1B' },
-    blue:   { fill: '#0066FF', ink: '#F3F3F3' },
-    red:    { fill: '#FF0900', ink: '#F3F3F3' },
-    pink:   { fill: '#FE1A87', ink: '#F3F3F3' }
+    purple: { fill: '#7E5BFF', ink: '#EBF900' },
+    yellow: { fill: '#EBF900', ink: '#001FE5' },
+    white:  { fill: '#FFFFFF', ink: '#001FE5' },
+    blue:   { fill: '#0066FF', ink: '#EBF900' },
+    red:    { fill: '#FF0900', ink: '#EBF900' },
+    pink:   { fill: '#FE1A87', ink: '#EBF900' }
   };
   // Reel strips: each side's own palette (the right side carries the white
   // title, so it only gets colours white text reads on). Each strip has every
@@ -57,10 +62,14 @@
     r: [['pill', 'blue'], ['tri', 'pink'], ['brush', 'red'], ['outline', 'purple'],
         ['pill', 'red'], ['brush', 'blue'], ['tri', 'purple'], ['outline', 'pink']]
   };
-  // What a matched pair says: the same greeting, in two languages.
-  var HELLOS = [['hello', 'kia ora'], ['hola', 'bonjour'], ['こんにちは', 'ciao'], ['你好', 'salaam'],
-    ['olá', 'namaste'], ['hallo', '안녕하세요'], ['merhaba', 'jambo'], ['xin chào', 'hej'],
-    ['привет', 'talofa'], ['sawubona', 'mabuhay']];
+  // What a matched pair says: the same greeting in two languages, mostly in
+  // their own scripts. Weighted to Singapore's languages (Chinese, Malay,
+  // Tamil, English) plus Japanese and Hindi; English turns up rarely.
+  // [text, lang] so the browser picks the right font for each script.
+  var ZH = ['你好', 'zh'], JA = ['こんにちは', 'ja'], HI = ['नमस्ते', 'hi'],
+      MS = ['apa khabar', 'ms'], TA = ['வணக்கம்', 'ta'], EN = ['hello', 'en'];
+  var HELLOS = [[ZH, HI], [JA, MS], [TA, ZH], [HI, JA], [MS, TA], [EN, ZH],
+    [JA, TA], [HI, MS], [ZH, JA], [TA, HI], [MS, EN], [JA, ZH]];
 
   var GAP       = 0.07;   // gap between bubbles (× half height)
   var SPIN_V    = 5.5;    // slots/s at full lean (cursor at the half's outer edge)
@@ -70,7 +79,13 @@
   var TICK      = 3.2;    // idle: seconds between ticks
   var LAND_K    = 30;     // landing spring (stiffness, damping ratio)
   var LAND_Z    = 0.55;
-  var DWELL     = 2.8;    // seconds a match holds before idling on
+  var DWELL     = 2.4;    // seconds a match holds before idling on
+  var AUTO_AT   = 2.6;    // s after arrival: if no match yet, the reels find one themselves
+  // The scene is only on screen ~6s, so matching is made easy: a reel that
+  // lands near a bubble whose shape matches the other side's centre bubble
+  // gets pulled the extra step onto it (a magnetic "near miss" assist), and if
+  // nothing has matched by AUTO_AT both reels glide to a shared shape.
+  var ASSIST    = 2;      // how many slots away the assist will reach
 
   // --- Build ---------------------------------------------------------------
   var reels = [];
@@ -168,24 +183,59 @@
   }
 
   function slotOf(r) { return ((Math.round(r.pos) % r.n) + r.n) % r.n; }
+  function slotAt(r, pos) { return ((Math.round(pos) % r.n) + r.n) % r.n; }
+  // The shape the OTHER reel is showing (or heading to).
+  function otherShape(r) {
+    var o = reels[0] === r ? reels[1] : reels[0];
+    var p = o.target !== null ? o.target : o.pos;
+    return o.items[slotAt(o, p)].shape;
+  }
+  // Nudge a landing target a step or two further on if that lands a match.
+  function assist(r, target) {
+    if (matchedThisVisit) return target;
+    var want = otherShape(r);
+    for (var k = 0; k <= ASSIST; k++) {
+      var t = target + r.dir * k;
+      if (r.items[slotAt(r, t)].shape === want) return t;
+    }
+    return target;
+  }
+  // Glide both reels to the nearest shared shape (ahead in each reel's direction).
+  function autoMatch() {
+    var a = reels[0], b = reels[1], best = null;
+    for (var i = 1; i <= a.n; i++) {
+      var sa = a.items[slotAt(a, Math.round(a.pos) + a.dir * i)].shape;
+      for (var j = 1; j <= b.n; j++) {
+        if (b.items[slotAt(b, Math.round(b.pos) + b.dir * j)].shape !== sa) continue;
+        var cost = Math.max(i, j);
+        if (!best || cost < best.c) best = { c: cost, i: i, j: j };
+        break;
+      }
+    }
+    if (!best) return;
+    a.target = Math.round(a.pos) + a.dir * best.i;
+    b.target = Math.round(b.pos) + b.dir * best.j;
+  }
   function landed(r) { return r.target === null && r.spin === 0 && Math.abs(r.pos - Math.round(r.pos)) < 0.01; }
 
   // --- Matching ------------------------------------------------------------
   var match = null;       // { until, slots: [l, r] }
-  var touchedAt = -1e9;   // last time the user rolled a reel (only they win)
+  var touchedAt = -1e9;   // last time the user rolled a reel
   var helloIdx = 0;
+  var matchedThisVisit = false, arrivedAt = 0;
   function checkMatch(now) {
-    if (match || now - touchedAt > 6) return;
+    if (match || matchedThisVisit) return;
     if (!landed(reels[0]) || !landed(reels[1])) return;
     var sl = slotOf(reels[0]), sr = slotOf(reels[1]);
     if (reels[0].items[sl].shape !== reels[1].items[sr].shape) return;
     match = { until: now + DWELL, slots: [sl, sr] };
-    touchedAt = -1e9;   // one celebration per win
+    matchedThisVisit = true;   // one celebration per visit to this scene
     var words = HELLOS[helloIdx++ % HELLOS.length];
     reels.forEach(function (r, idx) {
       r.nextTick = now + DWELL + TICK * 0.5;
       [r.items[match.slots[idx]], r.items[match.slots[idx] + r.n]].forEach(function (it) {
-        it.say.textContent = words[idx];
+        it.say.textContent = words[idx][0];
+        it.say.setAttribute('lang', words[idx][1]);
         it.el.classList.add('is-matched');
       });
     });
@@ -234,7 +284,7 @@
     var r = reels[i], now = performance.now() / 1000;
     if (match) endMatch();
     touchedAt = now;
-    r.target = (r.target !== null ? r.target : Math.round(r.pos)) + r.dir;
+    r.target = assist(r, (r.target !== null ? r.target : Math.round(r.pos)) + r.dir);
     r.nextTick = now + TICK * 1.5;
     if (reduce) { r.pos = r.target; r.target = null; render(); checkMatch(now); }
   }, { passive: true });
@@ -265,6 +315,8 @@
       // Arrival: both reels whirr round a couple of bubbles and land.
       var now = performance.now() / 1000;
       if (match) endMatch();
+      matchedThisVisit = false;
+      arrivedAt = now;
       reels.forEach(function (r) {
         r.target = Math.round(r.pos) + r.dir * 3;
         r.nextTick = now + TICK;
@@ -280,6 +332,12 @@
     var dt = Math.min((nowMs - last) / 1000, 1 / 30);
     last = nowMs;
     if (match && now > match.until) endMatch();
+    // Running out of time: if nothing's matched, the reels find each other.
+    if (!matchedThisVisit && !match && arrivedAt && now - arrivedAt > AUTO_AT &&
+        reels.every(function (r) { return r.target === null && r.spin === 0; })) {
+      autoMatch();
+      arrivedAt = 0;
+    }
 
     var hr = hero.getBoundingClientRect();
     var moving = pointer && nowMs - pointer.t < STILL_MS;
@@ -308,7 +366,7 @@
         // (It keeps its momentum; the spring below brings it home.)
         if (r.target === null && (r.spin > 0 || Math.abs(r.pos - Math.round(r.pos)) > 0.001)) {
           var ahead = r.dir > 0 ? Math.ceil(r.pos - 0.05) : Math.floor(r.pos + 0.05);
-          r.target = ahead + r.dir * Math.floor(Math.abs(r.v) / 3);
+          r.target = assist(r, ahead + r.dir * Math.floor(Math.abs(r.v) / 3));
         }
         r.spin = 0;
         // Idle tick.

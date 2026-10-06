@@ -33,7 +33,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700&family=Atkinson+Hyperlegible+Next:wght@300;400;500&display=swap">
-  <link rel="stylesheet" href="css/home.css?v=20261005tilt">
+  <link rel="stylesheet" href="css/home.css?v=20261006noios">
   <link rel="stylesheet" href="css/transitions.css?v=20260102theme10">
   <link rel="stylesheet" href="css/gov.css?v=20261003band">
   <script src="js/page-transitions.js?v=20261002gov"></script>
@@ -196,8 +196,15 @@
   </div>
 
   <!-- Vision -->
-  <section class="vision">
-    <img class="vision__doodle" src="img/doodle-drive.svg" loading="lazy" decoding="async" alt="" aria-hidden="true">
+  <section class="vision" data-tilt>
+    <!-- The sun (References/Sun.svg), split into layers that turn independently
+         (js/home-sections.js): disc, inner spiral, outer brush rays. Its centre
+         is offset in the art, so the layers share one square, sun-centred box. -->
+    <div class="vision__sun" aria-hidden="true">
+      <img class="vision__sun-layer vision__sun-disc" src="img/vision-sun-disc.svg" loading="lazy" decoding="async" alt="">
+      <img class="vision__sun-layer vision__sun-spiral" src="img/vision-sun-spiral.svg" loading="lazy" decoding="async" alt="">
+      <img class="vision__sun-layer vision__sun-rays" src="img/vision-sun-rays.svg" loading="lazy" decoding="async" alt="">
+    </div>
     <div class="container">
       <p class="vision__label" data-reveal>We work to drive...</p>
       <p class="vision__text reveal-lines" data-reveal-lines data-flofu-cues>
@@ -210,25 +217,25 @@
   </section>
 
   <!-- Things we do -->
-  <section class="things">
-    <p class="things__label" data-reveal>Things we do</p>
+  <section class="things" data-tilt>
+    <p class="things__label" data-reveal>What we do</p>
     <div class="things__grid">
       <article class="things__col" data-reveal data-quip="What's important?">
-        <span class="things__doodle-wrap" aria-hidden="true"><img class="things__doodle" src="img/doodle-research.svg" loading="lazy" decoding="async" alt="" aria-hidden="true"></span>
+        <span class="things__doodle-wrap" aria-hidden="true"><img class="things__doodle" src="img/things-telescope.svg" loading="lazy" decoding="async" alt="" aria-hidden="true"><img class="things__doodle things__doodle--dark" src="img/things-telescope-dark.svg" loading="lazy" decoding="async" alt="" aria-hidden="true"></span>
         <div class="things__col-inner">
           <h2 class="things__heading">Research<br>&amp; Measurement</h2>
           <p class="things__body reveal-lines" data-reveal-lines>Through research partnerships, longitudinal studies and insight into real public-service contexts, build evidence that identifies not only how AI affects human agency, capability, relationships and trust, but also define what better human × AI relationships could be.</p>
         </div>
       </article>
       <article class="things__col" data-reveal data-quip="What can we demonstrate?">
-        <span class="things__doodle-wrap" aria-hidden="true"><img class="things__doodle" src="img/doodle-experiment.svg" loading="lazy" decoding="async" alt="" aria-hidden="true"></span>
+        <span class="things__doodle-wrap" aria-hidden="true"><img class="things__doodle" src="img/things-pencil.svg" loading="lazy" decoding="async" alt="" aria-hidden="true"><img class="things__doodle things__doodle--dark" src="img/things-pencil-dark.svg?v=20261006" loading="lazy" decoding="async" alt="" aria-hidden="true"></span>
         <div class="things__col-inner">
           <h2 class="things__heading">Design<br>&amp; Experiment</h2>
           <p class="things__body reveal-lines" data-reveal-lines>AI can do more for public service than make existing work more efficient; it can also strengthen human agency, judgement, learning, care, connection and trust. Here, we test our theories with small, working design interventions and tools that let people experience a different kind of AI, first-hand.</p>
         </div>
       </article>
       <article class="things__col" data-reveal data-quip="Who can we gather?">
-        <span class="things__doodle-wrap" aria-hidden="true"><img class="things__doodle" src="img/doodle-community.svg" loading="lazy" decoding="async" alt="" aria-hidden="true"></span>
+        <span class="things__doodle-wrap" aria-hidden="true"><img class="things__doodle" src="img/things-community.svg" loading="lazy" decoding="async" alt="" aria-hidden="true"><img class="things__doodle things__doodle--dark" src="img/things-community-dark.svg" loading="lazy" decoding="async" alt="" aria-hidden="true"></span>
         <div class="things__col-inner">
           <h2 class="things__heading">Community<br>&amp; Engagement</h2>
           <p class="things__body reveal-lines" data-reveal-lines>Translate evidence into shared standards, decision frameworks, practices, design patterns and capability. This includes clarifying accountability, governance, and policy advisory so human outcomes are built into how AI is commissioned, approved, deployed and reviewed across government.</p>
@@ -391,8 +398,9 @@
   <script src="js/theme.js?v=20261003names3"></script>
   <script src="js/hero-magnet.js?v=20261005tilt"></script>
   <script src="js/hero-reflect.js?v=20261005tilt"></script>
-  <script src="js/hero-lang.js?v=20261005tilt"></script>
-  <script src="js/hero-tilt.js?v=20261005tilt"></script>
+  <script src="js/hero-lang.js?v=20261006assist"></script>
+  <script src="js/hero-tilt.js?v=20261006noios"></script>
+  <script src="js/home-sections.js?v=20261006brake"></script>
 
   <script>
   (function () {
@@ -414,7 +422,7 @@
     // (js/hero-magnet.js, js/hero-reflect.js, js/hero-lang.js). side = which
     // half the question sits on. The fourth comes back once it has its own
     // interaction:
-    //   { bg: '#E4B103', ..., logoDark: true, q: 'how can ai help us focus on the signal in the noise?' }
+    //   { bg: '#FFCC00', ..., logoDark: true, q: 'how can ai help us focus on the signal in the noise?' }
     // bg here is the MACHINE half (the nav wears it); the halves paint
     // themselves via --split-human / --split-machine in home.css.
     var SCENES = [
@@ -431,7 +439,7 @@
     // Dark = warm deep browns sampled from References/DarkMode.jpg (the rotation
     // reads as a subtle tonal shift rather than a colour carousel).
     var THEME_FIELDS = {
-      'default': ['#001FE4', '#FF2AA0', '#FF976A', '#E4B103'],
+      'default': ['#001FE4', '#FF2AA0', '#FF976A', '#FFCC00'],
       'dark':    ['#1A1111', '#1F1414', '#231717', '#150F0F']
     };
     // Hero title ink: dusty rose in Dark (the one coloured ink in the mockup).
@@ -530,7 +538,7 @@
     if (!reduce && SCENES.length > 1) {
       window.setInterval(function () {
         show((current + 1) % SCENES.length);
-      }, 5000);
+      }, 6000);
     }
 
     // --- Cursor-following pupils ---------------------------------------
@@ -984,40 +992,6 @@
     }, { passive: true });
   })();
 
-  // --- "Things we do" doodles: each drifts subtly toward the cursor (parallax).
-  //     The springy scale bounce on hover is pure CSS (.things__col:hover). ----
-  (function () {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    var section = document.querySelector('.things');
-    if (!section) return;
-    var wraps = Array.prototype.slice.call(section.querySelectorAll('.things__doodle-wrap'));
-    if (!wraps.length) return;
-
-    var MAX = 18, FACTOR = 0.05;         // clamp px, and how strongly it follows
-    var lastX = 0, lastY = 0, raf = null, visible = false;
-
-    // Only do the work while the section is actually on screen.
-    var io = new IntersectionObserver(function (es) { visible = es[0].isIntersecting; }, { threshold: 0 });
-    io.observe(section);
-
-    function frame() {
-      raf = null;
-      if (!visible) return;
-      wraps.forEach(function (w) {
-        var r = w.getBoundingClientRect();
-        var dx = (lastX - (r.left + r.width / 2)) * FACTOR;
-        var dy = (lastY - (r.top + r.height / 2)) * FACTOR;
-        dx = Math.max(-MAX, Math.min(MAX, dx));
-        dy = Math.max(-MAX, Math.min(MAX, dy));
-        w.style.setProperty('--px', dx.toFixed(1) + 'px');
-        w.style.setProperty('--py', dy.toFixed(1) + 'px');
-      });
-    }
-    document.addEventListener('mousemove', function (e) {
-      lastX = e.clientX; lastY = e.clientY;
-      if (!raf) raf = window.requestAnimationFrame(frame);
-    }, { passive: true });
-  })();
   </script>
 
 </body>

@@ -9,21 +9,29 @@
  *   detail = null       the device is held level — interactions go back to rest
  *
  * The scene scripts (hero-magnet / hero-reflect / hero-lang) listen for it and
- * treat it like the cursor. Holding the phone level is the rest pose; tilt it
+ * treat it like the cursor. A second, normalised `ff-tilt-n` event
+ * (detail = { nx, ny }, each -1..1, 0,0 when level) drives the home sections
+ * further down (js/home-sections.js) and other pages' [data-tilt] sections (e.g.
+ * the About sunrise). The sensor loop only runs while the hero or one of those
+ * sections is actually on screen. Holding the phone level is the rest pose; tilt it
  * and the point slides that way (further tilt = further out). The forward/back
  * baseline is taken from how you're holding the phone and slowly re-centres,
  * so you don't have to hold it flat.
  *
- * iOS needs a permission prompt, and that has to come from a tap, so iOS
- * gets a small "tilt to play" button in the hero; once allowed, later visits
- * re-enable it silently on the first touch. Android just works. Needs HTTPS
- * (the live site is), so it won't fire on a plain-http LAN preview.
+ * iOS is deliberately skipped: Safari only gives motion data after a system
+ * permission prompt, and how long it remembers the answer isn't reliable, so
+ * visitors could be re-asked on later visits. Content comes first, so iPhones
+ * and iPads get the touch + ambient versions of each interaction instead, with
+ * no prompts. Android needs no prompt, so it gets tilt. Needs HTTPS (the live
+ * site is), so it won't fire on a plain-http LAN preview.
  * Skipped entirely under prefers-reduced-motion, and while a finger is down
  * (direct touch wins over tilt).
  */
 (function () {
   var hero = document.getElementById('hero');
-  if (!hero || !('DeviceOrientationEvent' in window)) return;
+  if (!(hero || document.querySelector('[data-tilt]')) || !('DeviceOrientationEvent' in window)) return;
+  // iOS: tilt would need a permission prompt (see above), so leave it off.
+  if (typeof DeviceOrientationEvent.requestPermission === 'function') return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   if (!window.matchMedia('(hover: none)').matches) return;   // mouse users keep the mouse
 
@@ -31,11 +39,10 @@
   var DEAD    = 5;      // degrees of tilt that still count as "level"
   var SMOOTH  = 0.09;   // s, low-pass on the raw sensor (kills jitter)
   var RECENTRE = 14;    // s, how slowly the forward/back baseline follows your grip
-  var STORE   = 'ff-tilt';
 
   var raw = null;              // latest { b, g } (beta, gamma) from the sensor
   var sm = null, base = null;  // smoothed + baseline
-  var touching = false, onScreen = true, running = false, last = 0;
+  var touching = false, onScreen = true, running = false, last = 0, heroOn = !!hero;
 
   function onOrient(e) {
     if (e.beta == null || e.gamma == null) return;   // some desktops fire empty events
@@ -44,37 +51,7 @@
   }
   function listen() { window.addEventListener('deviceorientation', onOrient); }
 
-  // --- iOS permission ---------------------------------------------------------
-  var needsAsk = typeof DeviceOrientationEvent.requestPermission === 'function';
-  if (!needsAsk) {
-    listen();
-  } else {
-    var btn = null;
-    var ask = function () {
-      return DeviceOrientationEvent.requestPermission().then(function (state) {
-        if (state !== 'granted') return;
-        try { localStorage.setItem(STORE, 'on'); } catch (_) {}
-        listen();
-        if (btn) { btn.remove(); btn = null; }
-      }).catch(function () {});
-    };
-    var opted = false;
-    try { opted = localStorage.getItem(STORE) === 'on'; } catch (_) {}
-    if (opted) {
-      // Already allowed on an earlier visit: re-enable on the first tap (iOS
-      // resolves without prompting again).
-      var once = function () { window.removeEventListener('touchend', once); ask(); };
-      window.addEventListener('touchend', once, { passive: true });
-    } else {
-      btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'hero-tilt';
-      btn.setAttribute('data-no-transition', '');
-      btn.innerHTML = '<span class="hero-tilt__icon" aria-hidden="true"></span>tilt to play';
-      btn.addEventListener('click', ask);
-      hero.appendChild(btn);
-    }
-  }
+  listen();
 
   // --- Mapping --------------------------------------------------------------
   // Sensor axes are relative to the device, so rotate them to match the screen.
@@ -111,12 +88,15 @@
       var mag = Math.sqrt(tx * tx + ty * ty);
       // While a finger is down, stay quiet so the touch position isn't overwritten.
       if (touching) { requestAnimationFrame(step); return; }
-      var detail = null;
+      var detail = null, nx = 0, ny = 0;
       if (mag > DEAD) {
         // Ease out of the dead zone so the point doesn't jump.
         var f = (mag - DEAD) / mag;
-        var nx = Math.max(-1, Math.min(1, tx * f / RANGE));
-        var ny = Math.max(-1, Math.min(1, ty * f / RANGE));
+        nx = Math.max(-1, Math.min(1, tx * f / RANGE));
+        ny = Math.max(-1, Math.min(1, ty * f / RANGE));
+      }
+      window.dispatchEvent(new CustomEvent('ff-tilt-n', { detail: { nx: nx, ny: ny } }));
+      if (heroOn && mag > DEAD) {
         // Map into the part of the hero that's actually on screen.
         var hr = hero.getBoundingClientRect();
         var top = Math.max(hr.top, 0), bot = Math.min(hr.bottom, window.innerHeight);
@@ -138,10 +118,16 @@
     window.addEventListener(t, function () { touching = false; }, { passive: true });
   });
   if ('IntersectionObserver' in window) {
-    new IntersectionObserver(function (es) {
-      onScreen = es[0].isIntersecting;
+    var seen = new Map();
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { seen.set(e.target, e.isIntersecting); });
+      heroOn = !!seen.get(hero);
+      onScreen = false;
+      seen.forEach(function (v) { if (v) onScreen = true; });
       if (onScreen && raw) start();
-    }).observe(hero);
+    });
+    if (hero) io.observe(hero);
+    Array.prototype.forEach.call(document.querySelectorAll('[data-tilt]'), function (el) { io.observe(el); });
   }
   document.addEventListener('visibilitychange', function () {
     if (!document.hidden && raw) { sm = null; start(); }   // re-grip after coming back
