@@ -98,6 +98,7 @@
   var scale = 1;                                // artboard px → screen px
   var size = [{ w: 0, h: 0 }, { w: 0, h: 0 }];   // each half's box
   var pointer = null;   // { x, y } in client px while it should pull, else null
+  var clock = 0;        // the scene's own time (s): slows with the pacer, so the idle float winds down too
   var look = null;      // where the pill's eyes look
 
   function layout() {
@@ -123,7 +124,7 @@
       }
       clamp(b);
     });
-    render(0);
+    render(clock);
   }
 
   // Kick a body's impact jelly: squash along axis `deg` (0 = flattened sideways).
@@ -278,9 +279,11 @@
   // otherwise (incl. the gov view, which display:none's the hero — the
   // observer reports that as off-screen).
   var running = false, onScreen = true, last = 0;
+  // Phones: winds down to a stop once the page scrolls (js/hero-rest.js).
+  var pacer = window.__ffHeroPacer ? window.__ffHeroPacer() : { pace: 1, awake: function () { return true; }, tick: function (dt) { return dt; } };
   function active() { return root.classList.contains('is-active'); }
   function sync() {
-    var want = onScreen && !document.hidden && active();
+    var want = onScreen && !document.hidden && active() && pacer.awake();
     if (want && !running) {
       running = true;
       if (size[0].w !== halves[0].clientWidth) layout();   // e.g. just switched back from the gov view
@@ -294,6 +297,7 @@
     new IntersectionObserver(function (es) { onScreen = es[0].isIntersecting; sync(); }).observe(hero);
   }
   document.addEventListener('visibilitychange', sync);
+  window.addEventListener('ff-hero-rest', sync);
   // Scene rotation toggles .is-active. On the way back in, the shapes start
   // scattered and drift home, and the entrance pop replays.
   var wasActive = active();
@@ -315,8 +319,9 @@
 
   function step(now) {
     if (!running) return;
-    var dt = Math.min((now - last) / 1000, 1 / 30);
+    var dt = pacer.tick(Math.min((now - last) / 1000, 1 / 30));
     last = now;
+    clock += dt;
     var hr = hero.getBoundingClientRect();
     var pull = pointer && pointer.y >= hr.top && pointer.y <= hr.bottom &&
       pointer.x >= hr.left && pointer.x <= hr.right;
@@ -362,7 +367,8 @@
       b.jv += (-b.j * d.jelly - b.jv * 2 * Math.sqrt(d.jelly) * d.jzeta) * dt;
       b.j = Math.max(-0.3, Math.min(0.3, b.j + b.jv * dt));
     }
-    render(now / 1000);
+    render(clock);
+    if (!pacer.awake()) { running = false; return; }   // wound down: sleep until the page is back at the top
     requestAnimationFrame(step);
   }
 

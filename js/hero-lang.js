@@ -223,6 +223,7 @@
   var touchedAt = -1e9;   // last time the user rolled a reel
   var helloIdx = 0;
   var matchedThisVisit = false, arrivedAt = 0;
+  var clock = 1;          // the scene's own time (s): slows with the pacer, so its timers pause too
   function checkMatch(now) {
     if (match || matchedThisVisit) return;
     if (!landed(reels[0]) || !landed(reels[1])) return;
@@ -265,7 +266,7 @@
   window.addEventListener('ff-tilt', function (e) {
     if (e.detail) {
       pointer = { x: e.detail.x, y: e.detail.y, t: performance.now() };
-      touchedAt = performance.now() / 1000;
+      touchedAt = clock;
     } else if (pointer && pointer.tilt) {
       pointer = null;
     }
@@ -281,7 +282,7 @@
     if (!active() || e.button !== 0 || e.target.closest('a, button, .theme-switch')) return;
     var i = reelAt(e.clientX, e.clientY);
     if (i < 0) return;
-    var r = reels[i], now = performance.now() / 1000;
+    var r = reels[i], now = clock;
     if (match) endMatch();
     touchedAt = now;
     r.target = assist(r, (r.target !== null ? r.target : Math.round(r.pos)) + r.dir);
@@ -292,8 +293,10 @@
 
   // --- Loop ----------------------------------------------------------------
   var running = false, onScreen = true, last = 0;
+  // Phones: winds down to a stop once the page scrolls (js/hero-rest.js).
+  var pacer = window.__ffHeroPacer ? window.__ffHeroPacer() : { pace: 1, awake: function () { return true; }, tick: function (dt) { return dt; } };
   function sync() {
-    var want = onScreen && !document.hidden && active();
+    var want = onScreen && !document.hidden && active() && pacer.awake();
     if (want && !running) {
       if (reels[0].H !== reels[0].host.clientHeight) layout();
       if (reduce) return;
@@ -308,12 +311,13 @@
     new IntersectionObserver(function (es) { onScreen = es[0].isIntersecting; sync(); }).observe(hero);
   }
   document.addEventListener('visibilitychange', sync);
+  window.addEventListener('ff-hero-rest', sync);
   var wasActive = active();
   new MutationObserver(function () {
     var on = active();
     if (on && !wasActive) {
       // Arrival: both reels whirr round a couple of bubbles and land.
-      var now = performance.now() / 1000;
+      var now = clock;
       if (match) endMatch();
       matchedThisVisit = false;
       arrivedAt = now;
@@ -328,9 +332,9 @@
 
   function step(nowMs) {
     if (!running) return;
-    var now = nowMs / 1000;
-    var dt = Math.min((nowMs - last) / 1000, 1 / 30);
+    var dt = pacer.tick(Math.min((nowMs - last) / 1000, 1 / 30));
     last = nowMs;
+    var now = clock += dt;
     if (match && now > match.until) endMatch();
     // Running out of time: if nothing's matched, the reels find each other.
     if (!matchedThisVisit && !match && arrivedAt && now - arrivedAt > AUTO_AT &&
@@ -399,10 +403,11 @@
 
     render();
     checkMatch(now);
+    if (!pacer.awake()) { running = false; return; }   // wound down: sleep until the page is back at the top
     requestAnimationFrame(step);
   }
 
   layout();
-  reels.forEach(function (r) { r.nextTick = performance.now() / 1000 + TICK; });
+  reels.forEach(function (r) { r.nextTick = clock + TICK; });
   sync();
 })();

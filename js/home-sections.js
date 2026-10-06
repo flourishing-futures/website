@@ -119,19 +119,22 @@
     var wraps = Array.prototype.slice.call(section.querySelectorAll('.things__doodle-wrap'));
     if (!wraps.length) return;
     var MAX = 18;   // px drift
-    var state = wraps.map(function () { return { x: 0, y: 0 }; });
+    var state = wraps.map(function () { return { x: 0, y: 0, px: '', py: '' }; });
 
     whileVisible(section, function (dt) {
       wraps.forEach(function (w, i) {
-        var a = aim(w.getBoundingClientRect());
+        // (Only measure when there's an input to aim at: phones without tilt skip it.)
+        var a = (mouse || tilt) ? aim(w.getBoundingClientRect()) : null;
         // Tilt moves all three together; the mouse pulls each toward the cursor.
         var gx = a ? Math.max(-1, Math.min(1, a.x)) * MAX : 0;
         var gy = a ? Math.max(-1, Math.min(1, a.y)) * MAX : 0;
         var s = state[i];
         s.x += (gx - s.x) * Math.min(1, dt / 0.25);
         s.y += (gy - s.y) * Math.min(1, dt / 0.25);
-        w.style.setProperty('--px', s.x.toFixed(1) + 'px');
-        w.style.setProperty('--py', s.y.toFixed(1) + 'px');
+        // Only write when it actually moved (once settled, nothing restyles mid-scroll).
+        var px = s.x.toFixed(1) + 'px', py = s.y.toFixed(1) + 'px';
+        if (px !== s.px) { w.style.setProperty('--px', px); s.px = px; }
+        if (py !== s.py) { w.style.setProperty('--py', py); s.py = py; }
       });
     });
   })();

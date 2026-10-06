@@ -402,11 +402,12 @@
   <script src="js/mobile-nav.js?v=20260918mob"></script>
   <script src="js/gov.js?v=20261003gov4"></script>
   <script src="js/theme.js?v=20261003names3"></script>
-  <script src="js/hero-magnet.js?v=20261005tilt"></script>
-  <script src="js/hero-reflect.js?v=20261006perf"></script>
-  <script src="js/hero-lang.js?v=20261006assist"></script>
-  <script src="js/hero-tilt.js?v=20261006noios"></script>
-  <script src="js/home-sections.js?v=20261006sun"></script>
+  <script src="js/hero-rest.js?v=20261006rest"></script>
+  <script src="js/hero-magnet.js?v=20261006rest"></script>
+  <script src="js/hero-reflect.js?v=20261006rest"></script>
+  <script src="js/hero-lang.js?v=20261006rest"></script>
+  <script src="js/hero-tilt.js?v=20261006rest"></script>
+  <script src="js/home-sections.js?v=20261006rest"></script>
 
   <script>
   (function () {
@@ -541,8 +542,11 @@
     resetPupils(scenes[0]);
 
     // --- Auto-rotate ---------------------------------------------------
+    // (Paused while the hero is asleep on a phone after scrolling, see
+    // js/hero-rest.js: the question's per-letter blur is costly mid-scroll.)
     if (!reduce && SCENES.length > 1) {
       window.setInterval(function () {
+        if (hero.classList.contains('is-resting')) return;
         show((current + 1) % SCENES.length);
       }, 6000);
     }

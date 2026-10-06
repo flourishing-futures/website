@@ -105,6 +105,7 @@
   var target = null;                   // { nx: -1..1, ny: -1..1 } or null (idle)
   var lastPulse = { l: 0, r: 0 }, travel = { l: 0, r: 0 }, lastX = null;
   var unit = 1;                        // screen px per artboard unit
+  var clock = 0;                       // the scene's own time (s): slows with the pacer
 
   function active() { return root.classList.contains('is-active'); }
   function measure() {
@@ -113,7 +114,7 @@
   }
 
   function pulse(side, a) {
-    pulses.push({ side: side, t0: performance.now() / 1000, a: a });
+    pulses.push({ side: side, t0: clock, a: a });
     if (pulses.length > 12) pulses.shift();
   }
 
@@ -170,8 +171,10 @@
 
   // --- Loop (only while this scene is showing and on screen) ---------------
   var running = false, onScreen = true, last = 0;
+  // Phones: winds down to a stop once the page scrolls (js/hero-rest.js).
+  var pacer = window.__ffHeroPacer ? window.__ffHeroPacer() : { pace: 1, awake: function () { return true; }, tick: function (dt) { return dt; } };
   function sync() {
-    var want = onScreen && !document.hidden && active();
+    var want = onScreen && !document.hidden && active() && pacer.awake();
     if (want && !running) {
       running = true;
       measure();
@@ -185,6 +188,7 @@
     new IntersectionObserver(function (es) { onScreen = es[0].isIntersecting; sync(); }).observe(hero);
   }
   document.addEventListener('visibilitychange', sync);
+  window.addEventListener('ff-hero-rest', sync);
   // Scene rotation toggles .is-active. Arriving: the rings start drawn in tight
   // around the cloud and breathe out, with a first ripple to set it going.
   var wasActive = active();
@@ -200,9 +204,9 @@
 
   function step(nowMs) {
     if (!running) return;
-    var now = nowMs / 1000;
-    var dt = Math.min((nowMs - last) / 1000, 1 / 30);
+    var dt = pacer.tick(Math.min((nowMs - last) / 1000, 1 / 30));
     last = nowMs;
+    var now = clock += dt;
 
     // Balance point: the cursor, or a slow drift of its own when idle.
     var nx, ny;
@@ -256,6 +260,7 @@
     paintPiece(pieces.drawn, b2);
     paintPiece(pieces.eye, b2);
 
+    if (!pacer.awake()) { running = false; return; }   // wound down: sleep until the page is back at the top
     requestAnimationFrame(step);
   }
 

@@ -96,7 +96,8 @@
         ny = Math.max(-1, Math.min(1, ty * f / RANGE));
       }
       window.dispatchEvent(new CustomEvent('ff-tilt-n', { detail: { nx: nx, ny: ny } }));
-      if (heroOn && mag > DEAD) {
+      // (Skipped while the hero is winding down / asleep on scroll: js/hero-rest.js.)
+      if (heroOn && mag > DEAD && !hero.classList.contains('is-resting')) {
         // Map into the part of the hero that's actually on screen.
         var hr = hero.getBoundingClientRect();
         var top = Math.max(hr.top, 0), bot = Math.min(hr.bottom, window.innerHeight);
