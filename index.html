@@ -33,7 +33,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700&family=Atkinson+Hyperlegible+Next:wght@300;400;500&display=swap">
-  <link rel="stylesheet" href="css/home.css?v=20261006succ">
+  <link rel="stylesheet" href="css/home.css?v=20261007peek">
   <link rel="stylesheet" href="css/transitions.css?v=20260102theme10">
   <link rel="stylesheet" href="css/gov.css?v=20261003band">
   <script src="js/page-transitions.js?v=20261002gov"></script>
@@ -160,6 +160,26 @@
         <div class="split__half split__half--machine"><div class="lang__reel" data-side="r"></div></div>
       </div>
     </div><!-- /hero__stage -->
+
+    <!-- "There's more below": now and then the Vision sun (the next section)
+         peeks up over the hero's bottom edge, hops, and sinks back.
+         Timing in js/hero-peek.js, motion in home.css (.hero-peek). An <a>
+         without an href so the hero toys ignore clicks on it. -->
+    <a class="hero-peek" aria-hidden="true" title="Explore more">
+      <span class="hero-peek__sun">
+        <span class="vision__sun-disc"></span>
+        <img class="hero-peek__layer hero-peek__spiral sun-light" src="img/vision-sun-spiral.svg?v=20261006sun" width="2221" height="2273" loading="lazy" decoding="async" alt="">
+        <img class="hero-peek__layer hero-peek__spiral sun-dark" src="img/vision-sun-spiral-dark.svg?v=20261006sun" width="2221" height="2273" loading="lazy" decoding="async" alt="">
+        <img class="hero-peek__layer hero-peek__rays sun-light" src="img/vision-sun-rays.webp?v=20261006sun" width="2000" height="2192" loading="lazy" decoding="async" alt="">
+        <img class="hero-peek__layer hero-peek__rays sun-dark" src="img/vision-sun-rays-dark.webp?v=20261006sun" width="2000" height="2192" loading="lazy" decoding="async" alt="">
+        <!-- "Explore More —" ring, drawn by js/hero-peek.js to fit the sun. Two
+             copies, each clipped to one half, so each half gets its own ink. -->
+        <span class="hero-peek__ring">
+          <span class="hero-peek__half hero-peek__half--l"></span>
+          <span class="hero-peek__half hero-peek__half--r"></span>
+        </span>
+      </span>
+    </a>
   </section>
 
   <!-- Navigation -->
@@ -407,6 +427,7 @@
   <script src="js/hero-reflect.js?v=20261006rest"></script>
   <script src="js/hero-lang.js?v=20261006rest"></script>
   <script src="js/hero-tilt.js?v=20261006rest"></script>
+  <script src="js/hero-peek.js?v=20261006ring"></script>
   <script src="js/home-sections.js?v=20261006rest"></script>
 
   <script>
@@ -464,6 +485,7 @@
       var ink = THEME_INK[theme] || THEME_INK['default'];
       hero.style.background = bg;
       hero.style.setProperty('--title-color', ink);
+      hero.setAttribute('data-scene', i);   // lets CSS key things to the scene (e.g. the peek's ink)
       // Logo stays light on the dark-brown fields; in Default keep the scene hint.
       var logoDark = theme === 'dark' ? false : !!s.logoDark;
       hero.classList.toggle('logo-dark', logoDark);
