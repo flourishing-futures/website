@@ -1993,8 +1993,18 @@ html[data-theme="dark"] .things__doodle--dark { display: block; }
 }
 /* Petals are SVG <g>s: will-change on them doesn't buy compositing, so leave it off. */
 @media (max-width: 768px) {
-  /* Tall, narrow section: size off the width so the rosette still frames the text. */
-  .about-drive__bloom { width: max(230vw, 120vh); }
+  /* Phones: the column of text is far taller than it is wide, so the plant is
+     sized off the SECTION's height (it always runs past the top and bottom)
+     rather than the screen, and the field behind it goes lime (the magnet
+     hero's #A7E307) instead of blue. Whatever peeks between the leaves is then
+     still a light green the dark-green copy reads on (8.9:1; on the blue it
+     was 1.5:1, see References/Mobile.jpg). The label goes dark green to match. */
+  .about-drive { background: #A7E307; padding: 4.5rem 1.5rem; }
+  .about-drive__bloom { width: auto; height: max(118%, 230vw); }
+  .about-drive__label { color: #003615; }
+  /* Smaller statement + body so the section isn't a long scroll of 3-word lines. */
+  .about-drive__title { font-size: 1.9rem; line-height: 1.12; margin-bottom: 1.5rem; }
+  .about-drive__body { font-size: 0.95rem; line-height: 1.5; margin-bottom: 1.1rem; }
 }
 
 /* The text column sits above the plant; transparent to the pointer except the
@@ -2830,7 +2840,8 @@ html[data-theme="dark"] .succ__scribble { fill: #A96666; }
 html[data-theme="dark"] .succ__outline  { fill: #8A514E; }
 /* The deep-green copy would vanish on the browns; back to the dark-mode ink. */
 html[data-theme="dark"] .about-drive__title,
-html[data-theme="dark"] .about-drive__body { color: var(--field-ink); }
+html[data-theme="dark"] .about-drive__body,
+html[data-theme="dark"] .about-drive__label { color: var(--field-ink); }   /* (the label goes dark green on phones in Default) */
 /* About sunrise: back to the dark red-brown field, and a faint ember glow
    instead of the bright orange sky. */
 html[data-theme="dark"] .about-hero { background: var(--red); }
