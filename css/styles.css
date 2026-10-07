@@ -650,9 +650,9 @@ a {
   object-fit: cover;
 }
 
-/* --- Stream: gold backdrop + green illustration, search + tags + grid --- */
+/* --- Stream: green backdrop + lime illustration, search + tags + grid --- */
 .res-stream {
-  background: var(--yellow);
+  background: #00A744;   /* calmer than the old --yellow field, 2026-10-07 */
   position: relative;
   overflow: hidden;
   isolation: isolate;
@@ -1880,6 +1880,7 @@ html[data-theme="dark"] .cmty-hero__intro { color: var(--field-ink); }
 
 /* Resource Hub filter chips sit on the browned .res-stream field with --black
    text (illegible). Light them to rose; the chosen chip keeps its light label. */
+html[data-theme="dark"] .res-stream { background: var(--yellow); }   /* keep the browned field */
 html[data-theme="dark"] .res-stream__tags-label,
 html[data-theme="dark"] .res-stream__tag { color: #A96666; }
 html[data-theme="dark"] .res-stream__tag:hover { border-color: #A96666; }
