@@ -32,7 +32,9 @@
   var TOP     = 8;     // px; only peek while the page is at (or very near) the top
 
   var PHRASE   = 'Explore More';
-  var SEP      = ' \u2014 ';   // " — " between repeats
+  // " — " between repeats. Non-breaking spaces: SVG text drops a trailing
+  // plain space, which closed the ring up as "—Explore" where it meets itself.
+  var SEP      = '\u00A0\u2014\u00A0';
   var RING     = 73.5;   // ring radius, in % of the sun's disc diameter (the rays reach ~70)
   var TEXT_PX  = 11;     // type size on a laptop...
   var TEXT_SM  = 10;     // ...and on a phone (still legible, still quiet)

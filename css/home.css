@@ -2581,9 +2581,17 @@ html[data-theme="dark"] .things__doodle--dark { display: block; }
   min-height: calc(100svh - 62px);
   display: flex;
   flex-direction: column;
-  background: var(--green);   /* calmer green field so the tonal doodles don't clash */
+  background: var(--lab-field);
   overflow: hidden;
 }
+/* The Lab is one green family, like Dark mode is one brown family: a deep
+   forest field, with every toy repainted in jade / teal / mint / sage / lime
+   (img/lab-toy-*.svg + the face templates in the-lab.html). The lens of the
+   telescope and the eyes are the only notes that aren't green. */
+.lab-hero,
+.site-footer--lab { --lab-field: #0A4429; }
+html[data-theme="dark"] .lab-hero,
+html[data-theme="dark"] .site-footer--lab { --lab-field: var(--green); }   /* the dark brown field */
 /* The workbench (js/lab-toys.js): shapes are absolutely placed by the physics
    loop (transform per frame). The stage itself never takes the pointer, so
    links and text stay usable; the hero handles grab / drop. */
@@ -2622,7 +2630,7 @@ html[data-theme="dark"] .things__doodle--dark { display: block; }
   background: var(--lime);
   animation: lab-burst 0.8s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
 }
-.lab-burst > i:nth-child(even) { background: var(--yellow); width: 10px; height: 10px; left: -5px; top: -5px; }
+.lab-burst > i:nth-child(even) { background: #B8F04A; width: 10px; height: 10px; left: -5px; top: -5px; }
 @keyframes lab-burst {
   0%   { transform: rotate(var(--a)) translateX(0) scale(1); opacity: 1; }
   100% { transform: rotate(var(--a)) translateX(calc(var(--s) * 0.6)) scale(0.3); opacity: 0; }
@@ -2656,11 +2664,7 @@ html[data-theme="dark"] .things__doodle--dark { display: block; }
    everything but the headline, which has the glass) gets a soft green halo. */
 .lab-hero__inner > *:not(.lab-hero__title),
 .lab-hero.is-narrow-bench .lab-hero__inner > * {
-  text-shadow: 0 0 18px var(--green), 0 0 6px var(--green);
-}
-html[data-theme="dark"] .lab-hero__inner > *:not(.lab-hero__title),
-html[data-theme="dark"] .lab-hero.is-narrow-bench .lab-hero__inner > * {
-  text-shadow: 0 0 18px var(--green), 0 0 6px var(--green);   /* --green is the dark field here */
+  text-shadow: 0 0 18px var(--lab-field), 0 0 6px var(--lab-field);
 }
 .lab-hero__title { cursor: text; }
 .lab-hero__label {
@@ -2684,7 +2688,7 @@ html[data-theme="dark"] .lab-hero.is-narrow-bench .lab-hero__inner > * {
 .lab-hero__soon {
   font-family: var(--font-display);
   font-weight: 900;
-  color: var(--blue);
+  color: #7FE0B0;   /* mint: in the field's family, not a blue that fights it */
   text-transform: uppercase;
   letter-spacing: 0.14em;
   font-size: 1.05rem;
@@ -2710,7 +2714,7 @@ html[data-theme="dark"] .lab-hero.is-narrow-bench .lab-hero__inner > * {
    home/about footers — a colour band with the shared white top rule), so the
    brush doodles never cut into the wordmark or credit. Ink is lime for
    legibility on the green. */
-.site-footer--lab { background: var(--green); color: var(--lime); }   /* match the calmer lab-hero field */
+.site-footer--lab { background: var(--lab-field); color: var(--lime); }   /* match the lab-hero field */
 /* Lab footer ink is the page's lime (matches the hero label + "Let's chat")
    for legibility on the green. The wordmark is inlined as an SVG whose path
    is fill:currentColor, so this colour drives it (robust everywhere, unlike a
@@ -2731,7 +2735,7 @@ html[data-theme="dark"] .lab-hero.is-narrow-bench .lab-hero__inner > * {
     justify-content: center;
     text-align: center;
     padding: 1.4rem 1.5rem;
-    background: var(--blue);   /* distinct from the green hero + the white bottom bar */
+    background: #06321F;   /* a shade deeper than the hero, so the bar still reads as its own band */
   }
   .site-footer--lab .site-footer__credit { text-align: center; color: var(--white); }
 }
@@ -2955,11 +2959,11 @@ html[data-theme="dark"] .about-drive { background: var(--section-accent); }
    vision statement was --lime; the "Things we do" label + Research/Design/Community
    headings & body were --black; the about "A shift towards…" title was --blue and
    its 4 point h3/p were --black. */
+html[data-theme="dark"] .about-shift { background: var(--yellow); }   /* the browned token, not the light #EAEAEA */
 html[data-theme="dark"] .vision__text,
 html[data-theme="dark"] .things__label,
 html[data-theme="dark"] .things__heading,
 html[data-theme="dark"] .things__body,
-html[data-theme="dark"] .about-shift { background: var(--yellow); }   /* the browned token, not the light #EAEAEA */
 html[data-theme="dark"] .about-shift__title,
 html[data-theme="dark"] .about-shift__item h3,
 html[data-theme="dark"] .about-shift__item p { color: var(--field-ink); }
@@ -2995,19 +2999,21 @@ html[data-theme="dark"] .about-why__num {
 /* Lab toys: a tint that KEEPS each shape's own light/dark detail (eyes, brush
    lines, highlights) instead of flattening it, mapped into the warm browns. */
 html[data-theme="dark"] .lab-toy > * {
-  filter: grayscale(1) sepia(1) saturate(1.5) hue-rotate(-28deg) brightness(0.48) contrast(1.15);
+  filter: grayscale(1) sepia(1) saturate(1.5) hue-rotate(-28deg) brightness(var(--toy-dim, 0.48)) contrast(1.15);
 }
 html[data-theme="dark"] .lab-toy.is-held > * {
-  filter: grayscale(1) sepia(1) saturate(1.5) hue-rotate(-28deg) brightness(0.6) contrast(1.15);
+  filter: grayscale(1) sepia(1) saturate(1.5) hue-rotate(-28deg) brightness(calc(var(--toy-dim, 0.48) * 1.25)) contrast(1.15);
 }
-/* The speech bubble is deep blue, which the tint above would sink into the
-   field; lift it to a mid brown like the other toys. */
-html[data-theme="dark"] .lab-toy--bubble > * {
-  filter: grayscale(1) sepia(1) saturate(1.5) hue-rotate(-28deg) brightness(1.25) contrast(1.15);
-}
-html[data-theme="dark"] .lab-toy--bubble.is-held > * {
-  filter: grayscale(1) sepia(1) saturate(1.5) hue-rotate(-28deg) brightness(1.5) contrast(1.15);
-}
+/* The tint reads each toy's lightness, and the green repaint made some lighter
+   than the old multicolour art. These per-shape levels land every toy on the
+   same brown it had before, so Dark mode looks unchanged. */
+.lab-toy--star     { --toy-dim: 0.24; }
+.lab-toy--blob     { --toy-dim: 0.31; }
+.lab-toy--hoops    { --toy-dim: 0.33; }
+.lab-toy--scribble { --toy-dim: 0.37; }
+.lab-toy--triangle { --toy-dim: 0.41; }
+.lab-toy--pencil   { --toy-dim: 0.43; }
+.lab-toy--bubble   { --toy-dim: 0.71; }
 /* About succulent: each ring its own brown (like the "What we do" art) so the
    petals stay legible as a plant, with the scribbled outline in rose. */
 html[data-theme="dark"] .succ__leaf-a   { fill: #4A2826; }
