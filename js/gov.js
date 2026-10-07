@@ -680,7 +680,7 @@
         var items = $$('.about-shift__item');
         if (!items.length) return '';
         return section(
-          head('A shift towards', text('.about-shift__title')) +
+          head('Our ambition', text('.about-shift__title')) +
           table(['Stage', 'Focus area', 'Key question'], items.map(function (it, i) {
             return { cells: [
               '<span class="gov-num">' + pad(i + 1) + '</span>',
@@ -722,9 +722,8 @@
           notice('<p><strong>Status: ' + esc(status) + '.</strong> ' + esc(ask) + ' ' + link + '</p>') +
           head('Service details') +
           kv([
-            ['Service', 'Flourishing Futures AI Lab'],
-            ['Status', pill(status, 'amber')],
-            ['Enquiries', esc(ask) + (link ? ' ' + link : '')]
+            ['Service', 'Design and Innovation'],
+            ['Status', pill(status, 'amber')]
           ], 'Lab service details'),
           'gov-section--rule');
       }
@@ -773,7 +772,9 @@
           head(text('.cmty-experts__label') || 'Friends of the community') +
           table(['Name', 'Title', 'Organisation'], ex.map(function (e) {
             return { cells: ['<span class="gov-strong">' + esc(e.name) + '</span>', esc(e.title), esc(e.org)] };
-          }), { caption: 'Friends of the community' }),
+          }), { caption: 'Friends of the community' }) +
+          (collabLink ? '<div class="gov-collab"><p class="gov-collab__q">' + esc(collabQ) + '</p>' +
+            btn(text(collabLink), collabLink.getAttribute('href')) + '</div>' : ''),
           'gov-section--rule');
       },
       function () {
@@ -833,10 +834,6 @@
             kv([['Status', pill(status, 'amber')]], 'Product details') +
           '</div>';
         return section(head('Merchandise') + '<div class="gov-product">' + gallery + info + '</div>', 'gov-section--rule');
-      },
-      function () {
-        if (!collabLink) return '';
-        return ctaBand(collabQ, btn(text(collabLink), collabLink.getAttribute('href')));
       }
     ];
   }

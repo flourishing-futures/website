@@ -1046,6 +1046,25 @@ html[data-theme="gov"] {
   letter-spacing: -0.015em;
 }
 
+/* Collaborate prompt, tucked under the Friends of the community table. */
+.gov-collab {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 1.5rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--gov-panel);
+  border: 1px solid var(--gov-line);
+  border-radius: 10px;
+}
+.gov-collab__q {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--gov-ink);
+}
+
 /* ============================================================
    Footer
    ============================================================ */
