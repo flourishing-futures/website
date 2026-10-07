@@ -25,7 +25,7 @@
     '': '#E42600',
     'index.html': '#E42600',
     'about.html': '#E42600',
-    'the-lab.html': '#1D8949',
+    'the-lab.html': '#0A4429',
     'resource-centre.html': '#1934BE',
     'community.html': '#FFFF00',
   };

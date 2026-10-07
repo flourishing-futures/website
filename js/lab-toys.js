@@ -72,7 +72,7 @@
       if (t && t.content) return t.content.firstElementChild.cloneNode(true);
     }
     var el = document.createElement('img');
-    el.src = 'img/' + (s.src || 'lab-toy-' + name + '.svg') + '?v=20261007blue';
+    el.src = 'img/' + (s.src || 'lab-toy-' + name + '.svg') + '?v=20261007green';
     el.alt = ''; el.decoding = 'async'; el.draggable = false;
     return el;
   }
