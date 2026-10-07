@@ -33,7 +33,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700&family=Atkinson+Hyperlegible+Next:wght@300;400;500&display=swap">
-  <link rel="stylesheet" href="css/home.css?v=20261007peek">
+  <link rel="stylesheet" href="css/home.css?v=20261007calm5">
   <link rel="stylesheet" href="css/transitions.css?v=20260102theme10">
   <link rel="stylesheet" href="css/gov.css?v=20261003band">
   <script src="js/page-transitions.js?v=20261002gov"></script>
@@ -168,7 +168,7 @@
     <a class="hero-peek" aria-hidden="true" title="Explore more">
       <span class="hero-peek__sun">
         <span class="vision__sun-disc"></span>
-        <img class="hero-peek__layer hero-peek__spiral sun-light" src="img/vision-sun-spiral.svg?v=20261006sun" width="2221" height="2273" loading="lazy" decoding="async" alt="">
+        <img class="hero-peek__layer hero-peek__spiral sun-light" src="img/vision-sun-spiral.svg?v=20261006calm" width="2221" height="2273" loading="lazy" decoding="async" alt="">
         <img class="hero-peek__layer hero-peek__spiral sun-dark" src="img/vision-sun-spiral-dark.svg?v=20261006sun" width="2221" height="2273" loading="lazy" decoding="async" alt="">
         <img class="hero-peek__layer hero-peek__rays sun-light" src="img/vision-sun-rays.webp?v=20261006sun" width="2000" height="2192" loading="lazy" decoding="async" alt="">
         <img class="hero-peek__layer hero-peek__rays sun-dark" src="img/vision-sun-rays-dark.webp?v=20261006sun" width="2000" height="2192" loading="lazy" decoding="async" alt="">
@@ -226,7 +226,7 @@
          mode swaps them in CSS rather than filtering a turning layer). -->
     <div class="vision__sun" aria-hidden="true">
       <div class="vision__sun-disc"></div>
-      <img class="vision__sun-layer vision__sun-spiral sun-light" src="img/vision-sun-spiral.svg?v=20261006sun" width="2221" height="2273" loading="lazy" decoding="async" alt="">
+      <img class="vision__sun-layer vision__sun-spiral sun-light" src="img/vision-sun-spiral.svg?v=20261006calm" width="2221" height="2273" loading="lazy" decoding="async" alt="">
       <img class="vision__sun-layer vision__sun-spiral sun-dark" src="img/vision-sun-spiral-dark.svg?v=20261006sun" width="2221" height="2273" loading="lazy" decoding="async" alt="">
       <img class="vision__sun-layer vision__sun-rays sun-light" src="img/vision-sun-rays.webp?v=20261006sun" width="2000" height="2192" loading="lazy" decoding="async" alt="">
       <img class="vision__sun-layer vision__sun-rays sun-dark" src="img/vision-sun-rays-dark.webp?v=20261006sun" width="2000" height="2192" loading="lazy" decoding="async" alt="">
@@ -289,7 +289,7 @@
 
   <!-- Lately -->
   <section class="lately">
-    <img class="lately__doodle" src="img/doodle-lately.svg?v=20261006" loading="lazy" decoding="async" alt="" aria-hidden="true">
+    <img class="lately__doodle" src="img/doodle-lately.svg?v=20261006calm" loading="lazy" decoding="async" alt="" aria-hidden="true">
     <p class="lately__title" data-reveal>Lately...</p>
 
     <div class="lately__deck" id="latelyDeck" data-reveal>
@@ -332,7 +332,7 @@
   </section>
 
   <!-- Footer -->
-  <footer class="site-footer" role="contentinfo">
+  <footer class="site-footer site-footer--purple" role="contentinfo">
     <img class="site-footer__lockup"
          src="img/logo-wordmark.svg?v=20261006"
          loading="lazy" decoding="async"
@@ -428,7 +428,7 @@
   <script src="js/hero-lang.js?v=20261006rest"></script>
   <script src="js/hero-tilt.js?v=20261006rest"></script>
   <script src="js/hero-peek.js?v=20261006ring"></script>
-  <script src="js/home-sections.js?v=20261006rest"></script>
+  <script src="js/home-sections.js?v=20261006calm"></script>
 
   <script>
   (function () {
@@ -930,6 +930,22 @@
         var inner = document.createElement('span'); inner.textContent = words.join(' ');
         line.appendChild(inner); el.appendChild(line);
       });
+      el._splitW = el.clientWidth;
+    }
+
+    // Each line is locked in as its own block, so the breaks must be measured
+    // with the final font at the final width; otherwise every locked line
+    // re-wraps on its own and the copy goes ragged (one-word stubs). So re-split
+    // ALL of them (revealed ones too: new spans appear already shown, no replay)
+    // once the web fonts arrive and whenever the width changes. Height-only
+    // resizes (a phone's address bar) are ignored. Flofu's cue words are
+    // re-tagged after each pass (ff-lines-split).
+    function resplit(force) {
+      var any = false;
+      lineEls.forEach(function (el) {
+        if (force || el.clientWidth !== el._splitW) { splitLines(el); any = true; }
+      });
+      if (any) document.dispatchEvent(new Event('ff-lines-split'));
     }
 
     var lineEls = Array.prototype.slice.call(document.querySelectorAll('[data-reveal-lines]'));
@@ -964,21 +980,22 @@
       function (el) { io.observe(el); }
     );
 
-    // Re-split not-yet-revealed lines on resize so wrapping stays correct.
     var rt;
     window.addEventListener('resize', function () {
       clearTimeout(rt);
-      rt = window.setTimeout(function () {
-        lineEls.forEach(function (el) { if (!el.classList.contains('is-in')) splitLines(el); });
-      }, 200);
+      rt = window.setTimeout(function () { resplit(false); }, 200);
     }, { passive: true });
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(function () { resplit(true); });
+      document.fonts.addEventListener('loadingdone', function () { resplit(true); });
+    }
   })();
 
   // --- Flofu cue words: wrap specific words in [data-flofu-cues] blocks so the
   //     assistant can quip about them on hover. Runs AFTER the reveal splitter
   //     (so it walks the final line spans) and also under reduced motion (where
-  //     the splitter is skipped and the raw text is walked instead). Re-runs on
-  //     resize since the splitter rebuilds not-yet-revealed lines. -------------
+  //     the splitter is skipped and the raw text is walked instead). Re-runs
+  //     whenever the splitter rebuilds the lines (ff-lines-split). ------------
   (function () {
     var WORD_QUIPS = {
       'agency':        'Can I choose, question or say no?',
@@ -1017,11 +1034,7 @@
       Array.prototype.forEach.call(document.querySelectorAll('[data-flofu-cues]'), tagCues);
     }
     tagAll();
-    var rt;
-    window.addEventListener('resize', function () {
-      clearTimeout(rt);
-      rt = window.setTimeout(tagAll, 280);   // after the reveal splitter's 200ms re-split
-    }, { passive: true });
+    document.addEventListener('ff-lines-split', tagAll);   // the splitter rebuilt the text
   })();
 
   </script>

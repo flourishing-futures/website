@@ -12,11 +12,24 @@
  *    toward the cursor (parallax), or with device tilt on phones
  *    (`ff-tilt-n` from js/hero-tilt.js).
  *
+ * 3. While a "What we do" column is being read its illustration fades back
+ *    (CSS does it on hover; on touch screens this marks the column crossing
+ *    the middle of the screen with .is-reading). Runs under reduced motion too.
+ *
  * Each section's loop only runs while that section is on screen; nothing here
  * listens to the sensor directly (hero-tilt.js shares one sensor loop that
  * also pauses when none of its sections are visible). Reduced motion: still.
  */
 (function () {
+  // --- 3. Fade the "What we do" art behind the column being read (touch) ----
+  if (window.matchMedia('(hover: none)').matches && 'IntersectionObserver' in window) {
+    var cols = document.querySelectorAll('.things__col');
+    var reading = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { e.target.classList.toggle('is-reading', e.isIntersecting); });
+    }, { rootMargin: '-40% 0px -40% 0px' });   // the middle fifth of the screen
+    Array.prototype.forEach.call(cols, function (c) { reading.observe(c); });
+  }
+
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   // Shared input: the cursor in client px, or tilt as -1..1.
