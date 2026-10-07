@@ -72,7 +72,7 @@
       if (t && t.content) return t.content.firstElementChild.cloneNode(true);
     }
     var el = document.createElement('img');
-    el.src = 'img/' + (s.src || 'lab-toy-' + name + '.svg') + '?v=20261006';
+    el.src = 'img/' + (s.src || 'lab-toy-' + name + '.svg') + '?v=20261007blue';
     el.alt = ''; el.decoding = 'async'; el.draggable = false;
     return el;
   }
@@ -82,7 +82,7 @@
     var x = 6;
     ORDER.slice(0, 6).forEach(function (n, i) {
       var el = document.createElement('div');
-      el.className = 'lab-toy is-static';
+      el.className = 'lab-toy is-static lab-toy--' + n;
       el.style.left = x + '%';
       el.style.width = (SHAPES[n].w * 38) + '%';
       el.style.transform = 'rotate(' + ((i % 2 ? 1 : -1) * (6 + i * 3)) + 'deg)';
@@ -167,7 +167,7 @@
     lvl = lvl || 1;
     var made = makeBody(name, x, y, lvl);
     var el = document.createElement('div');
-    el.className = 'lab-toy lab-toy--lvl' + lvl;
+    el.className = 'lab-toy lab-toy--lvl' + lvl + ' lab-toy--' + name;
     el.style.width = made.w.toFixed(1) + 'px';
     el.style.height = made.h.toFixed(1) + 'px';
     el.appendChild(img(name));

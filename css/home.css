@@ -731,6 +731,32 @@ html[data-theme="dark"] .hero .hero-peek { --ink-l: #E6C697; --ink-r: #E6C697; }
   color: var(--nav-accent, var(--blue));
 }
 
+/* Desktop: three columns (wordmark | links | spare, for the theme switch), so
+   the links stay centred but can never run into the wordmark. In a narrower
+   window the links tighten and the wordmark shrinks to fit its column. */
+@media (min-width: 769px) {
+  .site-nav__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    column-gap: 1rem;
+  }
+  .site-nav__brand {
+    grid-column: 1;
+    justify-self: start;
+    position: static;
+    transform: none;
+    min-width: 0;
+    max-width: 100%;
+  }
+  .site-nav__brand-img { display: block; width: 230px; max-width: 100%; height: auto; }
+  .site-nav__links { grid-column: 2; }
+  .site-nav__links a {
+    font-size: clamp(0.9rem, 0.55rem + 0.75vw, 1.05rem);
+    padding-left: clamp(0.55rem, 4.93vw - 1.82rem, 2rem);
+    padding-right: clamp(0.55rem, 4.93vw - 1.82rem, 2rem);
+  }
+}
+
 /* ============================================================
    VISION / MISSION SECTION
    ============================================================ */
@@ -2973,6 +2999,14 @@ html[data-theme="dark"] .lab-toy > * {
 }
 html[data-theme="dark"] .lab-toy.is-held > * {
   filter: grayscale(1) sepia(1) saturate(1.5) hue-rotate(-28deg) brightness(0.6) contrast(1.15);
+}
+/* The speech bubble is deep blue, which the tint above would sink into the
+   field; lift it to a mid brown like the other toys. */
+html[data-theme="dark"] .lab-toy--bubble > * {
+  filter: grayscale(1) sepia(1) saturate(1.5) hue-rotate(-28deg) brightness(1.25) contrast(1.15);
+}
+html[data-theme="dark"] .lab-toy--bubble.is-held > * {
+  filter: grayscale(1) sepia(1) saturate(1.5) hue-rotate(-28deg) brightness(1.5) contrast(1.15);
 }
 /* About succulent: each ring its own brown (like the "What we do" art) so the
    petals stay legible as a plant, with the scribbled outline in rose. */
