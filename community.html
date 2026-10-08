@@ -30,13 +30,15 @@
   <meta name="twitter:title" content="Community — Flourishing Futures">
   <meta name="twitter:description" content="Join the Conscious Builder Community — events, workshops, and the experts we work with, from the Flourishing Futures initiative.">
   <meta name="twitter:image" content="https://flourishingfutures.io/img/og-image.png">
+  <!-- GT Maru Black sets the section labels above the fold; fetch it with the CSS rather than after it. -->
+  <link rel="preload" href="fonts/GTMaruBlack.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700&family=Atkinson+Hyperlegible+Next:wght@300;400;500&display=swap">
   <link rel="stylesheet" href="css/styles.css?v=20261007nav">
   <link rel="stylesheet" href="css/transitions.css?v=20260102theme10">
   <link rel="stylesheet" href="css/gov.css?v=20261003band">
-  <script src="js/page-transitions.js?v=20261002gov"></script>
+  <script src="js/page-transitions.js?v=20261008perf"></script>
 </head>
 <body data-key="yellow">
 
@@ -225,9 +227,9 @@
   </footer>
 
   <script src="content/community.js?v=20260917links"></script>
-  <script src="js/render-content.js?v=20260917swag"></script>
+  <script src="js/render-content.js?v=20261008perf"></script>
   <script src="js/mobile-nav.js?v=20260918mob"></script>
-  <script src="js/gov.js?v=20261003gov4"></script>
+  <script src="js/gov.js?v=20261008perf"></script>
   <script src="js/theme.js?v=20261003names3"></script>
 
   <!-- Floating "Flofu" assistant: present from load like About/Lab.
@@ -242,10 +244,21 @@
     var siteFooter = document.querySelector('.site-footer');
     if (!assistant) return;
 
+    // Where an SVG sits on screen. Flofu only moves when it docks or is hovered,
+    // so its answer is reused for a quarter second: asking every frame forced
+    // the browser to recompute all styles first. (Moving shapes, like the hero
+    // pill, are always asked fresh.)
+    function screenCTM(svg) {
+      if (!svg.closest('.site-assistant')) return svg.getScreenCTM();
+      var now = performance.now();
+      if (!svg._ctm || now - svg._ctmAt > 250) { svg._ctm = svg.getScreenCTM(); svg._ctmAt = now; }
+      return svg._ctm;
+    }
+
     // Cursor-following pupil, clamped inside its socket (same convention as home).
     function placePupil(p, clientX, clientY) {
       var svg = p.ownerSVGElement; if (!svg) return;
-      var ctm = svg.getScreenCTM(); if (!ctm) return;
+      var ctm = screenCTM(svg); if (!ctm) return;
       var rx = parseFloat(p.getAttribute('data-cx'));
       var ry = parseFloat(p.getAttribute('data-cy'));
       var px = parseFloat(p.getAttribute('data-px'));
@@ -254,8 +267,8 @@
       var max = parseFloat(p.getAttribute('data-max')) || 0;
       var restx = px - rx, resty = py - ry;
       var offx = restx, offy = resty;
+      var scale = Math.sqrt(ctm.a * ctm.a + ctm.b * ctm.b) || 1;   // screen px per user unit
       if (clientX != null) {
-        var scale = Math.sqrt(ctm.a * ctm.a + ctm.b * ctm.b) || 1;
         var sx = ctm.a * rx + ctm.c * ry + ctm.e;
         var sy = ctm.b * rx + ctm.d * ry + ctm.f;
         var dx = clientX - sx, dy = clientY - sy;
@@ -268,8 +281,11 @@
       }
       var ol = Math.sqrt(offx * offx + offy * offy);
       if (max > 0 && ol > max) { offx = offx / ol * max; offy = offy / ol * max; }
-      p.setAttribute('transform',
-        'translate(' + (offx - restx).toFixed(2) + ' ' + (offy - resty).toFixed(2) + ')');
+      // Snap to half-pixel steps on screen and skip unchanged writes: every
+      // write repaints the whole drawing the eye sits in (Flofu is ~700KB of paths).
+      var q = 2 * (scale || 1);
+      var tf = 'translate(' + (Math.round((offx - restx) * q) / q).toFixed(2) + ' ' + (Math.round((offy - resty) * q) / q).toFixed(2) + ')';
+      if (tf !== p._tf) { p.setAttribute('transform', tf); p._tf = tf; }
     }
     function placeScene(scene, clientX, clientY) {
       var ps = scene.querySelectorAll('.pupil');
@@ -323,16 +339,23 @@
     // Like About/Lab, this page has no landing hero to scroll past — so Flofu
     // animates in on load and stays. It still rides up onto the footer bar
     // instead of covering it while scrolling.
+    // The footer's page position, measured up front (and again whenever the
+    // layout changes) so scrolling never has to stop and measure it.
+    var footerY = Infinity, phoneNav = window.matchMedia('(max-width: 768px)');
+    function measureFooter() {
+      if (siteFooter) footerY = siteFooter.getBoundingClientRect().top + window.scrollY;
+    }
+    measureFooter();
+    window.addEventListener('resize', function () { measureFooter(); dockFooter(); }, { passive: true });
+    window.addEventListener('load', function () { measureFooter(); dockFooter(); });
+    if (window.ResizeObserver) new ResizeObserver(function () { measureFooter(); dockFooter(); }).observe(document.body);
     function dockFooter() {
       // Rest tucked behind the fixed bottom bar on mobile (50px); flush to the
       // window on desktop. Either way, ride up onto the footer when it appears.
-      var restBottom = window.matchMedia('(max-width: 768px)').matches ? 50 : 0;
-      if (siteFooter) {
-        var overlap = window.innerHeight - siteFooter.getBoundingClientRect().top;
-        assistant.style.bottom = Math.max(restBottom, overlap - 8) + 'px';
-      } else {
-        assistant.style.bottom = restBottom + 'px';
-      }
+      var restBottom = phoneNav.matches ? 50 : 0;
+      var overlap = window.innerHeight - (footerY - window.scrollY);
+      var bottom = Math.max(restBottom, overlap - 8) + 'px';
+      if (bottom !== assistant.style.bottom) assistant.style.bottom = bottom;
     }
     var _dockFooterTicking = false;
     window.addEventListener('scroll', function () {

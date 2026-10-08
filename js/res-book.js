@@ -81,7 +81,7 @@
     var cy = dr.top + dr.height / 2 - hr.top;
     var ho = Math.max(120, cy - (tr.top - hr.top) + TOP_PAD);   // outer edge half-height
     var w = Math.min(Math.max(ho * 2 * ASPECT, dr.width / 2 + SIDE), hr.width / 2 - 12);
-    G = { cx: cx, cy: cy, ho: ho, hs: ho * SPINE_H, dy: ho * 0.012, w: w, s: w * 0.01 };
+    G = { cx: cx, cy: cy, ho: ho, hs: ho * SPINE_H, dy: ho * 0.012, w: w, s: w * 0.01, left: hr.left, width: hr.width };
     svg.setAttribute('viewBox', '0 0 ' + hr.width.toFixed(0) + ' ' + hr.height.toFixed(0));
   }
 
@@ -161,7 +161,7 @@
   // -1 (left edge) … 1 (right edge), from whichever input is live.
   function pointer() {
     if (touchX != null || mouseX != null) {
-      var r = hero.getBoundingClientRect();
+      var r = G;   // the hero's left + width only change with the layout (measure())
       var x = touchX != null ? touchX : mouseX;
       return Math.max(-1, Math.min(1, (x - (r.left + r.width / 2)) / (r.width / 2)));
     }

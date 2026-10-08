@@ -2156,16 +2156,16 @@ html[data-theme="dark"] .things__doodle--dark { display: block; }
   top: 50%;
   width: max(160vw, 200vh);
   aspect-ratio: 1;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);   /* js/about-bloom.js adds the slow turn + breath here */
   z-index: 0;
   pointer-events: none;
+  will-change: transform;   /* one layer, turned whole (turning the <svg> redrew every path) */
 }
 .succ {
   display: block;
   width: 100%;
   height: 100%;
   overflow: visible;
-  will-change: transform;
 }
 /* Petals are SVG <g>s: will-change on them doesn't buy compositing, so leave it off. */
 @media (max-width: 768px) {

@@ -582,10 +582,15 @@
     if (window.ResizeObserver) new ResizeObserver(measure).observe(track);
     measure();
 
+    // The loop only runs while the gov view is showing, the tab is visible and
+    // the ticker is on screen; otherwise it stops asking for frames altogether
+    // (on the other themes it used to tick at 60fps doing nothing).
+    var running = false, seen = true;
     function frame(t) {
+      if (!govActive() || document.hidden || !seen) { running = false; return; }
       var dt = last ? Math.min(t - last, 64) : 0;
       last = t;
-      if (!reducedMotion && !hover && !drag && !isPaused() && !document.hidden && govActive() &&
+      if (!reducedMotion && !hover && !drag && !isPaused() &&
           Date.now() - lastUser > USER_IDLE) {
         if (!period) measure();
         pos += TICKER_SPEED * dt / 1000;
@@ -593,7 +598,17 @@
       }
       requestAnimationFrame(frame);
     }
-    requestAnimationFrame(frame);
+    function wake() {
+      if (running || reducedMotion || !govActive() || document.hidden || !seen) return;
+      running = true; last = 0;
+      requestAnimationFrame(frame);
+    }
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) { seen = es[0].isIntersecting; wake(); }).observe(tk);
+    }
+    document.addEventListener('visibilitychange', wake);
+    document.addEventListener('ff:themechange', function () { setTimeout(wake, 0); });
+    wake();
 
     tk.addEventListener('mouseenter', function () { hover = true; });
     tk.addEventListener('mouseleave', function () { hover = false; });
@@ -1005,6 +1020,7 @@
   // Flag the navbar once it has docked under the sticky banner (adds a shadow).
   var navEl = $('.gov-nav', view);
   function checkStuck() {
+    if (!govActive()) return;   // hidden on the other themes: don't force a style pass on every scroll
     var dock = parseFloat(getComputedStyle(navEl).top) || 0;
     navEl.classList.toggle('is-stuck', navEl.getBoundingClientRect().top <= dock + 0.5);
   }

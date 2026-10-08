@@ -65,22 +65,50 @@
     if (c.eyes) c.eyes.addEventListener('animationend', function () { c.eyes.classList.remove('is-blinking'); });
   });
 
+  // The scroll position, kept up to date from the scroll event: reading
+  // window.scrollY inside a frame, after another script has just moved
+  // something, makes the browser recompute every style first.
+  var pageY = window.scrollY;
+  window.addEventListener('scroll', function () { pageY = window.scrollY; }, { passive: true });
+
+  // Where the section and each critter's face sit on the page, measured up
+  // front (and on resize) rather than every frame: reading layout right after
+  // the transform writes forced a full style pass each frame. The faces are
+  // measured on the un-animated wrapper; the bob's own drift is added back.
+  var sec = { top: 0, left: 0, width: 1, height: 1 };
+  function measure() {
+    var r = section.getBoundingClientRect();
+    sec = { top: r.top + window.scrollY, left: r.left, width: r.width, height: r.height };
+    critters.forEach(function (c) {
+      var e = c.el.getBoundingClientRect();
+      c.home = { x: e.left, y: e.top + window.scrollY, w: e.width, h: c.bob.offsetHeight };
+    });
+  }
+  measure();
+  window.addEventListener('resize', measure, { passive: true });
+  window.addEventListener('load', measure);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+  // (The body, not the section: anything above growing moves the section down.)
+  if (window.ResizeObserver) new ResizeObserver(measure).observe(document.body);
+
   var on = false, running = false, last = 0, sqX = 0, sqY = 0;
   function loop(nowMs) {
     if (!on || document.hidden) { running = false; return; }
     var now = nowMs / 1000;
     var dt = Math.min((nowMs - last) / 1000, 1 / 30);
     last = nowMs;
-    var sr = section.getBoundingClientRect();
+    var sy = pageY;
+    var sr = { top: sec.top - sy, bottom: sec.top + sec.height - sy, left: sec.left, width: sec.width, height: sec.height };
     var inside = mouse && mouse.y >= sr.top && mouse.y <= sr.bottom;
     var flick = speed; speed *= 0.6;   // how fast the cursor just moved (px/frame)
 
     critters.forEach(function (c) {
       var f = c.f;
-      var r = c.bob.getBoundingClientRect();
+      var r = { left: c.home.x + c.x, top: c.home.y - sy + c.y, width: c.home.w, height: c.home.h };
       // Eyes are the critter's "face": aim from there.
-      var fx = r.left + r.width * parseFloat(c.el.style.getPropertyValue('--fx'));
-      var fy = r.top + r.height * parseFloat(c.el.style.getPropertyValue('--fy'));
+      if (c.fx == null) { c.fx = parseFloat(c.el.style.getPropertyValue('--fx')); c.fy = parseFloat(c.el.style.getPropertyValue('--fy')); }
+      var fx = r.left + r.width * c.fx;
+      var fy = r.top + r.height * c.fy;
       var gx = 0, gy = 0, look = null;
       if (tilt) {
         gx = tilt.nx * f.reach; gy = tilt.ny * f.reach;
@@ -117,7 +145,9 @@
         var tx = look ? look.x * f.look : 0, ty = look ? look.y * f.look : 0;
         c.ex += (tx - c.ex) * Math.min(1, dt * 8);
         c.ey += (ty - c.ey) * Math.min(1, dt * 8);
-        c.eyes.setAttribute('transform', 'translate(' + (c.ex * scale).toFixed(1) + ' ' + (c.ey * scale).toFixed(1) + ')');
+        // Half-pixel steps, and only when they moved: each write repaints the critter.
+        var etf = 'translate(' + (Math.round(c.ex * 2) / 2 * scale).toFixed(1) + ' ' + (Math.round(c.ey * 2) / 2 * scale).toFixed(1) + ')';
+        if (etf !== c.etf) { c.eyes.setAttribute('transform', etf); c.etf = etf; }
       }
     });
 

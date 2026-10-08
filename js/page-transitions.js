@@ -189,6 +189,28 @@
     setTimeout(function () { removeWrap(fill); }, OPEN_FALLBACK + 2500); // safety
   })();
 
+  /* ---------- Warm up the next page ---------- *
+   * Pointing at (or pressing) a link to another page here starts fetching it,
+   * so the download runs while the curtain closes instead of after it. */
+  var warmed = {};
+  function warm(e) {
+    var a = e.target.closest && e.target.closest('a[href]');
+    if (!a || a.target === '_blank' || a.hasAttribute('download')) return;
+    var url;
+    try { url = new URL(a.getAttribute('href'), location.href); } catch (_) { return; }
+    if (url.origin !== location.origin || url.pathname === location.pathname) return;
+    var key = url.origin + url.pathname + url.search;
+    if (warmed[key]) return;
+    warmed[key] = true;
+    var l = document.createElement('link');
+    l.rel = 'prefetch';
+    l.href = key;
+    document.head.appendChild(l);
+  }
+  document.addEventListener('pointerover', warm, { passive: true });
+  document.addEventListener('pointerdown', warm, { passive: true });
+  document.addEventListener('focusin', warm);
+
   /* ---------- Leaving page: track the pointer, iris CLOSED, navigate ---------- */
   if (!reduced) {
     var lastX = null, lastY = null;

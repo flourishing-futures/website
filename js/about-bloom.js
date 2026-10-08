@@ -23,6 +23,10 @@
   var section = document.querySelector('.about-drive');
   var svg = section && section.querySelector('.succ');
   if (!svg) return;
+  // The slow turn + breath go on the plain wrapper <div>, not the <svg>: the
+  // browser can then spin the already-drawn plant as one layer, where turning
+  // the <svg> itself redrew every petal path on every frame.
+  var turner = svg.parentNode;
   var CX = 2591.5, CY = 2591;   // the plant's centre in the SVG's user units
 
   // Per ring: when it opens (fraction of the bloom), how closed it starts
@@ -52,7 +56,7 @@
   function paint(bloom, now, aim, dt) {
     var spin = reduce ? 0 : (now * TURN) % 360;
     var breathe = reduce ? 1 : 1 + 0.012 * Math.sin(now * 0.7);
-    svg.style.transform = 'rotate(' + spin.toFixed(2) + 'deg) scale(' + breathe.toFixed(4) + ')';
+    turner.style.transform = 'translate(-50%, -50%) rotate(' + spin.toFixed(2) + 'deg) scale(' + breathe.toFixed(4) + ')';
     parts.forEach(function (p) {
       var r = p.ring;
       var open = smooth((bloom - r.at - p.delay * (r.at > 0 ? 1 : 0)) / r.len);
@@ -66,9 +70,11 @@
       p.lean += (goal - p.lean) * k;
       p.lift += (face * r.lift - p.lift) * k;
       var dx = Math.cos(p.ang) * p.lean * 5182, dy = Math.sin(p.ang) * p.lean * 5182;
-      var tf = 'translate(' + (CX + dx).toFixed(1) + ' ' + (CY + dy).toFixed(1) + ') rotate(' + tw.toFixed(2) + ') scale(' +
-        (sc * (1 + p.lift)).toFixed(4) + ') translate(' + (-CX) + ' ' + (-CY) + ')';
-      var op = Math.min(1, open * 1.6).toFixed(3);
+      // Rounded to about half a screen pixel (a user unit is ~0.5px here), so
+      // a petal stops being redrawn once its easing has visibly finished.
+      var tf = 'translate(' + Math.round(CX + dx) + ' ' + Math.round(CY + dy) + ') rotate(' + tw.toFixed(1) + ') scale(' +
+        (sc * (1 + p.lift)).toFixed(3) + ') translate(' + (-CX) + ' ' + (-CY) + ')';
+      var op = Math.min(1, open * 1.6).toFixed(2);
       // Only touch the DOM when a petal actually changed (once open and still,
       // that's none of them, so the frame costs almost nothing).
       if (tf !== p.tf) { p.g.setAttribute('transform', tf); p.tf = tf; }
@@ -86,26 +92,49 @@
     tilt = d && (d.nx || d.ny) ? d : null;
   });
 
+  // The scroll position, kept up to date from the scroll event: reading
+  // window.scrollY inside a frame, after another script has just moved
+  // something, makes the browser recompute every style first.
+  var pageY = window.scrollY;
+  window.addEventListener('scroll', function () { pageY = window.scrollY; }, { passive: true });
+
+  // The section's place on the page, measured up front (not every frame: a
+  // layout read after the petal writes forced a full style pass each time).
+  // The plant is centred on the section, so its centre comes for free.
+  var secTop = 0, secH = 1, secCx = 0, plantW = 1;
+  function measure() {
+    var r = section.getBoundingClientRect();
+    secTop = r.top + window.scrollY; secH = r.height; secCx = r.left + r.width / 2;
+    plantW = turner.offsetWidth;
+  }
+  measure();
+  window.addEventListener('resize', measure, { passive: true });
+  window.addEventListener('load', measure);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+  // (The body, not the section: anything above growing moves the section down.)
+  if (window.ResizeObserver) new ResizeObserver(measure).observe(document.body);
+
   var bloom = 0, on = false, running = false, last = 0;
   function loop(nowMs) {
     if (!on || document.hidden) { running = false; return; }
     var dt = Math.min((nowMs - last) / 1000, 1 / 20);
     last = nowMs;
-    var r = section.getBoundingClientRect(), vh = window.innerHeight;
+    var r = { top: secTop - pageY, bottom: secTop + secH - pageY }, vh = window.innerHeight;
     // 0 as the section's top enters the bottom of the screen → 1 once it fills
     // most of the view (with headroom so every ring has finished opening).
     var goal = Math.max(0, Math.min(1.3, (vh - r.top) / (vh * 0.95)));
     bloom += (goal - bloom) * Math.min(1, dt / 0.9);   // calm, never snappy
 
     // Where the cursor/tilt is, as an angle around the plant's centre.
-    var aim = null, sr = svg.getBoundingClientRect();
+    var aim = null;
     if (tilt) {
       aim = { a: Math.atan2(tilt.ny, tilt.nx), m: Math.min(1, Math.sqrt(tilt.nx * tilt.nx + tilt.ny * tilt.ny)) };
     } else if (mouse && mouse.y >= r.top && mouse.y <= r.bottom) {
-      var vx = mouse.x - (sr.left + sr.width / 2), vy = mouse.y - (sr.top + sr.height / 2);
+      var vx = mouse.x - secCx, vy = mouse.y - (r.top + secH / 2);
       // The SVG is turning, so measure the angle in its own (rotated) frame.
       var spin = ((nowMs / 1000) * TURN) * Math.PI / 180;
-      aim = { a: Math.atan2(vy, vx) - spin, m: Math.min(1, Math.sqrt(vx * vx + vy * vy) / (sr.width * 0.35)) };
+      var span = plantW * (Math.abs(Math.cos(spin)) + Math.abs(Math.sin(spin)));   // the turning square's on-screen width
+      aim = { a: Math.atan2(vy, vx) - spin, m: Math.min(1, Math.sqrt(vx * vx + vy * vy) / (span * 0.35)) };
     }
     paint(bloom, nowMs / 1000, aim, dt);
     requestAnimationFrame(loop);

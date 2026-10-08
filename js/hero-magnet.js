@@ -101,11 +101,25 @@
   var clock = 0;        // the scene's own time (s): slows with the pacer, so the idle float winds down too
   var look = null;      // where the pill's eyes look
 
+  // The scroll position, kept up to date from the scroll event: reading
+  // window.scrollY inside a frame, after another script has just moved
+  // something, makes the browser recompute every style first.
+  var pageY = window.scrollY;
+  window.addEventListener('scroll', function () { pageY = window.scrollY; }, { passive: true });
+
+  // Where the hero and each half sit on the PAGE (measured with the layout,
+  // not every frame: the hero is the first thing on the page, so only a
+  // resize moves them). rectOf() turns one back into a screen rect.
+  var heroAt = null, halfAt = [];
+  function pageBox(el) { var r = el.getBoundingClientRect(); return { left: r.left, top: r.top + window.scrollY, width: r.width, height: r.height }; }
+  function rectOf(b) { var t = b.top - pageY; return { left: b.left, right: b.left + b.width, top: t, bottom: t + b.height, width: b.width, height: b.height }; }
+
   function layout() {
     var wasPortrait = portrait;
     portrait = PORTRAIT.matches;   // same query as the CSS: halves stack top | bottom
     var old = [size[0], size[1]];
     size = halves.map(function (h) { return { w: h.clientWidth, h: h.clientHeight }; });
+    heroAt = pageBox(hero); halfAt = halves.map(pageBox);
     // Positions stretch with the half; sizes scale uniformly by the geometric
     // mean of the two axes, so shapes don't shrink to nothing on wide screens.
     scale = Math.sqrt((size[0].w / ART_W) * (size[0].h / ART_H));
@@ -194,6 +208,10 @@
   }
 
   function render(t) {
+    // The pill's pupils look at the cursor (Flofu's clamp-in-socket logic).
+    // Done before this frame's moves so reading the pill's spot doesn't force
+    // a fresh style pass (it's a frame behind, which can't be seen).
+    if (window.__ffPlaceEyes) window.__ffPlaceEyes(root, look ? look.x : null, look ? look.y : null);
     for (var i = 0; i < bodies.length; i++) {
       var b = bodies[i], d = b.def;
       // Idle float + a slow breath, layered on top of the physics.
@@ -207,8 +225,6 @@
         along(b.va, b.st) + along(b.ja, b.j) +
         ' rotate(' + (b.rot + fr).toFixed(2) + 'deg) scale(' + breathe.toFixed(4) + ')';
     }
-    // The pill's pupils look at the cursor (Flofu's clamp-in-socket logic).
-    if (window.__ffPlaceEyes) window.__ffPlaceEyes(root, look ? look.x : null, look ? look.y : null);
   }
 
   // --- Pointer -----------------------------------------------------------
@@ -322,10 +338,10 @@
     var dt = pacer.tick(Math.min((now - last) / 1000, 1 / 30));
     last = now;
     clock += dt;
-    var hr = hero.getBoundingClientRect();
+    var hr = rectOf(heroAt);
     var pull = pointer && pointer.y >= hr.top && pointer.y <= hr.bottom &&
       pointer.x >= hr.left && pointer.x <= hr.right;
-    var rects = pull ? halves.map(function (h) { return h.getBoundingClientRect(); }) : null;
+    var rects = pull ? halfAt.map(rectOf) : null;
     var stunned = now < scatterUntil ? 0.12 : 1;
 
     for (var i = 0; i < bodies.length; i++) {

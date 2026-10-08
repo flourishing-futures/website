@@ -136,7 +136,8 @@
   function layout() {
     reels.forEach(function (r) {
       var W = r.host.clientWidth, H = r.host.clientHeight;
-      r.H = H;
+      r.H = H; r.W = W;
+      heroAt = null;   // re-measured on next use
       var y = 0;
       r.offs = [];
       for (var k = 0; k < r.n; k++) {
@@ -272,9 +273,23 @@
     }
     if (pointer && e.detail) pointer.tilt = true;
   });
+  // The scroll position, kept up to date from the scroll event: reading
+  // window.scrollY inside a frame, after another script has just moved
+  // something, makes the browser recompute every style first.
+  var pageY = window.scrollY;
+  window.addEventListener('scroll', function () { pageY = window.scrollY; }, { passive: true });
+
+  // The hero's spot on the page, measured with the layout rather than every
+  // frame (it's the first thing on the page, so only a resize moves it).
+  var heroAt = null;
+  function heroRect() {
+    if (!heroAt) { var b = hero.getBoundingClientRect(); heroAt = { left: b.left, top: b.top + window.scrollY, width: b.width, height: b.height }; }
+    var t = heroAt.top - pageY;
+    return { left: heroAt.left, right: heroAt.left + heroAt.width, top: t, bottom: t + heroAt.height, width: heroAt.width, height: heroAt.height };
+  }
   // Which reel (0 human / 1 machine) a client point is over, or -1.
   function reelAt(x, y) {
-    var hr = hero.getBoundingClientRect();
+    var hr = heroRect();
     if (y < hr.top || y > hr.bottom || x < hr.left || x > hr.right) return -1;
     return PORTRAIT.matches ? (y < hr.top + hr.height / 2 ? 0 : 1) : (x < hr.left + hr.width / 2 ? 0 : 1);
   }
@@ -343,7 +358,7 @@
       arrivedAt = 0;
     }
 
-    var hr = hero.getBoundingClientRect();
+    var hr = heroRect();
     var moving = pointer && nowMs - pointer.t < STILL_MS;
     var over = moving ? reelAt(pointer.x, pointer.y) : -1;
 
@@ -394,7 +409,7 @@
       }
 
       // A matched pair leans in toward the divider, like a conversation.
-      var leanPx = PORTRAIT.matches ? 0 : (idx === 0 ? 1 : -1) * r.host.clientWidth * 0.05;
+      var leanPx = PORTRAIT.matches ? 0 : (idx === 0 ? 1 : -1) * r.W * 0.05;
       r.items.forEach(function (it) {
         var goal = match && it.slot === match.slots[idx] ? leanPx : 0;
         it.lean += (goal - it.lean) * Math.min(1, dt * 5);

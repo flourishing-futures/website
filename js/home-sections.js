@@ -41,6 +41,31 @@
     tilt = d && (d.nx || d.ny) ? d : null;
   });
 
+  // The scroll position, kept up to date from the scroll event: reading
+  // window.scrollY inside a frame, after another script has just moved
+  // something, makes the browser recompute every style first.
+  var pageY = window.scrollY;
+  window.addEventListener('scroll', function () { pageY = window.scrollY; }, { passive: true });
+
+  // Boxes in page coordinates, measured up front (and again whenever the
+  // layout can have moved) rather than read every frame: a layout read after
+  // the other scripts' style writes forced a full style pass each frame.
+  var boxes = [];
+  // drift() = any offset this script has itself applied to el, taken back out.
+  function box(el, drift) { var b = { el: el, drift: drift }; boxes.push(b); measure(b); return b; }
+  function measure(b) {
+    var r = b.el.getBoundingClientRect(), d = b.drift ? b.drift() : [0, 0];
+    b.x = r.left - d[0]; b.y = r.top - d[1] + window.scrollY; b.w = r.width; b.h = r.height;   // (the page never scrolls sideways)
+  }
+  function remeasure() { boxes.forEach(measure); }
+  function onScreen(b) {   // the box where it is on screen right now, from the scroll position alone
+    return { left: b.x, top: b.y - pageY, width: b.w, height: b.h };
+  }
+  window.addEventListener('resize', remeasure, { passive: true });
+  window.addEventListener('load', remeasure);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(remeasure);
+  if (window.ResizeObserver) new ResizeObserver(remeasure).observe(document.body);
+
   // Where the input points, relative to a rect: -1..1 on each axis (null = rest).
   function aim(r) {
     if (tilt) return { x: tilt.nx, y: tilt.ny };
@@ -91,11 +116,12 @@
     var NUDGE   = 14;     // px the sun leans toward the cursor / tilt
 
     var speed = IDLE, angle = 0, spin2 = 0, ox = 0, oy = 0, lastSun = '';
-    var lastY = window.scrollY, scrollV = 0;
+    var sectionBox = box(section);
+    var lastY = pageY, scrollV = 0;
 
     whileVisible(section, function (dt) {
       // Scroll speed (either direction), smoothed so a trackpad doesn't stutter.
-      var y = window.scrollY;
+      var y = pageY;
       var v = Math.abs(y - lastY) / Math.max(dt, 1 / 120);
       lastY = y;
       scrollV += (v - scrollV) * Math.min(1, dt / 0.08);
@@ -111,7 +137,7 @@
       angle = (angle + speed * dt) % 360;
       spin2 = (spin2 - speed * 0.6 * dt) % 360;   // the spiral churns the other way
 
-      var a = aim(section.getBoundingClientRect());
+      var a = aim(onScreen(sectionBox));
       var gx = a ? a.x * NUDGE : 0, gy = a ? a.y * NUDGE : 0;
       ox += (gx - ox) * Math.min(1, dt / 0.6);
       oy += (gy - oy) * Math.min(1, dt / 0.6);
@@ -132,16 +158,19 @@
     var wraps = Array.prototype.slice.call(section.querySelectorAll('.things__doodle-wrap'));
     if (!wraps.length) return;
     var MAX = 18;   // px drift
-    var state = wraps.map(function () { return { x: 0, y: 0, px: '', py: '' }; });
+    var state = wraps.map(function (w) {
+      var s = { x: 0, y: 0, px: '', py: '' };
+      s.box = box(w, function () { return [s.x, s.y]; });   // aim from its resting spot, not where it drifted to
+      return s;
+    });
 
     whileVisible(section, function (dt) {
       wraps.forEach(function (w, i) {
-        // (Only measure when there's an input to aim at: phones without tilt skip it.)
-        var a = (mouse || tilt) ? aim(w.getBoundingClientRect()) : null;
+        var s = state[i];
+        var a = (mouse || tilt) ? aim(onScreen(s.box)) : null;
         // Tilt moves all three together; the mouse pulls each toward the cursor.
         var gx = a ? Math.max(-1, Math.min(1, a.x)) * MAX : 0;
         var gy = a ? Math.max(-1, Math.min(1, a.y)) * MAX : 0;
-        var s = state[i];
         s.x += (gx - s.x) * Math.min(1, dt / 0.25);
         s.y += (gy - s.y) * Math.min(1, dt / 0.25);
         // Only write when it actually moved (once settled, nothing restyles mid-scroll).

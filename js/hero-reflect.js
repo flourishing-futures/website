@@ -108,9 +108,25 @@
   var clock = 0;                       // the scene's own time (s): slows with the pacer
 
   function active() { return root.classList.contains('is-active'); }
+  // The scroll position, kept up to date from the scroll event: reading
+  // window.scrollY inside a frame, after another script has just moved
+  // something, makes the browser recompute every style first.
+  var pageY = window.scrollY;
+  window.addEventListener('scroll', function () { pageY = window.scrollY; }, { passive: true });
+
+  // The hero's spot on the page, measured with the layout so pointer moves
+  // don't each force a fresh layout read.
+  var heroAt = null;
   function measure() {
     var art = root.querySelector('.reflect__art');
     unit = art ? art.clientWidth / ART_W : 1;
+    var b = hero.getBoundingClientRect();
+    heroAt = { left: b.left, top: b.top + window.scrollY, width: b.width, height: b.height };
+  }
+  function heroRect() {
+    if (!heroAt) measure();
+    var t = heroAt.top - pageY;
+    return { left: heroAt.left, top: t, bottom: t + heroAt.height, width: heroAt.width, height: heroAt.height };
   }
 
   function pulse(side, a) {
@@ -120,7 +136,7 @@
 
   window.addEventListener('pointermove', function (e) {
     if (e.pointerType !== 'mouse' && e.buttons === 0) return;
-    var hr = hero.getBoundingClientRect();
+    var hr = heroRect();
     if (e.clientY < hr.top || e.clientY > hr.bottom) { target = null; lastX = null; return; }
     var nx = (e.clientX - hr.left) / hr.width * 2 - 1;
     target = { nx: nx, ny: (e.clientY - hr.top) / hr.height * 2 - 1 };
@@ -145,7 +161,7 @@
   window.addEventListener('ff-tilt', function (e) {
     var d = e.detail;
     if (!d) { idle(); tiltX = null; return; }
-    var hr = hero.getBoundingClientRect();
+    var hr = heroRect();
     var nx = (d.x - hr.left) / hr.width * 2 - 1;
     target = { nx: nx, ny: (d.y - hr.top) / hr.height * 2 - 1 };
     if (tiltX !== null && active()) {
@@ -160,7 +176,7 @@
   });
   window.addEventListener('pointerdown', function (e) {
     if (!active() || e.button !== 0 || e.target.closest('a, button, .theme-switch')) return;
-    var hr = hero.getBoundingClientRect();
+    var hr = heroRect();
     if (e.clientY < hr.top || e.clientY > hr.bottom) return;
     // A stone in the pond: ripples on both sides, stronger on the side clicked.
     var left = e.clientX < hr.left + hr.width / 2;

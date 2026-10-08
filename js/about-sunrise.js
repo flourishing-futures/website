@@ -48,7 +48,26 @@
   // The sun's size only changes on resize; reading offsetWidth every frame
   // could force a layout mid-scroll.
   var size = sun.offsetWidth;
-  window.addEventListener('resize', function () { size = sun.offsetWidth; }, { passive: true });
+  // The scroll position, kept up to date from the scroll event: reading
+  // window.scrollY inside a frame, after another script has just moved
+  // something, makes the browser recompute every style first.
+  var pageY = window.scrollY;
+  window.addEventListener('scroll', function () { pageY = window.scrollY; }, { passive: true });
+
+  // Same for the section's place on the page: a layout read every frame, after
+  // the transform writes, forced a full style pass each time.
+  var secTop = 0, secH = 1, secL = 0, secW = 1;
+  function measure() {
+    size = sun.offsetWidth;
+    var r = section.getBoundingClientRect();
+    secTop = r.top + window.scrollY; secH = r.height; secL = r.left; secW = r.width;
+  }
+  measure();
+  window.addEventListener('resize', measure, { passive: true });
+  window.addEventListener('load', measure);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+  // (The body, not the section: anything above growing moves the section down.)
+  if (window.ResizeObserver) new ResizeObserver(measure).observe(document.body);
   var mouse = null, tilt = null;
   document.addEventListener('mousemove', function (e) { mouse = { x: e.clientX, y: e.clientY }; }, { passive: true });
   document.addEventListener('mouseout', function (e) { if (!e.relatedTarget) mouse = null; });
@@ -71,7 +90,7 @@
     var rise = easeOut(Math.max(0, Math.min(1, (now - t0) / RISE_S)));   // 0 → 1 once
 
     // Scroll: 0 with the section at the top of the window → 1 as it leaves.
-    var r = section.getBoundingClientRect();
+    var r = { top: secTop - pageY, left: secL, width: secW, height: secH };
     var goalSet = Math.max(0, Math.min(1, -r.top / Math.max(1, r.height)));
     scrollSet += (goalSet - scrollSet) * Math.min(1, dt / 0.35);   // a touch of lag
 

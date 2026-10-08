@@ -26,7 +26,7 @@
         bodyHtml += '<p class="lately-card__body">' + item.body[j] + '</p>';
       }
       var imageHtml = (item.image && item.image.src)
-        ? '<div class="lately-card__image"><img src="' + item.image.src + '" alt="' + (item.image.alt || '') + '"></div>'
+        ? '<div class="lately-card__image"><img src="' + item.image.src + '" loading="lazy" decoding="async" alt="' + (item.image.alt || '') + '"></div>'
         : '<div class="lately-card__image lately-card__image--blue"></div>';
       html +=
         '<article class="lately-card" data-pos="' + i + '">' +
@@ -150,7 +150,7 @@
       var imageClass = 'res-deck-card__image';
       var imageHtml = '';
       if (item.image) {
-        imageHtml = '<img src="' + item.image.src + '" alt="' + (item.image.alt || '') + '">';
+        imageHtml = '<img src="' + item.image.src + '" decoding="async" alt="' + (item.image.alt || '') + '">';
       } else {
         imageClass += ' res-deck-card__image--blue';
       }
@@ -231,11 +231,17 @@
       }, 360);
     }
 
-    var timer = window.setInterval(advance, 3000);
+    // Auto-flips only while the deck is on screen and the tab is visible.
+    var seen = true;
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) { seen = es[0].isIntersecting; }).observe(deck);
+    }
+    function tick() { if (seen && !document.hidden) advance(); }
+    var timer = window.setInterval(tick, 3000);
     deck.addEventListener('click', function () {
       advance();
       window.clearInterval(timer);
-      timer = window.setInterval(advance, 3000);
+      timer = window.setInterval(tick, 3000);
     });
   }
 
@@ -295,7 +301,7 @@
       bodyHtml += '<p>' + item.body[j] + '</p>';
     }
     var imageHtml = item.image
-      ? '<img src="' + item.image.src + '" alt="' + (item.image.alt || '') + '">'
+      ? '<img src="' + item.image.src + '" loading="lazy" decoding="async" alt="' + (item.image.alt || '') + '">'
       : '';
     var haystack = (
       item.title + ' ' + item.source + ' ' + item.body.join(' ') + ' ' +
@@ -627,8 +633,12 @@
     if (slides.length < 2) return;
     wrap.dataset.swagInit = '1';
 
-    var current = 0;
+    var current = 0, seen = true;
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) { seen = es[0].isIntersecting; }).observe(wrap);
+    }
     window.setInterval(function () {
+      if (!seen || document.hidden) return;   // (a blurred cross-fade off screen is wasted work)
       slides[current].classList.remove('is-active');
       current = (current + 1) % slides.length;
       slides[current].classList.add('is-active');
@@ -686,7 +696,7 @@
       // Real photos: fixed-height <img>, natural width (sized via CSS).
       // Fallback (no src, only a swatch color) keeps the old colored box.
       var innerHtml = item.src
-        ? '<img class="cmty-ticker__img" src="' + item.src + '" alt="' + (item.alt || '') + '" draggable="false">'
+        ? '<img class="cmty-ticker__img" src="' + item.src + '" decoding="async" alt="' + (item.alt || '') + '" draggable="false">'
         : '<div class="cmty-ticker__media" style="background:' + item.color + '" role="img" aria-label="' + (item.alt || '') + '"></div>';
 
       html +=
@@ -705,7 +715,7 @@
     for (var i = 0; i < items.length; i++) {
       var item = items[i];
       var photoHtml = item.img
-        ? '<div class="cmty-expert__photo"><img src="' + item.img + '" alt="' + item.name + '" draggable="false"></div>'
+        ? '<div class="cmty-expert__photo"><img src="' + item.img + '" loading="lazy" decoding="async" alt="' + item.name + '" draggable="false"></div>'
         : '<div class="cmty-expert__photo" aria-hidden="true"></div>';
 
       html +=
@@ -801,7 +811,12 @@
       erase();
     }
 
+    var seen = true;
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) { seen = es[0].isIntersecting; }).observe(el);
+    }
     window.setInterval(function () {
+      if (!seen || document.hidden) return;   // retyping off screen restyles the page for nothing
       i = (i + 1) % phrases.length;
       typeTo(phrases[i]);
     }, 3200);
@@ -899,8 +914,10 @@
     function recomputeHalf() {
       var next = measureHalf();
       if (!next) {
-        // Layout isn't ready yet (e.g. images still loading) — retry.
-        requestAnimationFrame(recomputeHalf);
+        // Layout isn't ready yet (images still loading, or the page is hidden
+        // under the Government view): the ResizeObserver below calls back as
+        // soon as the strip gets a size. (Retrying every frame here used to
+        // spin forever under gov, once per photo.)
         return;
       }
       half = next;
@@ -921,23 +938,31 @@
       imgs[m].addEventListener('load', recomputeHalf);
     }
     window.addEventListener('load', recomputeHalf);
+    if (window.ResizeObserver) new ResizeObserver(function () { recomputeHalf(); }).observe(track);
 
     window.addEventListener('resize', function () {
       if (resizeTimer) window.clearTimeout(resizeTimer);
       resizeTimer = window.setTimeout(recomputeHalf, 150);
     });
 
-    // Only do the work while the carousel is actually on screen (mirrors the
-    // "Things we do" doodle parallax gate on index.html).
-    var visible = false;
-    var io = new IntersectionObserver(function (es) { visible = es[0].isIntersecting; }, { threshold: 0 });
+    // Only run while the carousel is actually on screen and the tab is
+    // visible: off screen the loop stops asking for frames at all.
+    var visible = false, running = false;
+    function wake() {
+      if (running || reduce || !visible || document.hidden) return;
+      running = true;
+      requestAnimationFrame(frame);
+    }
+    var io = new IntersectionObserver(function (es) { visible = es[0].isIntersecting; wake(); }, { threshold: 0 });
     io.observe(container);
+    document.addEventListener('visibilitychange', wake);
 
     // Three effective states, mutually exclusive: dragging (transform set
     // directly in pointermove, this loop no-ops), momentum (decaying mv),
     // auto (base speed). Auto never runs while dragging or gliding.
     function frame() {
-      if (!dragging && visible) {
+      if (!visible || document.hidden) { running = false; return; }
+      if (!dragging) {
         if (momentum) {
           x += mv;
           mv *= 0.94;
@@ -952,7 +977,6 @@
       }
       requestAnimationFrame(frame);
     }
-    if (!reduce) requestAnimationFrame(frame);
 
     container.addEventListener('pointerdown', function (e) {
       dragging = true;
@@ -1004,10 +1028,11 @@
 
     function recomputeMinX() {
       minX = Math.min(0, container.clientWidth - track.scrollWidth);
-      // Layout might not be ready yet (e.g. images still loading) — retry.
-      if (!track.scrollWidth) requestAnimationFrame(recomputeMinX);
     }
     recomputeMinX();
+    // Layout might not be ready yet (images still loading, or hidden under the
+    // Government view): re-measure whenever the strip's size changes.
+    if (window.ResizeObserver) new ResizeObserver(recomputeMinX).observe(track);
 
     window.addEventListener('resize', function () {
       if (resizeTimer) window.clearTimeout(resizeTimer);
