@@ -18,11 +18,20 @@
  * heavy, the inner petals quick.
  *
  * Only runs while the section is on screen. Reduced motion: shown fully open.
+ *
+ * Phones and touch tablets (and Data Saver) get the plant fully open and still.
+ * There it's sized off the tall section (~2× its height), so the turning layer
+ * came to ~6,600px square at 3× pixel density, past what a phone GPU will
+ * hold, and every petal moving redrew all of it each frame: it froze mobile
+ * browsers. The markup is the open plant, so these devices just skip the script.
  */
 (function () {
   var section = document.querySelector('.about-drive');
   var svg = section && section.querySelector('.succ');
   if (!svg) return;
+  var LITE = window.matchMedia('(max-width: 768px), (hover: none)').matches ||
+    (navigator.connection && navigator.connection.saveData);
+  if (LITE) { svg.parentNode.style.willChange = 'auto'; return; }
   // The slow turn + breath go on the plain wrapper <div>, not the <svg>: the
   // browser can then spin the already-drawn plant as one layer, where turning
   // the <svg> itself redrew every petal path on every frame.

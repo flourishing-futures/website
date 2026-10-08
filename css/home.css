@@ -2168,6 +2168,11 @@ html[data-theme="dark"] .things__doodle--dark { display: block; }
   overflow: visible;
 }
 /* Petals are SVG <g>s: will-change on them doesn't buy compositing, so leave it off. */
+/* Phones + touch tablets: the plant sits still and open (js/about-bloom.js skips
+   them), so no GPU layer: at this size it ran past what a phone can hold. */
+@media (max-width: 768px), (hover: none) {
+  .about-drive__bloom { will-change: auto; }
+}
 @media (max-width: 768px) {
   /* Phones: the column of text is far taller than it is wide, so the plant is
      sized off the SECTION's height (it always runs past the top and bottom)
