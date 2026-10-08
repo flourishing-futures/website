@@ -613,7 +613,6 @@
     if (c.gallery) renderCmtyGallery(c.gallery);
     if (c.experts) renderCmtyExperts(c.experts);
 
-    initCmtyHeroParallax();
     initCmtyReveals();
     initCmtyRotator();
     initCmtySwag();
@@ -729,41 +728,6 @@
         '</figure>';
     }
     track.innerHTML = html;
-  }
-
-  /* Same ripple-parallax approach as the Resource Hub hero, retargeted at
-     the Community hero's own layer markup. */
-  function initCmtyHeroParallax() {
-    var hero = document.querySelector('.cmty-hero');
-    if (!hero) return;
-    var layers = Array.prototype.slice.call(hero.querySelectorAll('.cmty-hero__layer'));
-    if (!layers.length) return;
-    if (window.matchMedia &&
-        window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    var tx = 0, ty = 0, raf = null;
-
-    function apply() {
-      raf = null;
-      for (var i = 0; i < layers.length; i++) {
-        var d = parseFloat(layers[i].getAttribute('data-depth')) || 0;
-        var dir = (i % 2 === 0) ? 1 : -1;
-        var x = tx * d * dir;
-        var y = ty * d * dir * 0.6;
-        layers[i].style.transform = 'scale(1.04) translate(' + x + 'px,' + y + 'px)';
-      }
-    }
-
-    hero.addEventListener('mousemove', function (e) {
-      var r = hero.getBoundingClientRect();
-      tx = (e.clientX - r.left) / r.width - 0.5;
-      ty = (e.clientY - r.top) / r.height - 0.5;
-      if (!raf) raf = requestAnimationFrame(apply);
-    });
-    hero.addEventListener('mouseleave', function () {
-      tx = 0; ty = 0;
-      if (!raf) raf = requestAnimationFrame(apply);
-    });
   }
 
   /* Types the hero eyebrow's rotating phrase in and out, cycling through a
