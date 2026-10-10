@@ -2168,6 +2168,16 @@ html[data-theme="dark"] .things__doodle--dark { display: block; }
   overflow: visible;
 }
 /* Petals are SVG <g>s: will-change on them doesn't buy compositing, so leave it off. */
+/* Firefox: while the wrapper turns, it re-rasterises the whole inline SVG
+   (~2,500 paths + 2,272 brush curves) every frame, measured at 2-10fps on a
+   desktop. Giving the <svg> its own 3D layer inside a preserve-3d wrapper makes
+   Firefox draw the plant once and just spin the cached picture, as Chrome
+   already does (120fps, no visible difference). Desktop only: phones keep the
+   plant still and must not hold a layer this big (see below). */
+@media (min-width: 769px) and (hover: hover) {
+  .about-drive__bloom { transform-style: preserve-3d; }
+  .succ { transform: translateZ(0); }
+}
 /* Phones + touch tablets: the plant sits still and open (js/about-bloom.js skips
    them), so no GPU layer: at this size it ran past what a phone can hold. */
 @media (max-width: 768px), (hover: none) {
