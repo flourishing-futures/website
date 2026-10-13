@@ -19,19 +19,23 @@
  *
  * Only runs while the section is on screen. Reduced motion: shown fully open.
  *
- * Phones and touch tablets (and Data Saver) get the plant fully open and still.
- * There it's sized off the tall section (~2× its height), so the turning layer
- * came to ~6,600px square at 3× pixel density, past what a phone GPU will
- * hold, and every petal moving redrew all of it each frame: it froze mobile
- * browsers. The markup is the open plant, so these devices just skip the script.
+ * Phones and touch tablets still unfurl with scroll, but skip the turn, the
+ * breath and the lean, and the loop sleeps as soon as the plant has settled.
+ * There the plant is sized off the tall section (~2× its height). Turning it
+ * needed one GPU layer ~6,600px square at 3× pixel density, past what a phone
+ * will hold, and that froze mobile browsers. Without the turn there's no
+ * layer: the browser only redraws the on-screen part of the plant, and only
+ * while it's opening or closing. They also open sooner (OPEN_BY below), so
+ * the dark-green copy has the bright petals under it by the time it's read.
+ * Data Saver gets the plant fully open and still (the markup is the open
+ * plant, so the script just stops).
  */
 (function () {
   var section = document.querySelector('.about-drive');
   var svg = section && section.querySelector('.succ');
   if (!svg) return;
-  var LITE = window.matchMedia('(max-width: 768px), (hover: none)').matches ||
-    (navigator.connection && navigator.connection.saveData);
-  if (LITE) { svg.parentNode.style.willChange = 'auto'; return; }
+  if (navigator.connection && navigator.connection.saveData) { svg.parentNode.style.willChange = 'auto'; return; }
+  var TOUCH = window.matchMedia('(max-width: 768px), (hover: none)').matches;
   // The slow turn + breath go on the plain wrapper <div>, not the <svg>: the
   // browser can then spin the already-drawn plant as one layer, where turning
   // the <svg> itself redrew every petal path on every frame.
@@ -50,6 +54,10 @@
   };
   var SPIRAL = 0.12;   // how much each petal's start is delayed around the circle
   var TURN   = 0.6;    // deg/s: the plant's lazy resting turn
+  // How far the section's top has to rise up the screen (as a fraction of the
+  // screen's height) for the plant to be fully open. Phones open sooner: their
+  // column of copy is long and sits on the plant's middle.
+  var OPEN_BY = TOUCH ? 0.6 : 0.95;
 
   var parts = Array.prototype.map.call(svg.querySelectorAll('.succ__part'), function (g) {
     var ring = RINGS[g.getAttribute('data-ring')] || RINGS.petal;
@@ -62,10 +70,15 @@
   function smooth(t) { t = Math.max(0, Math.min(1, t)); return t * t * (3 - 2 * t); }
 
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Paints one frame; returns true if any petal changed (so the touch loop
+  // knows when it can sleep).
   function paint(bloom, now, aim, dt) {
-    var spin = reduce ? 0 : (now * TURN) % 360;
-    var breathe = reduce ? 1 : 1 + 0.012 * Math.sin(now * 0.7);
-    turner.style.transform = 'translate(-50%, -50%) rotate(' + spin.toFixed(2) + 'deg) scale(' + breathe.toFixed(4) + ')';
+    if (!TOUCH) {
+      var spin = reduce ? 0 : (now * TURN) % 360;
+      var breathe = reduce ? 1 : 1 + 0.012 * Math.sin(now * 0.7);
+      turner.style.transform = 'translate(-50%, -50%) rotate(' + spin.toFixed(2) + 'deg) scale(' + breathe.toFixed(4) + ')';
+    }
+    var changed = false;
     parts.forEach(function (p) {
       var r = p.ring;
       var open = smooth((bloom - r.at - p.delay * (r.at > 0 ? 1 : 0)) / r.len);
@@ -86,9 +99,10 @@
       var op = Math.min(1, open * 1.6).toFixed(2);
       // Only touch the DOM when a petal actually changed (once open and still,
       // that's none of them, so the frame costs almost nothing).
-      if (tf !== p.tf) { p.g.setAttribute('transform', tf); p.tf = tf; }
-      if (op !== p.op) { p.g.style.opacity = op; p.op = op; }
+      if (tf !== p.tf) { p.g.setAttribute('transform', tf); p.tf = tf; changed = true; }
+      if (op !== p.op) { p.g.style.opacity = op; p.op = op; changed = true; }
     });
+    return changed;
   }
 
   if (reduce) { paint(1.5, 0, null, 1); return; }
@@ -105,7 +119,8 @@
   // window.scrollY inside a frame, after another script has just moved
   // something, makes the browser recompute every style first.
   var pageY = window.scrollY;
-  window.addEventListener('scroll', function () { pageY = window.scrollY; }, { passive: true });
+  // (On touch the loop sleeps once the plant settles; a scroll wakes it.)
+  window.addEventListener('scroll', function () { pageY = window.scrollY; kick(); }, { passive: true });
 
   // The section's place on the page, measured up front (not every frame: a
   // layout read after the petal writes forced a full style pass each time).
@@ -131,8 +146,17 @@
     var r = { top: secTop - pageY, bottom: secTop + secH - pageY }, vh = window.innerHeight;
     // 0 as the section's top enters the bottom of the screen → 1 once it fills
     // most of the view (with headroom so every ring has finished opening).
-    var goal = Math.max(0, Math.min(1.3, (vh - r.top) / (vh * 0.95)));
+    var goal = Math.max(0, Math.min(1.3, (vh - r.top) / (vh * OPEN_BY)));
     bloom += (goal - bloom) * Math.min(1, dt / 0.9);   // calm, never snappy
+
+    if (TOUCH) {
+      // No turn, breath or lean here, so once the bloom has caught up with the
+      // scroll and no petal moved this frame, stop until the next scroll.
+      if (Math.abs(goal - bloom) < 0.002) bloom = goal;
+      if (!paint(bloom, 0, null, dt) && bloom === goal) { running = false; return; }
+      requestAnimationFrame(loop);
+      return;
+    }
 
     // Where the cursor/tilt is, as an angle around the plant's centre.
     var aim = null;

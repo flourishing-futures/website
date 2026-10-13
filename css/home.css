@@ -2222,8 +2222,9 @@ html[data-theme="dark"] .things__doodle--dark { display: block; }
   .about-drive__bloom { transform-style: preserve-3d; }
   .succ { transform: translateZ(0); }
 }
-/* Phones + touch tablets: the plant sits still and open (js/about-bloom.js skips
-   them), so no GPU layer: at this size it ran past what a phone can hold. */
+/* Phones + touch tablets: the plant unfurls with scroll but never turns
+   (js/about-bloom.js), so no GPU layer: at this size it ran past what a phone
+   can hold. */
 @media (max-width: 768px), (hover: none) {
   .about-drive__bloom { will-change: auto; }
 }
