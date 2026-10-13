@@ -367,7 +367,7 @@
         return hero({
           eyebrow: 'Flourishing Futures',
           title: 'AI for human possibility.',
-          lead: [text('.vision__text')],
+          lead: [text('#heroSub'), text('.vision__text'), text('.vision__body')],
           home: true,
           cta: visionBtn ? { label: text(visionBtn), href: visionBtn.getAttribute('href') } : null
         });

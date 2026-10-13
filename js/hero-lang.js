@@ -43,15 +43,16 @@
     outline: { id: 'lang-outline', ar: 724 / 1396, w: 0.84, cy: 0.40, tail: 'l', hollow: true }
   };
   // Bubble colours (the design's hues) + the ink for the greeting on them.
-  // Inks come from the same illustration palette (never white: that's the
-  // title's), each picked for contrast on its bubble.
+  // Inks are tone-on-tone: a deeper shade of the bubble itself (~1.5:1), so
+  // the greetings read as part of the art and the white title stays the
+  // loudest thing on the page. (They were neon #EBF900, which fought it.)
   var COLOURS = {
-    purple: { fill: '#7E5BFF', ink: '#EBF900' },
-    yellow: { fill: '#EBF900', ink: '#001FE5' },
-    white:  { fill: '#FFFFFF', ink: '#001FE5' },
-    blue:   { fill: '#0066FF', ink: '#EBF900' },
-    red:    { fill: '#FF0900', ink: '#EBF900' },
-    pink:   { fill: '#FE1A87', ink: '#EBF900' }
+    purple: { fill: '#7E5BFF', ink: '#5839D3' },
+    yellow: { fill: '#EBF900', ink: '#B3C700' },
+    white:  { fill: '#FFFFFF', ink: '#CBD0DF' },
+    blue:   { fill: '#0066FF', ink: '#0047CD' },
+    red:    { fill: '#FF0900', ink: '#CD0900' },
+    pink:   { fill: '#FE1A87', ink: '#CC0E69' }
   };
   // Reel strips: each side's own palette (the right side carries the white
   // title, so it only gets colours white text reads on). Each strip has every

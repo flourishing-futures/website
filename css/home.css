@@ -345,6 +345,40 @@ a {
   margin: 0;
 }
 
+/* Sub-header: what the programme is, in one line (References/Screenshot
+   2026-10-13 at 6.17.51 PM.png). Small GT Maru in the title's ink. It lives in
+   .hero__headline, placed one half-width over so it always sits on the OTHER
+   half, vertically centred (left of the question when that's on the right, as
+   in the language scene). It fades out while the question changes halves
+   (.is-moving, set by the rotation in index.html). */
+.hero--split .hero__headline { flex-direction: column; justify-content: center; align-items: flex-start; }
+.hero__sub {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0 2rem 0 3rem;
+  transform: translateY(-50%);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(0.95rem, 1.35vw, 1.45rem);
+  line-height: 1.3;
+  letter-spacing: 0.01em;
+  color: var(--title-color, var(--white));
+  opacity: 0;
+  animation: hero-sub-in 0.8s ease 0.5s forwards;
+  transition: opacity 0.3s ease;
+}
+.hero__sub span { display: block; max-width: 17em; text-wrap: balance; }   /* two lines, as in the design */
+.hero__sub.is-moving { opacity: 0 !important; animation: none; }
+.hero--title-right .hero__sub { left: -100%; padding: 0 2rem 0 2.5rem; }
+@keyframes hero-sub-in { to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .hero__sub { animation: none; opacity: 1; transition: none; }
+}
+
 @media (max-aspect-ratio: 1/1) {
   .hero-split .hero__scene { flex-direction: column; }
   .hero--split .hero__headline {
@@ -355,6 +389,9 @@ a {
   }
   .hero--split.hero--title-right .hero__headline { left: 0; top: 50%; bottom: 0; padding: 1.5rem; }
   .hero--split .hero__title { font-size: clamp(2.2rem, 9vw, 4.2rem); }
+  /* Halves stack, so "the other half" is the one below. */
+  .hero__sub { top: 150%; left: 0; padding: 0 1.5rem; font-size: clamp(0.9rem, 3.6vw, 1.15rem); }
+  .hero--title-right .hero__sub { top: -50%; left: 0; padding: 0 1.5rem; }
 }
 
 /* Dark: brown halves, shapes take the shared doodle tint (one step lighter so
@@ -409,7 +446,7 @@ html[data-theme="dark"] .split__half--machine .magnet__ink-fill { fill: var(--sp
   line-height: 1;
   text-align: center;
   white-space: nowrap;
-  color: #001FE5;   /* hollow bubbles: the text sits on the field (deep blue reads on both) */
+  color: #059F14;   /* hollow bubbles: the text sits on the field, so a deeper shade of it */
   opacity: 0;
   transition: opacity 0.35s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.5, 1);
   pointer-events: none;
@@ -418,6 +455,7 @@ html[data-theme="dark"] .split__half--machine .magnet__ink-fill { fill: var(--sp
 .lang__say:lang(zh) {
   font-family: 'GT Maru', 'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', 'Microsoft YaHei', system-ui, sans-serif;
 }
+.split__half--machine .lang__say { color: #DF7046; }
 .lang__bubble.is-matched .lang__say {
   opacity: 1;
   transform: translateY(-50%) scale(1);
@@ -435,7 +473,12 @@ html[data-theme="dark"] .lang__bubble { color: #492B29 !important; }   /* beats 
 html[data-theme="dark"] .lang__bubble[data-colour="yellow"],
 html[data-theme="dark"] .lang__bubble[data-colour="white"],
 html[data-theme="dark"] .lang__bubble[data-colour="pink"] { color: #5C3634 !important; }
-html[data-theme="dark"] .lang__say { color: #E6C697 !important; }   /* cream (Flofu's dark palette), not the title's off-white */
+/* Greetings tone-on-tone here too: a step lighter than the bubble under them
+   (hollow ones sit on the field, so they take the bubble brown itself). */
+html[data-theme="dark"] .lang__say { color: #6E4642 !important; }
+html[data-theme="dark"] .lang__bubble[data-colour="yellow"] .lang__say,
+html[data-theme="dark"] .lang__bubble[data-colour="white"] .lang__say,
+html[data-theme="dark"] .lang__bubble[data-colour="pink"] .lang__say { color: #80524E !important; }
 
 /* ---- Interaction 2: reflective ripples (References/Hero_Interaction_2.jpg) ----
    Each half holds a 1000×1264 artboard (the design's half-frame) that COVERS
@@ -850,19 +893,20 @@ html[data-theme="dark"] .hero .hero-peek { --ink-l: #E6C697; --ink-r: #E6C697; }
   font-size: 2.75rem;
   line-height: 1.05;
   color: var(--field-ink);
-  max-width: 880px;
-  margin: 0 auto 2.5rem;
+  max-width: 960px;
+  margin: 0 auto 1.75rem;
 }
 
 .vision__body {
   font-family: var(--font-body);
-  font-weight: 300;
-  font-size: 1rem;
+  font-weight: 400;
+  font-size: 1.2rem;
   line-height: 1.5;
   color: var(--field-ink);
-  max-width: 700px;
+  max-width: 760px;
   margin: 0 auto 1.5rem;
   text-align: center;
+  text-wrap: balance;
 }
 
 .vision__cta {
@@ -1786,7 +1830,7 @@ html[data-theme="dark"] .things__doodle--dark { display: block; }
   }
 
   .vision__body {
-    font-size: 0.95rem;
+    font-size: 1rem;
   }
 
   /* --- Things: larger stacked headings --- */
@@ -2970,7 +3014,7 @@ html[data-theme="dark"] .things,
 html[data-theme="dark"] .about-drive { background: var(--section-accent); }
 
 /* Field text that was hard-coded off-palette (not --field-ink), now illegible on
-   the dark fields → force to the warm off-white. The home "A future in which…"
+   the dark fields → force to the warm off-white. The home "A research, design…"
    vision statement was --lime; the "Things we do" label + Research/Design/Community
    headings & body were --black; the about "A shift towards…" title was --blue and
    its 4 point h3/p were --black. */
