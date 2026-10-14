@@ -139,13 +139,13 @@ a {
 }
 
 /* Each nav item is themed to the key colour of the page it links to:
-   Home=blue, About=red, Lab=green, Resource Hub=blue, Community=yellow.
+   Home=blue, About=red, Lab=green, Community=yellow, Insights=blue.
    Drives the hover + active (selected) colour below. */
 .site-nav__links li:nth-child(1) { --nav-accent: var(--blue); }
 .site-nav__links li:nth-child(2) { --nav-accent: var(--red); }
 .site-nav__links li:nth-child(3) { --nav-accent: var(--green); }
-.site-nav__links li:nth-child(4) { --nav-accent: var(--blue); }
-.site-nav__links li:nth-child(5) { --nav-accent: var(--yellow); }
+.site-nav__links li:nth-child(4) { --nav-accent: var(--yellow); }
+.site-nav__links li:nth-child(5) { --nav-accent: var(--blue); }
 
 .site-nav__links a {
   font-family: var(--font-serif);

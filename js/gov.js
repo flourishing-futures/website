@@ -28,8 +28,8 @@
     { href: 'index.html', label: 'Home' },
     { href: 'about.html', label: 'About' },
     { href: 'the-lab.html', label: 'Lab' },
-    { href: 'resource-centre.html', label: 'Resource Hub' },
-    { href: 'community.html', label: 'Community' }
+    { href: 'community.html', label: 'Community' },
+    { href: 'resource-centre.html', label: 'Insights' }
   ];
 
   // Home "Key questions" — gov-only copy. Shown as a ticket list that shows
@@ -862,7 +862,7 @@
 
     return [
       function () {
-        return hero({ crumb: 'Resource Hub', eyebrow: 'Publications', title: 'Resource Hub', lead: [lead] });
+        return hero({ crumb: 'Insights', eyebrow: 'Publications', title: 'Insights', lead: [lead] });
       },
       function () {
         if (!res.length) return '';
@@ -967,7 +967,7 @@
     if ($('.about-hero')) return { label: 'About', build: pageAbout };
     if ($('.lab-hero')) return { label: 'Lab', build: pageLab };
     if ($('.cmty-hero')) return { label: 'Community', build: pageCommunity };
-    if ($('.res-hero')) return { label: 'Resource Hub', build: pageResources };
+    if ($('.res-hero')) return { label: 'Insights', build: pageResources };
     return null;
   }
 

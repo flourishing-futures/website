@@ -139,7 +139,7 @@ The canonical swatch lives in `:root` in **both** stylesheets. Keep the two in s
 
 ## 10. Navigation & components
 
-- **Nav**: Home · About · Lab · Resource Hub · Community, set in Newsreader. Each link's hover and active colour is the key colour of the page it leads to (Home blue, About red, Lab green, Resource Hub blue, Community yellow).
+- **Nav**: Home · About · Lab · Community · Insights, set in Newsreader. Each link's hover and active colour is the key colour of the page it leads to (Home blue, About red, Lab green, Community yellow, Insights blue). "Insights" was called "Resource Hub" until 2026-10-14; the page is still `resource-centre.html`.
 - **Buttons**: GT Maru, lime pill (`--lime`, blue text). Hover shows a flowing rainbow fill.
 - **Borders and rules**: 1.5px everywhere.
 - **Flofu**: the corner mascot (two eels). Its eye follows the cursor, the eels bob when petted, and it offers quips. It can cheer site interactions via `window.__ffSayQuip` (Lab page).

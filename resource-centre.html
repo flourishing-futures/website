@@ -8,14 +8,14 @@
        First-ever visit = Default (OS light/dark preference is ignored). -->
   <!-- Theme: a ?style=dark|gov link (or /gov/…, /dark/… via vercel.json) wins over the saved choice and is saved; otherwise use localStorage. -->
   <script>(function(){try{var t,q=/[?&]style=(dark|gov)(?=&|$)/i.exec(location.search);if(q){t=q[1].toLowerCase();try{localStorage.setItem('ff-theme',t)}catch(e){}try{history.replaceState(history.state,'',location.pathname+location.search.replace(/([?&])style=[^&]*&?/i,'$1').replace(/[?&]$/,'')+location.hash)}catch(e){}}else t=localStorage.getItem('ff-theme');if(t==='dark'||t==='gov')document.documentElement.setAttribute('data-theme',t);if(t==='gov'){var l=document.createElement('link');l.id='gov-font';l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,600&display=swap';document.head.appendChild(l);}}catch(e){}})();</script>
-  <title>Resource Hub — Flourishing Futures</title>
+  <title>Insights — Flourishing Futures</title>
   <meta name="description" content="Articles, papers, frameworks and tools on AI and human possibility from the Flourishing Futures programme.">
   <link rel="icon" type="image/png" href="img/favicon.png">
   <link rel="apple-touch-icon" href="img/favicon.png">
   <!-- Social share (Open Graph + Twitter) -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Flourishing Futures">
-  <meta property="og:title" content="Resource Hub — Flourishing Futures">
+  <meta property="og:title" content="Insights — Flourishing Futures">
   <meta property="og:description" content="Articles, papers, frameworks and tools on AI and human possibility from the Flourishing Futures programme.">
   <meta property="og:url" content="https://flourishingfutures.io/resource-centre.html">
   <meta property="og:image" content="https://flourishingfutures.io/img/og-image-square.png">
@@ -27,7 +27,7 @@
   <meta property="og:image:height" content="676">
   <meta property="og:image:alt" content="Flourishing Futures">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Resource Hub — Flourishing Futures">
+  <meta name="twitter:title" content="Insights — Flourishing Futures">
   <meta name="twitter:description" content="Articles, papers, frameworks and tools on AI and human possibility from the Flourishing Futures programme.">
   <meta name="twitter:image" content="https://flourishingfutures.io/img/og-image.png">
   <!-- GT Maru Black sets the section labels above the fold; fetch it with the CSS rather than after it. -->
@@ -35,7 +35,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700&family=Atkinson+Hyperlegible+Next:wght@300;400;500&display=swap">
-  <link rel="stylesheet" href="css/styles.css?v=20261007nav">
+  <link rel="stylesheet" href="css/styles.css?v=20261014nav">
   <link rel="stylesheet" href="css/transitions.css?v=20260102theme10">
   <link rel="stylesheet" href="css/gov.css?v=20261003band">
   <script src="js/page-transitions.js?v=20261008perf"></script>
@@ -53,8 +53,8 @@
           <li><a href="index.html">Home</a></li>
           <li><a href="about.html">About</a></li>
           <li><a href="the-lab.html">Lab</a></li>
-          <li><a href="resource-centre.html" class="active">Resource Hub</a></li>
           <li><a href="community.html">Community</a></li>
+          <li><a href="resource-centre.html" class="active">Insights</a></li>
         </ul>
         <button class="nav-burger" id="navBurger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
           <img src="img/icon-menu.svg?v=20261006" alt="" aria-hidden="true" class="nav-burger__icon nav-burger__icon--menu">
@@ -70,8 +70,8 @@
       <a href="index.html">home</a>
       <a href="about.html">about</a>
       <a href="the-lab.html">lab</a>
-      <a href="resource-centre.html" class="active">resource hub</a>
       <a href="community.html">community</a>
+      <a href="resource-centre.html" class="active">insights</a>
     </nav>
   </div>
 
@@ -117,7 +117,7 @@
   <script src="content/resources.js?v=20260917links"></script>
   <script src="js/render-content.js?v=20261008camp"></script>
   <script src="js/mobile-nav.js?v=20260918mob"></script>
-  <script src="js/gov.js?v=20261013vis"></script>
+  <script src="js/gov.js?v=20261014nav"></script>
   <script src="js/theme.js?v=20261003names3"></script>
   <script src="js/hero-tilt.js?v=20261006noios"></script>
   <script src="js/res-book.js?v=20261008perf"></script>

@@ -24,7 +24,7 @@ None of these quirks are strictly essential. That's sort of the point.
 | `index.html` | Home, and the rotating hero |
 | `about.html` | Why the programme exists and what it's aiming for |
 | `the-lab.html` | The Lab: experiments and prototypes |
-| `resource-centre.html` | The resource hub |
+| `resource-centre.html` | Insights (formerly the Resource Hub) |
 | `community.html` | Community and events |
 
 ## How it's built
