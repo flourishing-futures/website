@@ -655,24 +655,46 @@
   }
 
   function pageAbout() {
-    var titleEl = $('.about-hero__title');
-    var lead = text('.about-hero__title-lead').replace(/:$/, '');
-    var def = '';
-    if (titleEl) {
-      var c = titleEl.cloneNode(true);
-      var l = $('.about-hero__title-lead', c);
-      if (l) l.parentNode.removeChild(l);
-      def = text(c);
-    }
-    var paper = $('.about-hero__cta a');
+    var whatCols = $$('.things__col').map(function (c) {
+      return {
+        eyebrow: c.getAttribute('data-quip'),
+        title: text('.things__heading', c),
+        body: text('.things__body', c)
+      };
+    });
 
     return [
       function () {
         return hero({
-          crumb: 'About', eyebrow: text('.about-hero__label'), title: lead || 'Human flourishing',
-          lead: [def, text('.about-hero__body')],
-          cta: paper ? { label: text(paper), href: paper.getAttribute('href') } : null
+          crumb: 'About', eyebrow: text('.about-hero__label'), title: text('.about-hero__title'),
+          lead: $$('.about-hero__body').map(function (p) { return text(p); })
         });
+      },
+      function () {
+        var items = $$('.about-why__col').map(function (c) {
+          var t = $('.about-why__col-title', c);
+          return { eyebrow: t && t.getAttribute('data-quip'), title: text(t), body: text('.about-why__col-body', c) };
+        });
+        if (!items.length) return '';
+        return section(head(text('.about-why__label'), text('.about-why__title')), 'gov-section--rule gov-section--flush') + rows(items);
+      },
+      function () {
+        var items = $$('.about-shift__item');
+        if (!items.length) return '';
+        var body = $$('.about-shift__body p').map(function (p) {
+          return '<p class="gov-prose__p">' + esc(text(p)) + '</p>';
+        }).join('');
+        return section(
+          head('Our ambition', text('.about-shift__title')) +
+          table(['Stage', 'Focus area', 'Key question'], items.map(function (it, i) {
+            return { cells: [
+              '<span class="gov-num">' + pad(i + 1) + '</span>',
+              '<span class="gov-strong">' + esc(text('h3', it)) + '</span>',
+              esc(text('p', it))
+            ] };
+          }), { caption: 'From responsible AI to flourishing futures' }) +
+          (body ? '<div class="gov-prose">' + body + '</div>' : ''),
+          'gov-section--rule');
       },
       function () {
         var body = $$('.about-drive__body').map(function (p) {
@@ -684,26 +706,8 @@
           '<div class="gov-prose">' + body + '</div>', 'gov-section--rule');
       },
       function () {
-        var items = $$('.about-why__col').map(function (c) {
-          var t = $('.about-why__col-title', c);
-          return { eyebrow: t && t.getAttribute('data-quip'), title: text(t), body: text('.about-why__col-body', c) };
-        });
-        if (!items.length) return '';
-        return section(head(text('.about-why__label')), 'gov-section--rule gov-section--flush') + rows(items);
-      },
-      function () {
-        var items = $$('.about-shift__item');
-        if (!items.length) return '';
-        return section(
-          head('Our ambition', text('.about-shift__title')) +
-          table(['Stage', 'Focus area', 'Key question'], items.map(function (it, i) {
-            return { cells: [
-              '<span class="gov-num">' + pad(i + 1) + '</span>',
-              '<span class="gov-strong">' + esc(text('h3', it)) + '</span>',
-              esc(text('p', it))
-            ] };
-          }), { caption: 'A shift towards a more proactive approach' }),
-          'gov-section--rule');
+        if (!whatCols.length) return '';
+        return section(head(text('.things__label'), 'What does Flourishing Futures do', text('.things__sub')), 'gov-section--rule gov-section--flush') + rows(whatCols);
       },
       function () {
         var items = $$('.about-develop__item').map(function (it) {
@@ -711,6 +715,20 @@
         });
         if (!items.length) return '';
         return section(head(text('.about-develop__label'), 'Intended outcomes') + accordion(items), 'gov-section--rule');
+      },
+      function () {
+        var body = $$('.about-close__body').map(function (p) {
+          return '<p class="gov-prose__p">' + esc(text(p)) + '</p>';
+        }).join('');
+        if (!body) return '';
+        var links = $$('.about-close__ctas a').map(function (a, i) {
+          return btn(text(a), a.getAttribute('href'), i ? 'soft' : '');
+        }).join(' ');
+        return section(
+          head('What flourishing means to us') +
+          '<div class="gov-prose">' + body + '</div>' +
+          (links ? '<p class="gov-hero__cta gov-close__ctas">' + links + '</p>' : ''),
+          'gov-section--rule');
       }
     ];
   }

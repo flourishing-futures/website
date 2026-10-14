@@ -35,10 +35,10 @@
   <link rel="preload" href="fonts/GTMaruBlack.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700&family=Atkinson+Hyperlegible+Next:wght@300;400;500&display=swap">
-  <link rel="stylesheet" href="css/home.css?v=20261014nav">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,500&family=Atkinson+Hyperlegible+Next:wght@300;400;500&display=swap">
+  <link rel="stylesheet" href="css/home.css?v=20261014close">
   <link rel="stylesheet" href="css/transitions.css?v=20260102theme10">
-  <link rel="stylesheet" href="css/gov.css?v=20261003band">
+  <link rel="stylesheet" href="css/gov.css?v=20261014close">
   <script src="js/page-transitions.js?v=20261008perf"></script>
 </head>
 <body data-key="red">
@@ -76,7 +76,7 @@
     </nav>
   </div>
 
-  <!-- 1. Hero — "What matters most to us": a sunrise (same sun layers as the
+  <!-- 1. Hero — "What we believe": a sunrise (same sun layers as the
        home page's Vision section). js/about-sunrise.js raises the sun on load
        and lets it settle as you scroll; the rays fan open as it climbs. -->
   <section class="about-hero" data-tilt>
@@ -89,21 +89,71 @@
       <img class="about-hero__sun-layer about-hero__sun-rays sun-dark" src="img/vision-sun-rays-dark.webp?v=20261006sun" width="2000" height="2192" loading="lazy" decoding="async" alt="">
     </div>
     <div class="about-hero__inner">
-      <p class="about-hero__label" data-reveal>What matters most to us</p>
-      <h1 class="about-hero__title" data-reveal>
-        <span class="about-hero__title-lead">Human flourishing:</span>
-        A state in which all aspects of a person's life are good.
-      </h1>
+      <p class="about-hero__label" data-reveal>What we believe</p>
+      <h1 class="about-hero__title" data-reveal>The future of AI should be developed and designed on human terms.</h1>
       <p class="about-hero__body" data-reveal>
-        First developed by Harvard University, the flourishing framework is a research-based approach to understanding well-being and human flourishing across key domains of life. Importantly, these help us promote the 'softer' things: meaning and purpose, social relationships, happiness and mental wellbeing.
+        AI is now part of how we think, learn, create, work and relate to one another. These changes carry possibilities as well as consequences. AI might open doors to new forms of creativity, capability and connection. But it could also change what we know, what we trust, what we depend on and what we gradually lose the ability to do ourselves.
       </p>
-      <div class="about-hero__cta" data-reveal>
-        <a href="https://hfh.fas.harvard.edu/measuring-flourishing" target="_blank" rel="noopener" class="btn btn--pink">Read paper</a>
+      <p class="about-hero__body about-hero__body--strong" data-reveal style="--reveal-delay:0.12s">
+        None of these futures is inevitable. They're shaped by the choices we make about how AI is designed, developed and used. Flourishing Futures is a Singapore-based research, design and convening programme set up to ask: How can we shape a future where AI helps more people flourish?
+      </p>
+    </div>
+  </section>
+
+  <!-- 2. "Why here, why now?" (blue, a statement over three numbered columns) -->
+  <section class="about-why">
+    <p class="about-why__label" data-reveal>Why here, why now?</p>
+    <h2 class="about-why__title" data-reveal>AI is changing us, not just&nbsp;what we do.</h2>
+    <div class="about-why__cols">
+      <div class="about-why__col" data-reveal>
+        <span class="about-why__num-wrap"><img class="about-why__num" src="img/about-num-1.svg?v=20261006calm2" loading="lazy" decoding="async" alt="1" aria-hidden="true"></span>
+        <h3 class="about-why__col-title" data-quip="We have to act now!">The defaults are being set now.</h3>
+        <p class="about-why__col-body">As AI becomes embedded in everyday life, early choices about automation, judgement and human involvement will become the new defaults.</p>
+      </div>
+      <div class="about-why__col" data-reveal style="--reveal-delay:0.12s">
+        <span class="about-why__num-wrap"><img class="about-why__num" src="img/about-num-2.svg?v=20261006calm2" loading="lazy" decoding="async" alt="2" aria-hidden="true"></span>
+        <h3 class="about-why__col-title" data-quip="We have to be critical.">We cannot borrow a definition of success.</h3>
+        <p class="about-why__col-body">Commercial incentives reward scale, speed, efficiency and engagement; but we must also ask what strengthens agency, trust, care, capability and public good.</p>
+      </div>
+      <div class="about-why__col" data-reveal style="--reveal-delay:0.24s">
+        <span class="about-why__num-wrap"><img class="about-why__num" src="img/about-num-3.svg?v=20261006calm2" loading="lazy" decoding="async" alt="3" aria-hidden="true"></span>
+        <h3 class="about-why__col-title" data-quip="We have to imagine better">We need space to imagine new possibilities.</h3>
+        <p class="about-why__col-body">Before we deploy AI, we must ask whether the right relationship between us and machine has been imagined, and demonstrate what better interactions could look like.</p>
       </div>
     </div>
   </section>
 
-  <!-- 2. "We work to drive..." (blue, a blooming succulent) -->
+  <!-- 3. "We need a bigger definition of progress." (off-white; four aligned points
+       over a brush arrow that draws on left-to-right, points revealing one-by-one
+       in sequence, then the argument in two paragraphs). -->
+  <section class="about-shift">
+    <h2 class="about-shift__title" data-reveal>We need a bigger definition of progress.</h2>
+    <div class="about-shift__diagram">
+      <img class="about-shift__arrow" src="img/about-arrow.svg?v=20261007calm" loading="lazy" decoding="async" alt="" aria-hidden="true">
+      <div class="about-shift__item about-shift__item--1" data-reveal>
+        <h3>Responsible AI</h3>
+        <p>How do we make sure the use of AI is safe, secure, and fair?</p>
+      </div>
+      <div class="about-shift__item about-shift__item--2" data-reveal style="--reveal-delay:0.15s">
+        <h3>Human-Agent Work</h3>
+        <p>How do we rethink work and workplaces so humans and AI collaborate well together?</p>
+      </div>
+      <div class="about-shift__item about-shift__item--3" data-reveal style="--reveal-delay:0.3s">
+        <h3>AI for Human Possibility</h3>
+        <p>How do we build AI that expands human capability and agency?</p>
+      </div>
+      <div class="about-shift__item about-shift__item--4" data-reveal style="--reveal-delay:0.45s">
+        <h3>Flourishing Futures</h3>
+        <p>How do we ensure AI strengthens societal wellbeing, resilience, and care?</p>
+      </div>
+    </div>
+    <div class="about-shift__body">
+      <p data-reveal>Much of today's AI conversation is about what technology can achieve: greater intelligence, faster work, wider adoption and lower costs. These things matter. So do safety, fairness and responsible development.</p>
+      <p data-reveal>But what if we also measured progress by what AI makes possible for people? Does it help us think more independently? Become more creative? Build better relationships? Make more meaningful choices? Imagine and pursue futures we couldn't before? <strong>We want to move beyond asking whether AI works, towards asking what kind of world it helps us create.</strong></p>
+    </div>
+  </section>
+
+  <!-- 4. "Our program North Star" (green, a blooming succulent) -->
   <section class="about-drive" data-tilt>
     <!-- A top-down succulent (References/Succulent Layers) that blooms as the
          section scrolls through and leans toward the cursor (js/about-bloom.js).
@@ -141,12 +191,9 @@
       </svg>
     </div>
     <div class="about-drive__inner container">
-      <p class="about-drive__label" data-reveal>We work to drive...</p>
+      <p class="about-drive__label" data-reveal>Our program North Star</p>
       <p class="about-drive__title reveal-lines" data-reveal-lines data-flofu-cues>
         A future in which AI makes us more capable and more humane: expanding (not diminishing) the agency, judgement and possibilities of those who build with and depend on it.
-      </p>
-      <p class="about-drive__body reveal-lines" data-reveal-lines>
-        AI is rapidly reshaping how we live, create and work. While most conversation today is focused on adoption, efficiency and cost, this program designs for the 'hidden' factors: where AI can genuinely enlarge human possibility, and where speed, scale or convenience may come at the cost of judgement, care, agency or trust.
       </p>
       <p class="about-drive__body reveal-lines" data-reveal-lines>
         Through research, intentional design, institutional collaboration and community - this program aims to shape those choices and positive human-outcomes before these technologies harden into defaults.
@@ -154,54 +201,37 @@
     </div>
   </section>
 
-  <!-- 3. "Why here, why now?" (blue, three numbered columns) -->
-  <section class="about-why">
-    <p class="about-why__label" data-reveal>Why here, why now?</p>
-    <div class="about-why__cols">
-      <div class="about-why__col" data-reveal>
-        <span class="about-why__num-wrap"><img class="about-why__num" src="img/about-num-1.svg?v=20261006calm2" loading="lazy" decoding="async" alt="1" aria-hidden="true"></span>
-        <h3 class="about-why__col-title" data-quip="We have to act now!">The defaults are being set now as AI is scaled across all aspects of life.</h3>
-        <p class="about-why__col-body">As AI becomes embedded in everyday public systems, early choices about automation, judgement and human involvement will become the new defaults.</p>
-      </div>
-      <div class="about-why__col" data-reveal style="--reveal-delay:0.12s">
-        <span class="about-why__num-wrap"><img class="about-why__num" src="img/about-num-2.svg?v=20261006calm2" loading="lazy" decoding="async" alt="2" aria-hidden="true"></span>
-        <h3 class="about-why__col-title" data-quip="We have to be critical.">We cannot borrow the definition of 'good' from the market alone.</h3>
-        <p class="about-why__col-body">Commercial incentives reward scale, speed, adoption and engagement; but we must also ask what strengthens agency, trust, care, capability and public good.</p>
-      </div>
-      <div class="about-why__col" data-reveal style="--reveal-delay:0.24s">
-        <span class="about-why__num-wrap"><img class="about-why__num" src="img/about-num-3.svg?v=20261006calm2" loading="lazy" decoding="async" alt="3" aria-hidden="true"></span>
-        <h3 class="about-why__col-title" data-quip="We have to imagine better">We need space to reshape and reimagine what success looks like.</h3>
-        <p class="about-why__col-body">Before we deploy AI, we must ask whether the right relationship between us and machine has been imagined, and demonstrate what better interactions could look like.</p>
-      </div>
+  <!-- 5. "How we'll get there" (yellow; the home page's "What we do" columns,
+       same art and parallax via js/home-sections.js). -->
+  <section class="things things--about" data-tilt>
+    <p class="things__label" data-reveal>How we&rsquo;ll get there</p>
+    <p class="things__sub" data-reveal>Flourishing Futures brings together three interconnected approaches:</p>
+    <div class="things__grid">
+      <article class="things__col" data-reveal data-quip="What's important?">
+        <span class="things__doodle-wrap" aria-hidden="true"><img class="things__doodle" src="img/things-telescope.svg?v=20261006b" loading="lazy" decoding="async" alt="" aria-hidden="true"><img class="things__doodle things__doodle--dark" src="img/things-telescope-dark.svg?v=20261007dim" loading="lazy" decoding="async" alt="" aria-hidden="true"></span>
+        <div class="things__col-inner">
+          <h2 class="things__heading">Research<br>&amp; Measurement</h2>
+          <p class="things__body reveal-lines" data-reveal-lines>We conduct and partner on research that helps us understand how AI affects humans beyond adoption and performance: in agency, capability, relationships and trust.</p>
+        </div>
+      </article>
+      <article class="things__col" data-reveal data-quip="What can we demonstrate?">
+        <span class="things__doodle-wrap" aria-hidden="true"><img class="things__doodle" src="img/things-pencil.svg?v=20261006b" loading="lazy" decoding="async" alt="" aria-hidden="true"><img class="things__doodle things__doodle--dark" src="img/things-pencil-dark.svg?v=20261007dim" loading="lazy" decoding="async" alt="" aria-hidden="true"></span>
+        <div class="things__col-inner">
+          <h2 class="things__heading">Design<br>&amp; Experiment</h2>
+          <p class="things__body reveal-lines" data-reveal-lines>We prototype and test alternatives that demonstrate new ways of designing and developing AI that expands human agency and capability.</p>
+        </div>
+      </article>
+      <article class="things__col" data-reveal data-quip="Who can we gather?">
+        <span class="things__doodle-wrap" aria-hidden="true"><img class="things__doodle" src="img/things-community.svg?v=20261006b" loading="lazy" decoding="async" alt="" aria-hidden="true"><img class="things__doodle things__doodle--dark" src="img/things-community-dark.svg?v=20261007dim" loading="lazy" decoding="async" alt="" aria-hidden="true"></span>
+        <div class="things__col-inner">
+          <h2 class="things__heading">Community<br>&amp; Governance</h2>
+          <p class="things__body reveal-lines" data-reveal-lines>We build communities of practice and translate evidence into shared standards, decision frameworks, practices, design patterns, and means of governance.</p>
+        </div>
+      </article>
     </div>
   </section>
 
-  <!-- 4. "A shift towards..." (off-white; four aligned points over a brush arrow that
-       draws on left-to-right, points revealing one-by-one in sequence). -->
-  <section class="about-shift">
-    <h2 class="about-shift__title" data-reveal>A shift towards a more proactive approach to the design, development and deployment of AI</h2>
-    <div class="about-shift__diagram">
-      <img class="about-shift__arrow" src="img/about-arrow.svg?v=20261007calm" loading="lazy" decoding="async" alt="" aria-hidden="true">
-      <div class="about-shift__item about-shift__item--1" data-reveal>
-        <h3>Responsible AI</h3>
-        <p>How do we make sure the use of AI is safe, secure, and fair?</p>
-      </div>
-      <div class="about-shift__item about-shift__item--2" data-reveal style="--reveal-delay:0.15s">
-        <h3>Human-Agent Work</h3>
-        <p>How do we rethink work and workplaces so humans and AI collaborate well together?</p>
-      </div>
-      <div class="about-shift__item about-shift__item--3" data-reveal style="--reveal-delay:0.3s">
-        <h3>AI for Human Possibility</h3>
-        <p>How do we build AI that expands human capability and agency?</p>
-      </div>
-      <div class="about-shift__item about-shift__item--4" data-reveal style="--reveal-delay:0.45s">
-        <h3>Flourishing Futures</h3>
-        <p>How do we ensure AI strengthens societal wellbeing, resilience, and care?</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 5. "We work to develop..." (blue, green scribble behind the outcomes box) -->
+  <!-- 6. "We work to develop..." (blue, green scribble behind the outcomes box) -->
   <section class="about-develop" data-tilt>
     <!-- Three blob critters (References/Develop Layers) bobbing behind the
          outcomes box, with the hand-drawn green squiggle painted over them
@@ -332,6 +362,22 @@
     </div>
   </section>
 
+  <!-- 7. Closing: what flourishing means to us, then three ways onward. Its own
+       band (not inside "develop") so the critters and squiggle keep that
+       section's edges and never sit behind this copy. -->
+  <section class="about-close">
+    <div class="about-close__inner">
+      <p class="about-close__body" data-reveal>Flourishing is about more than happiness or wellbeing. It's about having the capability, freedom and opportunity to grow, contribute, connect and live meaningfully.</p>
+      <p class="about-close__body" data-reveal>For us, that means exploring AI that helps people become more capable, creative and confident. Relationships that are richer, more caring and trusting. Communities and institutions that are more inclusive, thoughtful and humane.</p>
+      <p class="about-close__body" data-reveal>These aren't outcomes we can assume technology will deliver. They're possibilities we need to explore, design and evaluate deliberately.</p>
+      <div class="about-close__ctas" data-reveal>
+        <a href="the-lab.html" class="btn">See our experiments</a>
+        <a href="community.html" class="btn">Join our community</a>
+        <a href="resource-centre.html" class="btn">Read more insights</a>
+      </div>
+    </div>
+  </section>
+
   <!-- Footer -->
   <footer class="site-footer site-footer--light" role="contentinfo">
     <img class="site-footer__lockup" src="img/logo-wordmark.svg?v=20261006"
@@ -411,12 +457,13 @@
   </div>
 
   <script src="js/mobile-nav.js?v=20260918mob"></script>
-  <script src="js/gov.js?v=20261014nav"></script>
+  <script src="js/gov.js?v=20261014close"></script>
   <script src="js/theme.js?v=20261003names3"></script>
   <script src="js/hero-tilt.js?v=20261006noios"></script>
   <script src="js/about-sunrise.js?v=20261008perf"></script>
   <script src="js/about-bloom.js?v=20261010mob"></script>
   <script src="js/about-critters.js?v=20261008perf"></script>
+  <script src="js/home-sections.js?v=20261008perf"></script>
   <script>
   // --- Cursor drift for the "Why here, why now?" number badges: each drifts
   //     toward the cursor (their springy scale-bob is pure CSS). The hero sun,

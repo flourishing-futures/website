@@ -401,6 +401,7 @@ html[data-theme="gov"] {
 }
 .gov-hero__lead + .gov-hero__lead { margin-top: 1rem; }
 .gov-hero__cta { margin-top: 2.25rem; }
+.gov-close__ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; }
 
 /* Breadcrumbs */
 .gov-crumbs { margin-bottom: 2rem; font-size: 0.875rem; color: var(--gov-muted); }
