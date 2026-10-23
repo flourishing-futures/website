@@ -1,0 +1,467 @@
+/* ============================================================
+   MERCH — "Off-Model", Launch Collection 001 (merch.html)
+   ------------------------------------------------------------
+   Unlisted page (direct link only). Loaded after css/home.css, so it
+   reuses the shared tokens, nav, footer, buttons and [data-reveal].
+
+   Layout from References/merch.jpg:
+     hero photo → intro band → one full-screen section per design
+     (panel on one side, self-scrolling photo reel on the other; the
+     panel side alternates) → red footer.
+
+   The reels, swatches, drag cursor and artwork lightbox are run by
+   js/merch.js.
+   ============================================================ */
+
+.merch-page {
+  /* Panel / intro field: eyedropped from the wireframe. */
+  --merch-field: #E9F1FC;
+  /* Small caps notes ("Coming soon"). The wireframe's #A7A7A5 is too faint
+     to read (2.1:1), so this is the same grey taken dark enough for 4.7:1. */
+  --merch-note: #6B6B69;
+  --merch-line: var(--black);
+  /* Visible height under the nav; js/merch.js measures the nav into --merch-nav. */
+  --merch-screen: calc(100svh - var(--merch-nav, 64px));
+}
+
+/* ---------- 1. Hero ---------- */
+.merch-hero {
+  border-bottom: 1.5px solid var(--merch-line);
+  background: #EEF0F6;   /* the studio wall, so nothing flashes while the photo loads */
+}
+.merch-hero__img {
+  width: 100%;
+  height: min(var(--merch-screen), 62vw);
+  object-fit: cover;
+  object-position: 50% 40%;
+}
+
+/* ---------- 2. Intro band ---------- */
+.merch-intro {
+  background: var(--merch-field);
+  border-bottom: 1.5px solid var(--merch-line);
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 2.5rem 4rem;
+  align-items: start;
+  padding: clamp(3rem, 5.5vw, 5.5rem) clamp(1.5rem, 3.6vw, 3.5rem) clamp(3.25rem, 6vw, 6rem);
+}
+
+.merch-intro__eyebrow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.9rem;
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: clamp(1.05rem, 1.45vw, 1.35rem);
+  line-height: 1.2;
+}
+.merch-intro__eyebrow strong { font-weight: 700; }
+.merch-intro__rule {
+  display: inline-block;
+  width: clamp(2rem, 4vw, 3.5rem);
+  height: 0;
+  border-top: 1.5px solid currentColor;
+}
+
+.merch-intro__title {
+  margin: clamp(0.6rem, 1.4vw, 1.2rem) 0 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(4rem, 9.6vw, 9.5rem);
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+/* The word carries the squiggle so it always spans exactly the word. */
+.merch-intro__word {
+  position: relative;
+  display: inline-block;
+  isolation: isolate;
+  padding-right: 0.06em;   /* room for the italic "l" overhang */
+}
+.merch-intro__squiggle {
+  position: absolute;
+  z-index: -1;            /* sits behind the letters, as a brush underline */
+  left: -0.02em;
+  bottom: -0.12em;
+  width: 100%;
+  height: auto;
+  max-width: none;
+  pointer-events: none;
+  /* Draws itself in left → right when the title reveals. */
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1.25s cubic-bezier(0.55, 0.1, 0.25, 1) 0.35s;
+}
+.merch-intro__title.is-in .merch-intro__squiggle { clip-path: inset(0 0 0 0); }
+
+.merch-intro__copy {
+  max-width: 34rem;
+  padding-top: 0.2rem;
+}
+.merch-intro__lede {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(1.05rem, 1.3vw, 1.2rem);
+  line-height: 1.3;
+}
+.merch-intro__body {
+  margin: 1.4rem 0 0;
+  font-size: clamp(1rem, 1.15vw, 1.08rem);
+  line-height: 1.55;
+  --reveal-delay: 0.08s;
+}
+
+/* ---------- 3. Product sections ---------- */
+.merch-item {
+  display: grid;
+  grid-template-columns: clamp(300px, 24vw, 400px) minmax(0, 1fr);
+  height: max(var(--merch-screen), 600px);
+  border-bottom: 1.5px solid var(--merch-line);
+  scroll-margin-top: var(--merch-nav, 64px);
+}
+.merch-item--panel-right { grid-template-columns: minmax(0, 1fr) clamp(300px, 24vw, 400px); }
+.merch-item--panel-right .merch-panel { order: 2; border-left: 1.5px solid var(--merch-line); }
+.merch-item--panel-left  .merch-panel { border-right: 1.5px solid var(--merch-line); }
+
+.merch-panel {
+  background: var(--merch-field);
+  padding: clamp(1.5rem, 2.3vw, 2.4rem) clamp(1.5rem, 2.1vw, 2.25rem);
+  overflow-y: auto;          /* never clips on a short laptop screen */
+}
+.merch-panel__num {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  line-height: 1;
+}
+.merch-panel__title {
+  margin: clamp(1.75rem, 3.4vh, 2.6rem) 0 0;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(2rem, 2.55vw, 2.7rem);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+}
+.merch-panel__body {
+  margin: 1.5rem 0 0;
+  font-size: 1rem;
+  line-height: 1.45;
+  max-width: 21rem;
+}
+
+/* Colourway tiles. Clicking one glides the reel forward to that colour; the
+   tile for the colour currently in view gets a ring. */
+.merch-swatches {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.9rem;
+}
+.merch-swatch {
+  width: 46px;
+  height: 32px;
+  padding: 0;
+  border: 1.5px solid var(--merch-line);
+  border-radius: 0;
+  background: var(--swatch);
+  cursor: pointer;
+  outline: 1.5px solid transparent;
+  outline-offset: 3px;
+  transition: transform 0.3s cubic-bezier(0.34, 1.5, 0.5, 1), outline-color 0.25s ease;
+}
+.merch-swatch:hover { transform: scale(1.1); }
+.merch-swatch:active { transform: scale(0.9, 0.84); }   /* squish, not a shadow */
+.merch-swatch.is-current { outline-color: var(--merch-line); }
+.merch-swatch:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+
+.merch-panel__note {
+  margin: 1.6rem 0 0;
+  max-width: 17rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.78rem;
+  line-height: 1.25;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--merch-note);
+}
+.merch-panel__note + .merch-panel__note { margin-top: 0.9rem; }
+
+/* Stagger the panel's reveal a touch, top to bottom. */
+.merch-panel > :nth-child(2) { --reveal-delay: 0.05s; }
+.merch-panel > :nth-child(3) { --reveal-delay: 0.1s; }
+.merch-panel > :nth-child(4) { --reveal-delay: 0.15s; }
+.merch-panel > :nth-child(n+5) { --reveal-delay: 0.2s; }
+
+/* ---------- The photo reel ---------- */
+.merch-reel {
+  position: relative;
+  overflow: hidden;
+  background: #EEF0F6;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: pan-y;        /* phones: vertical swipes still scroll the page */
+  outline: none;
+}
+.merch-reel.is-dragging { cursor: grabbing; }
+.merch-reel:focus-visible { box-shadow: inset 0 0 0 3px var(--blue); }
+/* With the custom "drag" cursor on, hide the system one over the reel. */
+.has-merch-cursor .merch-reel { cursor: none; }
+
+.merch-reel__track {
+  position: relative;
+  display: flex;
+  height: 100%;
+  width: max-content;
+  will-change: transform;
+}
+.merch-reel__slide {
+  flex: 0 0 auto;
+  height: 100%;
+  margin: 0;
+  border-right: 1.5px solid var(--merch-line);
+}
+.merch-reel__slide img {
+  height: 100%;
+  width: auto;
+  max-width: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+/* ---------- The "drag" cursor (fine pointers only; built by js/merch.js) ---------- */
+.merch-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 900;
+  width: 100px;
+  height: 100px;
+  margin: -50px 0 0 -50px;
+  pointer-events: none;
+  will-change: transform;
+}
+.merch-cursor__dot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.1rem;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--lime);
+  border: 1.5px solid var(--black);
+  color: var(--blue);
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  transform: scale(0);
+  transition: transform 0.35s cubic-bezier(0.34, 1.5, 0.5, 1);
+}
+.merch-cursor__main { display: flex; align-items: center; gap: 0.3rem; }
+.merch-cursor__sub {
+  font-weight: 700;
+  font-size: 0.56rem;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  opacity: 0.85;
+}
+.merch-cursor.is-on .merch-cursor__dot { transform: scale(1); }
+.merch-cursor.is-on.is-down .merch-cursor__dot { transform: scale(0.82); }
+.merch-cursor__arrow {
+  display: block;
+  font-size: 0.8rem;
+  transition: transform 0.3s cubic-bezier(0.34, 1.5, 0.5, 1);
+}
+/* Pressing pushes the little arrows outward, like stretching the reel. */
+.merch-cursor.is-down .merch-cursor__arrow--l { transform: translateX(-3px); }
+.merch-cursor.is-down .merch-cursor__arrow--r { transform: translateX(3px); }
+
+/* ---------- Artwork lightbox (built by js/merch.js on first open) ---------- */
+html.merch-lb-open,
+html.merch-lb-open body { overflow: hidden; }
+
+.merch-lb {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;           /* above the nav (and the phone bottom bar) */
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  /* Dimmed page behind a frosted wash, so it reads as "on top of" the page. */
+  background: rgba(27, 27, 27, 0.82);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  color: var(--white);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  overscroll-behavior: contain;
+}
+.merch-lb.is-open { opacity: 1; }
+.merch-lb[hidden] { display: none; }
+
+.merch-lb__bar,
+.merch-lb__tools {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem clamp(1rem, 2.4vw, 1.75rem);
+}
+.merch-lb__title {
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+  min-width: 0;
+  font-family: var(--font-serif);
+  font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+  line-height: 1.2;
+}
+.merch-lb__num { opacity: 0.7; }
+.merch-lb__name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* Round buttons: lime pill colours (the site's button swatch), squish on press. */
+.merch-lb__btn {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border: 1.5px solid var(--black);
+  border-radius: 50%;
+  background: var(--lime);
+  color: var(--blue);
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.34, 1.5, 0.5, 1), opacity 0.2s ease;
+}
+.merch-lb__btn:hover { transform: scale(1.08); }
+.merch-lb__btn:active { transform: scale(0.88, 0.82); }
+.merch-lb__btn:focus-visible { outline: 2px solid var(--white); outline-offset: 3px; }
+.merch-lb__btn:disabled { opacity: 0.35; cursor: default; transform: none; }
+/* The site's brush "×" (white SVG) inked blue to match the zoom icons. */
+.merch-lb__close img {
+  width: 22px;
+  height: 22px;
+  filter: brightness(0) saturate(100%) invert(16%) sepia(76%) saturate(4400%) hue-rotate(229deg) brightness(88%);
+}
+.merch-lb__zoom svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+}
+
+.merch-lb__tools { justify-content: center; gap: 1.25rem; }
+.merch-lb__hint {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
+  opacity: 0.75;
+  text-align: center;
+}
+
+.merch-lb__stage {
+  position: relative;
+  overflow: hidden;
+  touch-action: none;      /* we handle pinch + pan ourselves */
+  margin: 0 clamp(0.5rem, 2.4vw, 1.75rem);
+  cursor: default;
+}
+.merch-lb__img {
+  position: absolute;
+  max-width: none;
+  background: #F7F7F7;     /* the artwork's paper, so it never flashes dark while loading */
+  transform-origin: 0 0;
+  cursor: zoom-in;
+  user-select: none;
+  -webkit-user-drag: none;
+  /* Open: grows in from slightly small. */
+  scale: 0.94;
+  transition: scale 0.35s cubic-bezier(0.34, 1.35, 0.5, 1);
+}
+.merch-lb.is-open .merch-lb__img { scale: 1; }
+.merch-lb__img.is-easing { transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1), scale 0.35s cubic-bezier(0.34, 1.35, 0.5, 1); }
+.merch-lb__img.is-wheel { transition: transform 0.12s ease-out, scale 0.35s cubic-bezier(0.34, 1.35, 0.5, 1); }
+.merch-lb.is-zoomed .merch-lb__img { cursor: grab; }
+.merch-lb.is-zoomed .merch-lb__stage.is-panning .merch-lb__img { cursor: grabbing; }
+
+@media (max-width: 768px) {
+  .merch-lb__bar, .merch-lb__tools { padding: 0.7rem 0.9rem; }
+  .merch-lb__tools { padding-bottom: max(0.9rem, env(safe-area-inset-bottom)); }
+  .merch-lb__btn { width: 44px; height: 44px; }
+}
+
+/* ---------- Footer: the wireframe's red bar (home.css default) ---------- */
+.merch-page .site-footer { border-top: 0; }
+
+/* ---------- Tablet ---------- */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .merch-intro { grid-template-columns: 1fr; gap: 2rem; }
+  .merch-intro__copy { max-width: 40rem; }
+}
+
+/* ---------- Phones: photos on top, details beneath ---------- */
+@media (max-width: 768px) {
+  .merch-hero__img { height: auto; aspect-ratio: 4 / 3; }
+
+  .merch-intro {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+    padding: 2.5rem 1.25rem 2.75rem;
+  }
+  .merch-intro__title { font-size: clamp(3.6rem, 19vw, 5.5rem); }
+
+  .merch-item,
+  .merch-item--panel-right {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+  }
+  .merch-reel {
+    order: 1;
+    height: 62svh;
+    min-height: 340px;
+    border-bottom: 1.5px solid var(--merch-line);
+  }
+  .merch-item .merch-panel,
+  .merch-item--panel-right .merch-panel {
+    order: 2;
+    border: 0;
+    overflow: visible;
+    padding: 1.5rem 1.25rem 2.5rem;
+  }
+  .merch-panel__title { margin-top: 1rem; font-size: 2.3rem; }
+  .merch-panel__body { max-width: 34rem; }
+  .merch-swatch { width: 52px; height: 36px; }   /* bigger tap targets */
+}
+
+/* ---------- Reduced motion: no draw-in, no springy tiles ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .merch-intro__squiggle { clip-path: none; transition: none; }
+  .merch-swatch, .merch-cursor__dot, .merch-cursor__arrow,
+  .merch-lb, .merch-lb__btn, .merch-lb__img, .merch-lb__img.is-easing, .merch-lb__img.is-wheel { transition: none; }
+  .merch-lb__img { scale: 1; }
+}
+
+/* ---------- Dark theme: the light fields go warm brown (see home.css tokens) ---------- */
+html[data-theme="dark"] .merch-page {
+  --merch-field: #231717;
+  --merch-note: #BCA8A8;     /* 7.7:1 on the field */
+  --merch-line: #3D2222;
+}
+html[data-theme="dark"] .merch-intro,
+html[data-theme="dark"] .merch-panel { color: var(--field-ink); }
+html[data-theme="dark"] .merch-hero,
+html[data-theme="dark"] .merch-reel { background: #1A1111; }
+html[data-theme="dark"] .merch-swatch { border-color: var(--field-ink); }
+html[data-theme="dark"] .merch-swatch.is-current { outline-color: var(--field-ink); }

@@ -979,6 +979,47 @@
     run();
   }
 
+  // Merch (unlisted, direct link only; deliberately not in PAGES). Product
+  // listing: each design gets its details table plus its photos as a grid.
+  function pageMerch() {
+    return [
+      function () {
+        return hero({
+          crumb: 'Merchandise', eyebrow: 'Launch Collection 001', title: text('.merch-intro__title'),
+          lead: [text('.merch-intro__lede'), text('.merch-intro__body')]
+        });
+      },
+      function () {
+        return $$('.merch-item').map(function (item, k) {
+          var title = text('.merch-panel__title', item);
+          var colours = $$('.merch-swatch', item).map(function (s) {
+            var c = s.getAttribute('data-colour') || '';
+            return c.charAt(0).toUpperCase() + c.slice(1);
+          }).join(', ');
+          var notes = $$('.merch-panel__note', item).map(function (p) { return text(p); });
+          var status = notes.length > 1 ? notes.pop() : 'Coming soon';
+          var photos = $$('.merch-reel__slide:not([data-clone]) img', item).map(function (img) {
+            return '<li><img src="' + esc(img.getAttribute('src')) + '" alt="' + esc(img.getAttribute('alt')) +
+              '" loading="lazy" decoding="async"></li>';
+          }).join('');
+          return section(
+            eyebrow('Item ' + (text('.merch-panel__num', item) || pad(k + 1))) +
+            '<h2 class="gov-h2">' + esc(title) + '</h2>' +
+            '<div class="gov-prose"><p class="gov-prose__p">' + esc(text('.merch-panel__body', item)) + '</p></div>' +
+            kv([
+              ['Colourways', esc(colours)],
+              ['Availability', esc(notes.join(' ') || 'Flourishing Futures team')],
+              ['Status', pill(status, 'amber')]
+            ].concat(item.getAttribute('data-art-full') ? [
+              ['Print artwork', '<a class="gov-link" href="' + esc(item.getAttribute('data-art-full')) + '" target="_blank" rel="noopener">View full resolution <span aria-hidden="true">↗</span></a>']
+            ] : []), title + ' details') +
+            (photos ? '<ul class="gov-photos" role="list" aria-label="Photos of ' + esc(title) + '" style="margin-top:2rem">' + photos + '</ul>' : ''),
+            'gov-section--rule');
+        }).join('');
+      }
+    ];
+  }
+
   /* ---------- Page detection (DOM landmarks, so "/" works too) ---------- */
   function detect() {
     if ($('#hero')) return { label: 'Home', build: pageHome };
@@ -986,6 +1027,7 @@
     if ($('.lab-hero')) return { label: 'Lab', build: pageLab };
     if ($('.cmty-hero')) return { label: 'Community', build: pageCommunity };
     if ($('.res-hero')) return { label: 'Insights', build: pageResources };
+    if ($('.merch-hero')) return { label: 'Merchandise', build: pageMerch };
     return null;
   }
 

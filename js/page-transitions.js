@@ -28,6 +28,8 @@
     'the-lab.html': '#0A4429',
     'resource-centre.html': '#1934BE',
     'community.html': '#FFFF00',
+    'merch': '#E42600',          // unlisted page, served extensionless at /merch
+    'merch.html': '#E42600',
   };
   var DEFAULT_COLOR = '#14110F';
   // In dark mode every page's wipe curtain is the same light brown, so the
