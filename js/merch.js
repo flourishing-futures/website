@@ -1,5 +1,5 @@
 /* ------------------------------------------------------------------ *
- * Merch page (merch.html): the photo reels, colourway swatches, the
+ * Merch page (drops.html, at /drops): the photo reels, colourway swatches, the
  * "drag" cursor and the on-scroll reveals.
  *
  * Each design's reel drifts slowly left on its own and loops seamlessly

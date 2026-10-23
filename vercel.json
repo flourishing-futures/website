@@ -1,7 +1,7 @@
 {
   "rewrites": [
     {
-      "source": "/:page(about|the-lab|community|resource-centre|merch)",
+      "source": "/:page(about|the-lab|community|resource-centre|drops)",
       "destination": "/:page.html"
     }
   ]
