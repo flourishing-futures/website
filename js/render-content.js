@@ -10,6 +10,20 @@
   if (data.resources) renderResources(data.resources);
   if (data.community) renderCommunity(data.community);
 
+  // Card image markup. An optional image.srcMobile (e.g. a landscape cut of
+  // an event poster) is served below `bp` px, where the card stacks and the
+  // image frame becomes wide and short; otherwise it's a plain <img>.
+  // `bp` mirrors the stacking breakpoint of the page's stylesheet.
+  function pictureHtml(image, bp, attrs) {
+    var img = '<img src="' + image.src + '"' + attrs + ' alt="' + (image.alt || '').replace(/"/g, '&quot;') + '">';
+    if (!image.srcMobile) return img;
+    return '<picture><source media="(max-width: ' + bp + 'px)" srcset="' + image.srcMobile + '">' + img + '</picture>';
+  }
+
+  function fitClass(image) {
+    return image.fit === 'contain' ? ' lately-card__image--contain' : '';
+  }
+
   /* --- Lately cards (index.html) ------------------------------------ */
   function renderLately(data) {
     var stack = document.querySelector('.lately__stack');
@@ -26,7 +40,7 @@
         bodyHtml += '<p class="lately-card__body">' + item.body[j] + '</p>';
       }
       var imageHtml = (item.image && item.image.src)
-        ? '<div class="lately-card__image"><img src="' + item.image.src + '" loading="lazy" decoding="async" alt="' + (item.image.alt || '') + '"></div>'
+        ? '<div class="lately-card__image' + fitClass(item.image) + '">' + pictureHtml(item.image, 768, ' loading="lazy" decoding="async"') + '</div>'
         : '<div class="lately-card__image lately-card__image--blue"></div>';
       html +=
         '<article class="lately-card" data-pos="' + i + '">' +
@@ -654,7 +668,7 @@
     }
 
     var imageHtml = item.image
-      ? '<div class="lately-card__image"><img src="' + item.image.src + '" alt="' + (item.image.alt || '') + '"></div>'
+      ? '<div class="lately-card__image' + fitClass(item.image) + '">' + pictureHtml(item.image, 640, '') + '</div>'
       : '<div class="lately-card__image lately-card__image--blue"></div>';
 
     var href = item.cta && item.cta.href ? item.cta.href : '#';

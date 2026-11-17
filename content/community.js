@@ -14,7 +14,11 @@
     when     — human date string (e.g. "21 Oct, 2026")
     where    — location string (e.g. "TBD")
     cta      — { text, href }   (renders a green RSVP-style button)
-    image    — optional { src, alt }; OMIT to render the blue placeholder panel
+    image    — optional { src, srcMobile?, fit?, alt }; OMIT to render the
+               blue placeholder panel. srcMobile (e.g. a landscape cut) is
+               swapped in on narrow screens where the image stacks above the
+               text. fit: "contain" shows the whole image (for posters with
+               text baked in) instead of cropping to fill.
 
   gallery — "What we've been up to..." ticker tiles (photos, coming later):
     Each item: { src?, alt, color? }
@@ -32,15 +36,25 @@
 window.SITE_CONTENT = window.SITE_CONTENT || {};
 window.SITE_CONTENT.community = {
   "upcoming": {
-    // "Arts" is struck through so it reads "Defense Against the Dark Patterns".
-    "title": "Series 3: Defense Against the Dark <s>Arts</s> Patterns",
+    // Official listing + graphics: https://luma.com/4i3zx1pt (copy excerpted
+    // from the Luma description). The poster carries its own title/date, so
+    // it's shown whole (fit: contain): portrait cut beside the text, landscape
+    // cut (srcMobile) when the card stacks and the image sits on top.
+    "title": "Conscious Builder Community #3:<br>The Design Edition: Principles &amp; Practice",
     "body": [
-      "What is the role human should play in AI systems? Are we becoming a reviewer and approval while AI does the job? How do we retain human judgement, creativity and autonomy in professional context?"
+      "What if human-first AI wasn't just something we believed in, but something we designed?",
+      "For our third gathering, we're shifting gears from study and measurement to design and action. Together with Design Practice, we're inviting designers and design-minded product owners and builders to explore what human-first AI could look like in practice.",
+      "Come ready to learn, argue, and help shape a more intentional future for AI."
     ],
-    "when": "Early November",
-    "where": "Stay tuned 👀",
-    "cta": { "text": "RSVP", "href": "https://luma.com/user/usr-kAIM5FsLgmlSWBx" },
-    "image": { "src": "photos/session3.webp", "alt": "Conscious Builders Series 3 session" }
+    "when": "Wed, 2 Dec 2026, 2–5pm",
+    "where": "To be announced",
+    "cta": { "text": "RSVP", "href": "https://luma.com/4i3zx1pt" },
+    "image": {
+      "src": "photos/session3-design-portrait.webp",
+      "srcMobile": "photos/session3-design-landscape.webp",
+      "fit": "contain",
+      "alt": "Conscious Builder Community Session 03 — The Design Edition: Principles & Practice. Flourishing Futures × Design Practice, Wednesday 2 December 2026, 2–5pm"
+    }
   },
 
   // Event photos, shown at a fixed height with natural (aspect-preserving)

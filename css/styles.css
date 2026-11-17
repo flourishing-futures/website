@@ -322,6 +322,15 @@ a {
   min-height: 300px;
 }
 
+/* <picture> wrapper (event art with a mobile cut) must not become its own
+   box, so the img keeps sizing against .lately-card__image. */
+.lately-card__image picture { display: contents; }
+
+/* Posters with baked-in text: show the whole image on a paper-grey backing
+   (matches the Conscious Builder poster stock) rather than crop-to-fill. */
+.lately-card__image--contain { background: #e0e0e0; }
+.lately-card__image.lately-card__image--contain img { object-fit: contain; }
+
 .lately-card__image img {
   width: 100%;
   height: 100%;
